@@ -1,0 +1,10 @@
+{{ define "main" }}
+{{/* The visitor's question is "where do I get these, in my size, right now."
+     So the sizes are the first thing on the page. No preamble (section 2a). */}}
+<h1>Pick your size</h1>
+<div class="sizes">
+  {{ range (where site.RegularPages "Section" "shoes").ByTitle }}
+    <a href="{{ .RelPermalink }}">{{ .Params.size }}</a>
+  {{ end }}
+</div>
+{{ end }}

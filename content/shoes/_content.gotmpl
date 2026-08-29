@@ -1,0 +1,30 @@
+{{/*
+  Generates one page per shoe size found in data/products.yaml.
+
+  This is the mechanism that turns one data file into many pages. Phase 0 proves
+  it works for the size pages; the full grid from SASQUATCH_OS.md section 5a
+  (width, category, attribute, brand) is Phase 1 and plugs in here.
+
+  Sizes with no matching product never get a page, because the list of sizes is
+  derived from the products themselves (SASQUATCH_OS.md section 5a: suppress
+  empty pages).
+*/}}
+
+{{ $products := site.Data.products.products }}
+
+{{ $sizes := slice }}
+{{ range $products }}
+  {{ range .sizes }}
+    {{ $sizes = $sizes | append . }}
+  {{ end }}
+{{ end }}
+{{ $sizes = $sizes | uniq | sort }}
+
+{{ range $sizes }}
+  {{ $.AddPage (dict
+    "path"   (printf "size-%v" .)
+    "title"  (printf "Size %v shoes" .)
+    "kind"   "page"
+    "params" (dict "size" .)
+  ) }}
+{{ end }}

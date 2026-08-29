@@ -1,0 +1,49 @@
+# Sasquatch Index — the data file the whole site is generated from.
+#
+# One record per product. Every field below comes from SASQUATCH_OS.md section 5b.
+#
+# PLACEHOLDER DATA ONLY. These three records exist to prove the site builds.
+# Real curation is Phase 1.
+#
+# product_type: always "shoes" today. This field is what lets apparel join
+# later without disturbing any existing URL. Do not remove it.
+#
+# fit_notes: WRITTEN BY THE OWNER, NEVER GENERATED. A record with an empty
+# fit_notes is flagged at build time as still needing the owner's words.
+
+products:
+  - product_type: shoes
+    brand: Placeholder Brand
+    style_name: Placeholder Trail Runner
+    category: running-shoes
+    sizes: [13, 14, 15, 16]
+    widths: [medium, wide]
+    attributes: [waterproof]
+    retailer: Placeholder Retailer
+    link: https://example.com/placeholder-trail-runner
+    image: ""
+    fit_notes: ""
+
+  - product_type: shoes
+    brand: Placeholder Brand
+    style_name: Placeholder Clog
+    category: clogs
+    sizes: [14, 15, 16, 17]
+    widths: [wide, extra-wide]
+    attributes: [slip-resistant]
+    retailer: Placeholder Retailer
+    link: https://example.com/placeholder-clog
+    image: ""
+    fit_notes: ""
+
+  - product_type: shoes
+    brand: Second Placeholder Brand
+    style_name: Placeholder Work Boot
+    category: boots
+    sizes: [15, 16, 17, 18]
+    widths: [wide]
+    attributes: [waterproof, slip-resistant]
+    retailer: Second Placeholder Retailer
+    link: https://example.com/placeholder-work-boot
+    image: ""
+    fit_notes: ""

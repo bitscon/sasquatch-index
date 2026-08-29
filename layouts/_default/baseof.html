@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }} — {{ site.Params.tagline }}{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    margin: 0 auto; padding: 1rem; max-width: 44rem;
+    font: 1rem/1.5 system-ui, -apple-system, sans-serif;
+  }
+  header { padding-bottom: .75rem; border-bottom: 1px solid; }
+  header a { font-weight: 700; text-decoration: none; }
+  h1 { font-size: 1.4rem; margin: 1rem 0; }
+  ul { list-style: none; padding: 0; }
+  li { padding: .75rem 0; border-bottom: 1px solid; }
+  .sizes a { display: inline-block; padding: .6rem .9rem; margin: 0 .4rem .4rem 0; border: 1px solid; border-radius: .4rem; text-decoration: none; }
+  .meta { font-size: .9rem; }
+  .needs-notes { font-size: .9rem; font-style: italic; }
+  footer { margin-top: 2rem; padding-top: .75rem; border-top: 1px solid; font-size: .9rem; }
+</style>
+</head>
+<body>
+<header><a href="{{ "/" | relURL }}">{{ site.Title }}</a></header>
+<main>{{ block "main" . }}{{ end }}</main>
+<footer>{{ site.Params.tagline }}</footer>
+</body>
+</html>

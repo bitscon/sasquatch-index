@@ -1,0 +1,12 @@
+# Sasquatch Index — site configuration
+# baseURL is overridden by the deploy workflow with the live Pages address.
+baseURL = "https://bitscon.github.io/sasquatch-index/"
+languageCode = "en-us"
+title = "Sasquatch Index"
+
+# Nothing here needs taxonomies or a feed yet.
+disableKinds = ["taxonomy", "term", "rss"]
+
+[params]
+  # Shown in the footer. Kept in config so it is not buried in a template.
+  tagline = "Shoes in the sizes most retailers stop short of."

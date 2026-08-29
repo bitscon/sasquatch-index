@@ -1,0 +1,29 @@
+{{ define "main" }}
+{{ $size := .Params.size }}
+{{ $matches := where site.Data.products.products "sizes" "intersect" (slice $size) }}
+
+<h1>{{ .Title }}</h1>
+
+{{/* Availability is the product, so it is on the page, not behind a click
+     (SASQUATCH_OS.md section 2a). */}}
+<ul>
+  {{ range $matches }}
+  <li>
+    <a href="{{ .link }}">{{ .brand }} {{ .style_name }}</a>
+    <div class="meta">
+      {{ .category }} &middot; widths: {{ delimit .widths ", " }}
+      {{ with .attributes }} &middot; {{ delimit . ", " }}{{ end }}
+      &middot; at {{ .retailer }}
+    </div>
+    {{/* Fit notes are the owner's words and are never generated
+         (SASQUATCH_OS.md section 2b). */}}
+    {{ if .fit_notes }}
+      <div class="meta">{{ .fit_notes }}</div>
+    {{ else }}
+      {{ warnf "FIT NOTES MISSING: %s %s (size %v page)" .brand .style_name $size }}
+      <div class="needs-notes">Fit notes still to come from the owner.</div>
+    {{ end }}
+  </li>
+  {{ end }}
+</ul>
+{{ end }}

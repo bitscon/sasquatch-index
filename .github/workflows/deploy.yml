@@ -1,0 +1,62 @@
+# Rebuilds the site and publishes it whenever main changes.
+# Nothing here needs a person: this is the unattended loop from
+# SASQUATCH_OS.md section 5.
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Pinned on purpose. An unattended job must not change behaviour
+      # because an upstream release shipped overnight.
+      HUGO_VERSION: 0.134.3
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install Hugo
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          curl -sSL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-amd64.tar.gz" \
+            | tar -xz -C "$HOME/.local/bin" hugo
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          # Turns Pages on for the repository the first time this runs.
+          enablement: true
+
+      - name: Build the site
+        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - name: Upload the built site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
