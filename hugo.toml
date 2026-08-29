@@ -9,4 +9,4 @@ disableKinds = ["taxonomy", "term", "rss"]
 
 [params]
   # Shown in the footer. Kept in config so it is not buried in a template.
-  tagline = "Shoes in the sizes most retailers stop short of."
+  tagline = "Shoes in the sizes most retailers stop short of — size 13 and up."
