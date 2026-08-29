@@ -53,12 +53,25 @@
   host supplies stands. Nothing in the site is pinned to that address: the
   publish job supplies it at build time, so pointing a domain at the site later
   needs no rebuild of anything.
+- **The operating document was amended, on the owner's instruction.** He is not a
+  content source: the requirement that he write fit notes or review individual
+  products is gone. The site now earns its depth from facts computed out of the
+  data on every page, plus a factual reference layer written once, plus a real
+  threshold before a page is generated at all. Display advertising moved from a
+  scheduled phase to an option gated on scale. One guardrail was added rather
+  than removed: nothing may claim first-hand experience that did not happen.
+- The build no longer warns about missing fit notes, and the field is optional.
+  That warning contradicted the amended document, so it was removed with it.
 
 ## Open questions for the owner
-- Nothing outstanding.
+- Phase 1 seeds a real catalogue, but the affiliate feeds do not arrive until
+  Phase 3 and scraping retailer sites is banned outright. Where should that first
+  batch of product data come from? Worth settling before Phase 1 starts.
 
 ## Recommended next session
-- Phase 1: hand-seed roughly fifty real styles, browsable by size and category,
-  with the disclosure and privacy pages.
+- Phase 1: seed a real catalogue, browsable by size and category, with the
+  disclosure and privacy pages — and now also the three things the amended
+  document calls for: facts computed onto every page, the factual reference
+  layer, and a minimum-products threshold before a page is generated.
 - Gate that must be met first: a public address loads — **met**.
 - Risk: Low

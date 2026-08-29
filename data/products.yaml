@@ -8,8 +8,8 @@
 # product_type: always "shoes" today. This field is what lets apparel join
 # later without disturbing any existing URL. Do not remove it.
 #
-# fit_notes: WRITTEN BY THE OWNER, NEVER GENERATED. A record with an empty
-# fit_notes is flagged at build time as still needing the owner's words.
+# fit_notes: optional, and normally empty. The owner is not a content source
+# (SASQUATCH_OS.md section 2b). Never write invented first-hand experience here.
 
 products:
   - product_type: shoes

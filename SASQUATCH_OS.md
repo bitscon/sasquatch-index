@@ -2,6 +2,11 @@
 
 **Read this file completely at the start of every session before taking any action.**
 
+> **Amended 2026-08-29 by the owner.** The owner is not a content source. The
+> requirement that he write fit notes or review individual products is removed;
+> sections 2b, 5a, 5b, 6 and 8 now describe how the site earns its depth without
+> him. Routine operation requires nothing from the owner.
+
 ---
 
 ## 1. What this project is
@@ -73,12 +78,26 @@ Recent search changes hit aggregated affiliate content hard. Thin listing sites
 without first-hand knowledge lost most of their traffic. What survived carried
 genuine original experience.
 
-This site's protection is not its size or its speed to market. It is that the
-owner wears the size and knows what actually fits. **The fit notes are the moat,
-not a formality.** A page without them is a page that fails.
+This site's answer is **coverage and accuracy, not opinion.** It is the one place
+that indexes the full size range across many retailers and shows what is actually
+in stock. That is real work a visitor cannot do for themselves in one place, and
+it is produced entirely from the feeds.
 
-Never generate fit notes. They come from the owner. Flag pages that lack them and
-report the list.
+| Source of value | How it is produced |
+|---|---|
+| Comprehensive size coverage, thirteen and up | From the feed |
+| Live availability across retailers | From the feed |
+| Computed facts on every page — counts, retailers, widths, price range, brands | Derived at build time |
+| A reference layer — size conversions, width designations, where brands stop | Written once, factual |
+
+**The owner is not a content source.** Do not ask him to write fit notes, review
+products, or comment on individual styles. Do not flag pages for lacking his
+commentary. Routine operation requires nothing from him.
+
+**Never fabricate first-hand experience.** Do not write, in any voice, that
+anyone wore, tried, measured or tested a product. Invented testimony is dishonest
+to the visitor and is the one thing that would genuinely sink this site. Factual
+and derived writing is fine; personal experience that did not happen is not.
 
 **Risk on depending on search traffic alone: High.** Plan for at least one channel
 that does not run through a search engine.
@@ -187,7 +206,10 @@ that assume footwear.
 Cover the full size range, not just fifteen — thirteen and up is a much larger
 audience than fifteen alone.
 
-Suppress pages with no matching products. Empty pages hurt more than they help.
+Do not generate a page until it has enough matching products to be worth landing
+on. Empty and near-empty pages hurt far more than they help — a mass of thin
+auto-generated pages is the main trigger for rejection by ad networks and search
+alike. Start the threshold at three products and raise it if pages still read thin.
 
 ---
 
@@ -207,7 +229,7 @@ One record per product. Fields required now:
 | Retailer | |
 | Link | |
 | Image | |
-| Owner's fit notes | Written by the owner, not generated |
+| Owner's fit notes | **Optional.** May stay empty forever. Never prompt the owner for it and never flag its absence |
 
 Do not add apparel-specific fields yet. The product type field is sufficient to
 keep the door open.
@@ -220,12 +242,19 @@ Ad networks screen against thin and heavily aggregated content, and a pure
 feed-generated listing page is precisely what those filters target. A site that
 is only a filtered catalog will likely be rejected.
 
-**Therefore:** every category page must carry original commentary that a product
-feed cannot produce — notes on fit, which brands run narrow or short, what holds
-up over time. That writing comes from the owner, who actually wears the size.
+**The answer is depth, not opinion.** Every page must carry more than a list of
+links, and all of it is produced without the owner:
 
-When building category pages, always leave a clearly marked place for that
-commentary, and flag to the owner which pages are still missing it.
+- **Computed facts, on every page.** How many styles, across how many retailers,
+  which widths, what price range, which brands. Derived from the data at build
+  time, different on every page, and genuinely useful to someone deciding where
+  to buy.
+- **A reference layer, written once.** Size conversions past thirteen, what the
+  width designations mean, where each brand stops. Factual, evergreen, site-wide.
+- **A real threshold for existing.** A page is generated only when it has enough
+  matching products to be worth landing on (section 5a).
+
+Write nothing that claims first-hand experience (section 2b).
 
 ---
 
@@ -249,9 +278,16 @@ Work one phase per session. Do not advance until the gate is met.
 | 2 | Analytics installed; apply to affiliate programs using the live site | Approvals received | **Medium** — thin sites get rejected |
 | 3 | Replace hand-seeded data with affiliate product feeds; site builds from feed | A full build runs clean end to end | Medium |
 | 4 | Scheduled job: pull feed, rebuild, verify links, send owner a short report | Two consecutive unattended runs succeed | Low |
-| 5 | Apply for display advertising | Approved and serving | Medium |
+| 5 | **Optional.** Apply for display advertising once the site has the scale and traffic history to pass screening | Approved and serving | Medium — gated on scale, not on a date |
 | 6 | Wait and measure. Change nothing. | Baseline revenue known | Low |
 | 7 | Reinvest the majority of revenue into one traffic lever | Traffic measurably up against baseline | Medium |
+
+**On display advertising.** It is an option, not a scheduled step. Applying early,
+with few products and no traffic history, invites the rejection section 6 warns
+about. Apply when the catalogue and the traffic justify it, to a network whose
+terms suit a site of this size — and check those terms at the time, since they
+change. Affiliate programs (Phase 2) screen far more loosely and are the primary
+revenue path.
 
 ---
 
