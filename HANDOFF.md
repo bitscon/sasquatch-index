@@ -52,9 +52,13 @@
 - No project board. The owner runs this by voice and text straight to GitHub, so
   this handoff file and the repository history are the whole record. A future
   session should not create one without being asked.
+- No custom domain. The owner does not own one for this yet, so the address the
+  host supplies stands. Nothing in the site is pinned to that address: the
+  publish job supplies it at build time, so pointing a domain at the site later
+  needs no rebuild of anything.
 
 ## Open questions for the owner
-- Do you already own a domain for this, or should the default address stand for now?
+- Nothing outstanding.
 
 ## Recommended next session
 - Phase 1: hand-seed roughly fifty real styles, browsable by size and category,
