@@ -44,12 +44,14 @@
   they are the owner's words and are never generated.
 - The publish job no longer tries to switch Pages on by itself. It failed at that
   and the failure was confusing; it now assumes the switch is already on.
+- No project board. The owner runs this by voice and text straight to GitHub, so
+  this handoff file and the repository history are the whole record. A future
+  session should not create one without being asked.
+- The owner will switch the repository to public and turn Pages on himself, which
+  is what closes this phase's gate.
 
 ## Open questions for the owner
-- Will you flip the repository to public and turn on Pages, or would you rather
-  I move the site to a host that does not need a settings change?
 - Do you already own a domain for this, or should the default address stand for now?
-- Do you want a Kanboard board created for this project?
 
 ## Recommended next session
 - Phase 1: hand-seed roughly fifty real styles, browsable by size and category,
