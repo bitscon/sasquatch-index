@@ -35,12 +35,14 @@ jobs:
             | tar -xz -C "$HOME/.local/bin" hugo
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      # Requires Pages to be switched on once, by hand, in the repository
-      # settings with the source set to GitHub Actions. The workflow token is
-      # not permitted to switch it on for us.
+      # Switches Pages on if it is not already on. This only works once the
+      # repository is public: Pages is not offered to private repositories on
+      # the free plan, and the attempt is refused there.
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Build the site
         run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
