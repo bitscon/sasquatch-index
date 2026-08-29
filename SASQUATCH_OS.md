@@ -274,13 +274,20 @@ Work one phase per session. Do not advance until the gate is met.
 | Phase | Deliverable | Gate to advance | Risk |
 |---|---|---|---|
 | 0 | Repo created in BitsCon, structure scaffolded, hosting connected, empty site deploys | A public URL loads | Low |
-| 1 | Hand-seeded catalog of roughly fifty styles, browsable by size and category, with disclosure and privacy pages | Site is live and would read as legitimate to a human reviewer | Low |
-| 2 | Analytics installed; apply to affiliate programs using the live site | Approvals received | **Medium** — thin sites get rejected |
-| 3 | Replace hand-seeded data with affiliate product feeds; site builds from feed | A full build runs clean end to end | Medium |
+| 1 | The reference layer, the disclosure and privacy pages, facts computed onto every page, and the page threshold. **No product data required** | Site reads as legitimate to a human reviewer | Low |
+| 2 | Analytics installed; apply to affiliate programs using the live site, and take feed access from whoever approves | Approvals received and at least one product feed available | **Medium** — thin sites get rejected |
+| 3 | Generate the catalogue from the feed | A full build runs clean end to end from feed data | Medium |
 | 4 | Scheduled job: pull feed, rebuild, verify links, send owner a short report | Two consecutive unattended runs succeed | Low |
 | 5 | **Optional.** Apply for display advertising once the site has the scale and traffic history to pass screening | Approved and serving | Medium — gated on scale, not on a date |
 | 6 | Wait and measure. Change nothing. | Baseline revenue known | Low |
 | 7 | Reinvest the majority of revenue into one traffic lever | Traffic measurably up against baseline | Medium |
+
+**On the order of phases 1 to 3.** The catalogue is built from feeds, and feeds
+arrive with affiliate approval — so approval has to come before the catalogue, not
+after it. Phase 1 therefore builds everything that needs no product data, which is
+what makes the site substantial enough to submit. There is no hand-seeded catalogue
+step: seeding by hand would mean copying retailer data, which constraint 2 exists to
+prevent, and would create exactly the manual work the owner does not want.
 
 **On display advertising.** It is an option, not a scheduled step. Applying early,
 with few products and no traffic history, invites the rejection section 6 warns

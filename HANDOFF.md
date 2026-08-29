@@ -1,77 +1,69 @@
-# Handoff — Phase 0 — 2026-08-29
+# Handoff — Phase 1 (partial) — 2026-08-29
 
 ## What was completed
-- The repository was created in BitsCon and both operating documents sit at its
-  root, copied from Drive without alteration.
-- The site scaffold is in place and builds cleanly. Nine pages come out of it.
-- The data file carries every field the operating document asks for, including
-  the product type field that lets apparel join later. It holds three
-  placeholder records and nothing real.
-- The size pages are generated from that one data file, not hand-written. Adding
-  a record to the file adds pages; removing one removes them.
-- The address structure is proven, including the shoes path segment. Sizes with
-  no matching product never get a page.
-- The site is published and a public address loads it.
-- The unattended loop was proven, not assumed: a small wording change was pushed,
-  and the publish job ran on its own and put that exact change on the live site
-  with nobody touching anything.
-- The build names every product still missing the owner's fit notes. All three
-  placeholders are on that list, which is expected at this stage.
-- The owner loaded the published address and confirmed the page works.
+- Phase 0 in full: repository, operating docs, scaffold, publish job, live site.
+  A change pushed to the main branch reaches the live site with nobody involved,
+  proven twice.
+- The operating document was amended twice on the owner's instruction. He is not
+  a content source, and the phase order was corrected (see decisions below).
+- The reference layer is written and live: a page on sizing past thirteen and a
+  page on what the width letters mean. Both are factual, need no product data,
+  and are the content that makes the site substantial enough to submit to an
+  affiliate program.
+- The affiliate disclosure and privacy pages are live and both state the current
+  situation accurately — no affiliate relationships, no analytics, no cookies.
+- Every size page now opens with facts computed from the data: how many styles,
+  retailers and brands, which widths, which types. Different on every page,
+  written by nobody.
+- A page is no longer generated unless enough products match it. The threshold
+  sits in the site configuration and is currently three.
+- Footer navigation reaches all four new pages from anywhere on the site.
 
 ## What was NOT completed and why
-- Nothing outstanding for this phase.
+- The catalogue itself. It comes from an affiliate feed, and no affiliate
+  application has been made yet. That is the next step and it needs the owner.
 
 ## Current state of the system
-- Repository: public, holding the operating docs, the scaffold, the data file
-  and the publish job.
-- Site: **live** at https://bitscon.github.io/sasquatch-index/
-- Publish job: working. Every change to the main branch rebuilds and republishes
-  the site with no person involved.
-- Nothing is running on a schedule. Nothing is monetized. No affiliate links, no
-  advertising, no analytics.
-- No real product data. The three records are placeholders.
+- Site: live at https://bitscon.github.io/sasquatch-index/
+- Pages: home, the shoes index, two size pages, two reference pages, disclosure,
+  privacy.
+- Only two size pages exist because only two sizes have three or more matching
+  placeholder products. That is the threshold working correctly, not a fault.
+- Publish job: working, unattended, on every push to the main branch.
+- Nothing scheduled, nothing monetized, no analytics, no affiliate links.
+- Product data is still the three placeholder records.
 
 ## Decisions made this session
-- Hugo was chosen as the site generator because it is a single self-contained
-  program with no dependency tree to rot, so unattended builds keep working, and
-  it turns one data file into many pages natively.
-- The generator version is pinned rather than tracking the newest release, so an
-  overnight upstream change cannot alter an unattended build.
-- The data file is written in a format meant for hand-editing, with comments,
-  because the owner seeds roughly fifty styles by hand in Phase 1.
-- Fit notes were left deliberately empty and are flagged at build time, because
-  they are the owner's words and are never generated.
-- Publishing was switched on by hand by the owner. Letting the publish job switch
-  it on was tried on both a private and a public repository and refused by GitHub
-  both times, so that attempt was removed rather than left to produce a
-  misleading error.
-- No project board. The owner runs this by voice and text straight to GitHub, so
-  this handoff file and the repository history are the whole record. A future
-  session should not create one without being asked.
-- No custom domain. The owner does not own one for this yet, so the address the
-  host supplies stands. Nothing in the site is pinned to that address: the
-  publish job supplies it at build time, so pointing a domain at the site later
-  needs no rebuild of anything.
-- **The operating document was amended, on the owner's instruction.** He is not a
-  content source: the requirement that he write fit notes or review individual
-  products is gone. The site now earns its depth from facts computed out of the
-  data on every page, plus a factual reference layer written once, plus a real
-  threshold before a page is generated at all. Display advertising moved from a
-  scheduled phase to an option gated on scale. One guardrail was added rather
-  than removed: nothing may claim first-hand experience that did not happen.
-- The build no longer warns about missing fit notes, and the field is optional.
-  That warning contradicted the amended document, so it was removed with it.
+- Hugo, pinned to one version, so an upstream release cannot change an
+  unattended build.
+- **The owner is not a content source.** No fit notes, no product reviews, no
+  per-product interaction. The site earns depth from computed facts, a factual
+  reference layer, and a real threshold before a page exists.
+- **Nothing may claim first-hand experience that did not happen.** This guardrail
+  was added, not removed. Invented testimony is the one thing that would sink
+  the site.
+- **Phases 1 to 3 were reordered.** The catalogue comes from feeds, feeds come
+  with affiliate approval, so approval must precede the catalogue. Phase 1 now
+  builds everything needing no product data. The hand-seeded catalogue step is
+  gone: seeding by hand would mean copying retailer data, which constraint 2
+  exists to prevent, and would create the manual work the owner does not want.
+- Display advertising is an option gated on scale, not a scheduled phase.
+- No project board, no custom domain. The handoff file and the repository
+  history are the whole record.
+- Price is deliberately absent from the data model. It is not in section 5b and
+  cannot be populated honestly until feeds arrive, so the computed facts do not
+  claim it. Worth adding in Phase 3.
 
 ## Open questions for the owner
-- Phase 1 seeds a real catalogue, but the affiliate feeds do not arrive until
-  Phase 3 and scraping retailer sites is banned outright. Where should that first
-  batch of product data come from? Worth settling before Phase 1 starts.
+- Which affiliate programs should be applied to first? The application itself
+  needs the owner — it wants real account details.
+- The sizing and width tables were written from general knowledge, not checked
+  against an authoritative source. They are hedged on the page as approximate,
+  which is true, but worth verifying before the site carries real traffic.
 
 ## Recommended next session
-- Phase 1: seed a real catalogue, browsable by size and category, with the
-  disclosure and privacy pages — and now also the three things the amended
-  document calls for: facts computed onto every page, the factual reference
-  layer, and a minimum-products threshold before a page is generated.
-- Gate that must be met first: a public address loads — **met**.
-- Risk: Low
+- Phase 2: apply to affiliate programs using the live site, and take feed access
+  from whoever approves first.
+- Gate that must be met first: the site reads as legitimate to a human reviewer
+  — met, as far as can be judged without a reviewer.
+- Risk: Medium — thin sites get rejected, and this one is honest but small.

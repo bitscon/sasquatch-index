@@ -10,3 +10,6 @@ disableKinds = ["taxonomy", "term", "rss"]
 [params]
   # Shown in the footer. Kept in config so it is not buried in a template.
   tagline = "Shoes in the sizes most retailers stop short of — size 13 and up."
+  # A size page is not generated below this many matching products.
+  # SASQUATCH_OS.md section 5a: near-empty pages hurt more than they help.
+  minProducts = 3

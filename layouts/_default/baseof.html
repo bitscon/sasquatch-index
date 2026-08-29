@@ -17,12 +17,25 @@
   li { padding: .75rem 0; border-bottom: 1px solid; }
   .sizes a { display: inline-block; padding: .6rem .9rem; margin: 0 .4rem .4rem 0; border: 1px solid; border-radius: .4rem; text-decoration: none; }
   .meta { font-size: .9rem; }
+  .summary { font-size: .95rem; padding: .6rem 0; border-bottom: 1px solid; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid; }
+  footer a { margin-right: .9rem; }
   footer { margin-top: 2rem; padding-top: .75rem; border-top: 1px solid; font-size: .9rem; }
 </style>
 </head>
 <body>
-<header><a href="{{ "/" | relURL }}">{{ site.Title }}</a></header>
+<header><a href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a></header>
 <main>{{ block "main" . }}{{ end }}</main>
-<footer>{{ site.Params.tagline }}</footer>
+<footer>
+  <p>{{ site.Params.tagline }}</p>
+  <p>
+    {{/* Looked up as pages so the address always carries the site's base path
+         and the link text stays in step with the page title. */}}
+    {{ range slice "/shoes/sizing" "/shoes/widths" "/disclosure" "/privacy" }}
+      {{ with site.GetPage . }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
+    {{ end }}
+  </p>
+</footer>
 </body>
 </html>

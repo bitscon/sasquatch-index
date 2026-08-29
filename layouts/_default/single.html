@@ -2,7 +2,30 @@
 {{ $size := .Params.size }}
 {{ $matches := where site.Data.products.products "sizes" "intersect" (slice $size) }}
 
+{{/* Facts computed from the data, different on every page. This is where the
+     page earns its depth (SASQUATCH_OS.md section 6) — no opinion, nothing
+     written by hand, nothing claiming first-hand experience. */}}
+{{ $retailers := slice }}{{ $brands := slice }}{{ $widths := slice }}{{ $cats := slice }}
+{{ range $matches }}
+  {{ $retailers = $retailers | append .retailer }}
+  {{ $brands = $brands | append .brand }}
+  {{ $cats = $cats | append .category }}
+  {{ range .widths }}{{ $widths = $widths | append . }}{{ end }}
+{{ end }}
+{{ $retailers = $retailers | uniq | sort }}
+{{ $brands = $brands | uniq | sort }}
+{{ $widths = $widths | uniq | sort }}
+{{ $cats = $cats | uniq | sort }}
+
 <h1>{{ .Title }}</h1>
+
+<p class="summary">
+  {{ len $matches }} style{{ if ne (len $matches) 1 }}s{{ end }} ·
+  {{ len $retailers }} retailer{{ if ne (len $retailers) 1 }}s{{ end }} ·
+  {{ len $brands }} brand{{ if ne (len $brands) 1 }}s{{ end }}<br>
+  Widths: {{ delimit $widths ", " }}<br>
+  Types: {{ delimit $cats ", " }}
+</p>
 
 {{/* Availability is the product, so it is on the page, not behind a click
      (SASQUATCH_OS.md section 2a). */}}
@@ -11,9 +34,9 @@
   <li>
     <a href="{{ .link }}">{{ .brand }} {{ .style_name }}</a>
     <div class="meta">
-      {{ .category }} &middot; widths: {{ delimit .widths ", " }}
-      {{ with .attributes }} &middot; {{ delimit . ", " }}{{ end }}
-      &middot; at {{ .retailer }}
+      {{ .category }} · widths: {{ delimit .widths ", " }}
+      {{ with .attributes }} · {{ delimit . ", " }}{{ end }}
+      · at {{ .retailer }}
     </div>
     {{/* Optional and rarely present. Never prompted for, never flagged
          (SASQUATCH_OS.md section 2b). */}}

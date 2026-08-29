@@ -3,7 +3,7 @@
      So the sizes are the first thing on the page. No preamble (section 2a). */}}
 <h1>Pick your size</h1>
 <div class="sizes">
-  {{ range (where site.RegularPages "Section" "shoes").ByTitle }}
+  {{ range (where site.RegularPages "Params.size" "!=" nil).ByTitle }}
     <a href="{{ .RelPermalink }}">{{ .Params.size }}</a>
   {{ end }}
 </div>

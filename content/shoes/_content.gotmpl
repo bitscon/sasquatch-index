@@ -20,11 +20,17 @@
 {{ end }}
 {{ $sizes = $sizes | uniq | sort }}
 
+{{ $min := site.Params.minProducts | default 3 }}
+
 {{ range $sizes }}
-  {{ $.AddPage (dict
-    "path"   (printf "size-%v" .)
-    "title"  (printf "Size %v shoes" .)
-    "kind"   "page"
-    "params" (dict "size" .)
-  ) }}
+  {{ $size := . }}
+  {{ $matches := where $products "sizes" "intersect" (slice $size) }}
+  {{ if ge (len $matches) $min }}
+    {{ $.AddPage (dict
+      "path"   (printf "size-%v" $size)
+      "title"  (printf "Size %v shoes" $size)
+      "kind"   "page"
+      "params" (dict "size" $size)
+    ) }}
+  {{ end }}
 {{ end }}
