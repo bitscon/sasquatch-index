@@ -17,13 +17,10 @@
   with nobody touching anything.
 - The build names every product still missing the owner's fit notes. All three
   placeholders are on that list, which is expected at this stage.
+- The owner loaded the published address and confirmed the page works.
 
 ## What was NOT completed and why
 - Nothing outstanding for this phase.
-- One caveat on how the live site was checked: the assistant's environment is
-  blocked from reaching the published address, so the proof is GitHub's own
-  record of a successful publish of the exact change. The owner's own look at
-  the page is the last confirmation.
 
 ## Current state of the system
 - Repository: public, holding the operating docs, the scaffold, the data file
