@@ -35,14 +35,13 @@ jobs:
             | tar -xz -C "$HOME/.local/bin" hugo
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      # Switches Pages on if it is not already on. This only works once the
-      # repository is public: Pages is not offered to private repositories on
-      # the free plan, and the attempt is refused there.
+      # Pages must be switched on once by hand, in the repository settings,
+      # with the source set to GitHub Actions. Letting this step do it was
+      # tried and refused by GitHub on both a private and a public repository
+      # ("Resource not accessible by integration"), so it is not attempted.
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Build the site
         run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
