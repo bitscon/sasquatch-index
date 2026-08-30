@@ -50,6 +50,12 @@
 - Display advertising is an option gated on scale, not a scheduled phase.
 - No project board, no custom domain. The handoff file and the repository
   history are the whole record.
+- **Where an ad may go is settled in advance.** Whitespace on these pages is
+  load-bearing — it is what lets a visitor scan instead of read — so it is not
+  spare room and not inventory. If display advertising ever runs it gets one
+  slot, below the listings, full width, clearly separated. Never between
+  listings, in the size grid, above the fold, or as an overlay. Decided now on
+  purpose, so nobody later fills a gap with the space the scan depends on.
 - Price is deliberately absent from the data model. It is not in section 5b and
   cannot be populated honestly until feeds arrive, so the computed facts do not
   claim it. Worth adding in Phase 3.
@@ -75,6 +81,14 @@
 - The sizing and width tables were written from general knowledge, not checked
   against an authoritative source. They are hedged on the page as approximate,
   which is true, but worth verifying before the site carries real traffic.
+
+## Agreed visual target
+- A four-screen mockup of the finished site was drawn and approved as the
+  direction: phone home, phone results, the sizing reference, and a desktop
+  view. Plain, fast, heavy on scannable whitespace, availability shown on the
+  page rather than behind a click. Build toward that shape.
+- It lives at https://claude.ai/code/artifact/52843bad-98a4-4db9-8651-a234a7750cdb
+  (owner's account). All data in it is invented; only the layout is the proposal.
 
 ## Recommended next session
 - Phase 2: apply to affiliate programs using the live site, and take feed access
