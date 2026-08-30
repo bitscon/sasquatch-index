@@ -55,8 +55,23 @@
   claim it. Worth adding in Phase 3.
 
 ## Open questions for the owner
-- Which affiliate programs should be applied to first? The application itself
-  needs the owner — it wants real account details.
+- The applications themselves need the owner, since they want real account
+  details. Researched 2026-08-29, apply in this order:
+  1. **Awin** — absorbed ShareASale and completed the migration in 2025, so it is
+     now one platform and the largest feed-driven network. Product feeds come with
+     approval. This is the primary target.
+  2. **Rakuten** — carries Zappos, which is the single most on-theme merchant for
+     this site given the size and width range it stocks.
+  3. **CJ** — broad merchant base, worth having as a second source.
+- **Do not build the pipeline on Amazon.** Its product API needs three qualifying
+  sales in 180 days to obtain, and ten qualifying sales in every trailing 30 days
+  to keep. A quiet month silently kills the data source, which breaks constraint 3
+  outright. Amazon links are fine opportunistically; Amazon must never be the feed.
+- **Check the feed carries width before committing to a merchant.** The whole site
+  turns on filtering by size and width together. Many apparel feeds carry a single
+  loose size string and no width at all. A merchant whose feed lacks structured
+  width data cannot power these pages, however good its commission is. This is the
+  largest technical risk in Phases 2 and 3.
 - The sizing and width tables were written from general knowledge, not checked
   against an authoritative source. They are hedged on the page as approximate,
   which is true, but worth verifying before the site carries real traffic.
