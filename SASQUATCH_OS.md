@@ -70,6 +70,16 @@ of that speed, reject it and tell the owner why.
 The owner is explicit that the common playbook — ship a thin site fast, pile on
 ads, chase volume — is not what this is. Do not propose it.
 
+**Whitespace on these pages is load-bearing.** It is what lets a visitor scan
+rather than read. It is not spare room, and it is not inventory.
+
+**If display advertising ever runs (section 8, phase 5), it gets exactly one
+place:** a single slot below the listings, full width, clearly separated from
+them. Never between listings, never inside the size grid, never above the fold,
+never as an overlay. This is settled in advance deliberately — the damage gets
+done when someone needs revenue later, finds the page has no room spare, and
+takes the space the scan depends on.
+
 ---
 
 ## 2b. Where the durability actually comes from
