@@ -13,3 +13,8 @@ disableKinds = ["taxonomy", "term", "rss"]
   # A size page is not generated below this many matching products.
   # SASQUATCH_OS.md section 5a: near-empty pages hurt more than they help.
   minProducts = 3
+  # Cloudflare Web Analytics site token. Empty means no analytics script is
+  # emitted AND the privacy page states that no analytics runs. Setting it
+  # turns on the (cookieless) beacon and flips the privacy wording to match —
+  # one value, both surfaces, never out of step.
+  cloudflareAnalyticsToken = ""

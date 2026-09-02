@@ -1,98 +1,66 @@
-# Handoff — Phase 1 (partial) — 2026-08-29
+# Handoff — Phase 2 (partial) — 2026-09-02
 
 ## What was completed
-- Phase 0 in full: repository, operating docs, scaffold, publish job, live site.
-  A change pushed to the main branch reaches the live site with nobody involved,
-  proven twice.
-- The operating document was amended twice on the owner's instruction. He is not
-  a content source, and the phase order was corrected (see decisions below).
-- The reference layer is written and live: a page on sizing past thirteen and a
-  page on what the width letters mean. Both are factual, need no product data,
-  and are the content that makes the site substantial enough to submit to an
-  affiliate program.
-- The affiliate disclosure and privacy pages are live and both state the current
-  situation accurately — no affiliate relationships, no analytics, no cookies.
-- Every size page now opens with facts computed from the data: how many styles,
-  retailers and brands, which widths, which types. Different on every page,
-  written by nobody.
-- A page is no longer generated unless enough products match it. The threshold
-  sits in the site configuration and is currently three.
-- Footer navigation reaches all four new pages from anywhere on the site.
+- Analytics is wired and proven, waiting only on a token. One value in the site
+  configuration turns on Cloudflare Web Analytics — cookieless, nothing stored
+  in the browser — and rewrites the privacy page to match in the same build.
+  With the value empty, no script is emitted and the privacy page truthfully
+  says no analytics runs. Both states were built and inspected page by page.
+- The owner's application packet is written: `APPLICATIONS.md` at the repo
+  root. Apply order Awin, then Rakuten, then CJ, with paste-ready site
+  description and form answers, the width-check gate to run on any merchant
+  feed before committing to it, and the steps to fetch the Cloudflare token
+  while at the keyboard. Network facts were checked against the networks' own
+  pages on 2026-09-02 (Awin's small refundable card deposit is still current).
+- The repo was brought under workspace governance: registered in the workspace
+  project registry, and `AGENTS.md`, `README.md`, `PROJECT_STATUS.md` added.
+  `AGENTS.md` records the standing owner-granted exemption: this project's
+  record is this handoff plus git history — no per-task change records.
+- An independent adversarial review ran before sealing: wave 1 raised 2
+  findings (both confirmed, both copy-level — a site description that
+  overclaimed against the live placeholder site, and a privacy lede that did
+  not flip with the analytics state), both fixed; wave 2 came back clean.
 
 ## What was NOT completed and why
-- The catalogue itself. It comes from an affiliate feed, and no affiliate
-  application has been made yet. That is the next step and it needs the owner.
+- The applications themselves and the Cloudflare token — keyboard work that
+  needs the owner's real account details. The packet exists so that work is
+  a single sitting.
+- No feed, so no catalogue. That is Phase 3 and it is gated on an approval.
 
 ## Current state of the system
-- Site: live at https://bitscon.github.io/sasquatch-index/
-- Pages: home, the shoes index, two size pages, two reference pages, disclosure,
-  privacy.
-- Only two size pages exist because only two sizes have three or more matching
-  placeholder products. That is the threshold working correctly, not a fault.
-- Publish job: working, unattended, on every push to the main branch.
-- Nothing scheduled, nothing monetized, no analytics, no affiliate links.
-- Product data is still the three placeholder records.
+- Site: live at https://bitscon.github.io/sasquatch-index/ — unchanged to
+  visitors; the analytics wiring is dormant until the token is set.
+- Publish job: working, unattended, on every push to main.
+- No analytics running, no affiliate links, no cookies. Privacy page says so
+  and is now mechanically incapable of drifting from the truth.
+- Product data: still the three clearly-labeled placeholder records.
 
 ## Decisions made this session
-- Hugo, pinned to one version, so an upstream release cannot change an
-  unattended build.
-- **The owner is not a content source.** No fit notes, no product reviews, no
-  per-product interaction. The site earns depth from computed facts, a factual
-  reference layer, and a real threshold before a page exists.
-- **Nothing may claim first-hand experience that did not happen.** This guardrail
-  was added, not removed. Invented testimony is the one thing that would sink
-  the site.
-- **Phases 1 to 3 were reordered.** The catalogue comes from feeds, feeds come
-  with affiliate approval, so approval must precede the catalogue. Phase 1 now
-  builds everything needing no product data. The hand-seeded catalogue step is
-  gone: seeding by hand would mean copying retailer data, which constraint 2
-  exists to prevent, and would create the manual work the owner does not want.
-- Display advertising is an option gated on scale, not a scheduled phase.
-- No project board, no custom domain. The handoff file and the repository
-  history are the whole record.
-- **Where an ad may go is settled in advance.** Whitespace on these pages is
-  load-bearing — it is what lets a visitor scan instead of read — so it is not
-  spare room and not inventory. If display advertising ever runs it gets one
-  slot, below the listings, full width, clearly separated. Never between
-  listings, in the size grid, above the fold, or as an overlay. Decided now on
-  purpose, so nobody later fills a gap with the space the scan depends on.
-- Price is deliberately absent from the data model. It is not in section 5b and
-  cannot be populated honestly until feeds arrive, so the computed facts do not
-  claim it. Worth adding in Phase 3.
+- Cloudflare Web Analytics, because it is free and cookieless. Cookie-based
+  analytics would require a consent popup, and popups are permanently banned
+  by the design rules. Trade-off accepted: its free tier keeps roughly six
+  months of history.
+- The analytics script and the privacy wording are driven by one shared
+  configuration value, so the site can never claim one thing and do another.
+- The project sits under workspace governance as a registered static site,
+  with the handoff-plus-history record rule written down as law rather than
+  left as an unwritten agreement.
+- Placeholder listings stay visible for now; hiding them before the network
+  applications is the owner's call (open question below).
 
 ## Open questions for the owner
-- The applications themselves need the owner, since they want real account
-  details. Researched 2026-08-29, apply in this order:
-  1. **Awin** — absorbed ShareASale and completed the migration in 2025, so it is
-     now one platform and the largest feed-driven network. Product feeds come with
-     approval. This is the primary target.
-  2. **Rakuten** — carries Zappos, which is the single most on-theme merchant for
-     this site given the size and width range it stocks.
-  3. **CJ** — broad merchant base, worth having as a second source.
-- **Do not build the pipeline on Amazon.** Its product API needs three qualifying
-  sales in 180 days to obtain, and ten qualifying sales in every trailing 30 days
-  to keep. A quiet month silently kills the data source, which breaks constraint 3
-  outright. Amazon links are fine opportunistically; Amazon must never be the feed.
-- **Check the feed carries width before committing to a merchant.** The whole site
-  turns on filtering by size and width together. Many apparel feeds carry a single
-  loose size string and no width at all. A merchant whose feed lacks structured
-  width data cannot power these pages, however good its commission is. This is the
-  largest technical risk in Phases 2 and 3.
-- The sizing and width tables were written from general knowledge, not checked
-  against an authoritative source. They are hedged on the page as approximate,
-  which is true, but worth verifying before the site carries real traffic.
-
-## Agreed visual target
-- A four-screen mockup of the finished site was drawn and approved as the
-  direction: phone home, phone results, the sizing reference, and a desktop
-  view. Plain, fast, heavy on scannable whitespace, availability shown on the
-  page rather than behind a click. Build toward that shape.
-- It lives at https://claude.ai/code/artifact/52843bad-98a4-4db9-8651-a234a7750cdb
-  (owner's account). All data in it is invented; only the layout is the proposal.
+- An affiliate reviewer who clicks the site today will see the two placeholder
+  size pages, clearly labeled as placeholders. Should they be hidden until the
+  first real feed arrives, so the site is pure reference when reviewed? Yes or
+  no is enough; hiding them is a small change the next session can do first.
+- Registered, not urgent: on the shoes index page, the links to the sizing and
+  widths guides render with empty link text. Predates this session's work.
+  Fix next session?
 
 ## Recommended next session
-- Phase 2: apply to affiliate programs using the live site, and take feed access
-  from whoever approves first.
-- Gate that must be met first: the site reads as legitimate to a human reviewer
-  — met, as far as can be judged without a reviewer.
-- Risk: Medium — thin sites get rejected, and this one is honest but small.
+- Phase 2 completion: enter the Cloudflare token when the owner has it, and
+  record which networks approved; if a feed is in hand, close Phase 2 and
+  hand off to Phase 3.
+- Gate that must be met first: owner has applied (APPLICATIONS.md is the
+  packet) and at least one network has approved with feed access.
+- Risk: Medium — thin sites get rejected; the site is honest but small.

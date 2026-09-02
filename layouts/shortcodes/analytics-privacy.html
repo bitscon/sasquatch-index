@@ -1,0 +1,20 @@
+{{- /* Renders the privacy page's cookies-and-analytics section from the same
+       config value that controls whether the analytics script is emitted
+       (hugo.toml, cloudflareAnalyticsToken). The page can therefore never
+       claim one thing while the site does another. */ -}}
+{{- if site.Params.cloudflareAnalyticsToken -}}
+<p>The short version: this site does not collect anything that identifies you.</p>
+<p><strong>No cookies.</strong> The site sets none. The measurement described
+below is cookieless and stores nothing in your browser.</p>
+<p><strong>Analytics.</strong> The site uses Cloudflare Web Analytics to count
+visits. It runs without cookies and without storing anything in your browser
+&mdash; no cookies, no local storage &mdash; and it does not follow you to other
+sites. It exists so the site&rsquo;s operator can see whether anyone is visiting,
+nothing more.</p>
+{{- else -}}
+<p>The short version: this site does not collect anything about you.</p>
+<p><strong>No cookies.</strong> The site sets none.</p>
+<p><strong>No analytics.</strong> There is no tracking script, no pixel, no
+third-party measurement of any kind running today. If that changes, this page
+changes with it.</p>
+{{- end -}}

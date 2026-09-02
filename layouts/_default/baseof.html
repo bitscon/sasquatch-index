@@ -37,5 +37,11 @@
     {{ end }}
   </p>
 </footer>
+{{/* Cloudflare Web Analytics — cookieless, stores nothing in the browser.
+     Emitted only when the token is set in hugo.toml. The privacy page reads
+     the same value, so the script and the stated policy switch together. */}}
+{{ with site.Params.cloudflareAnalyticsToken }}
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ . }}"}'></script>
+{{ end }}
 </body>
 </html>

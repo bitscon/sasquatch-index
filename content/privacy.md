@@ -3,12 +3,7 @@ title: "Privacy"
 layout: prose
 ---
 
-The short version: this site does not collect anything about you.
-
-**No cookies.** The site sets none.
-
-**No analytics.** There is no tracking script, no pixel, no third-party
-measurement of any kind running today. If that changes, this page changes with it.
+{{< analytics-privacy >}}
 
 **No accounts, no forms.** There is nothing to sign up for and nowhere to enter
 personal information, so none is stored.
