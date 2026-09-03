@@ -1,6 +1,10 @@
 # Handoff — Phase 2 (partial) — 2026-09-02
 
 ## What was completed
+- **The Awin application was submitted by the owner on 2026-09-02** — awaiting
+  approval. Answers used are recorded in `APPLICATIONS.md`, including a
+  252-character site description for capped form fields. Rakuten and CJ not
+  yet applied to; the Cloudflare token not yet fetched.
 - Analytics is wired and proven, waiting only on a token. One value in the site
   configuration turns on Cloudflare Web Analytics — cookieless, nothing stored
   in the browser — and rewrites the privacy page to match in the same build.
@@ -22,9 +26,8 @@
   not flip with the analytics state), both fixed; wave 2 came back clean.
 
 ## What was NOT completed and why
-- The applications themselves and the Cloudflare token — keyboard work that
-  needs the owner's real account details. The packet exists so that work is
-  a single sitting.
+- Rakuten and CJ applications and the Cloudflare token — the owner paused
+  after submitting Awin; the packet makes the rest a single sitting.
 - No feed, so no catalogue. That is Phase 3 and it is gated on an approval.
 
 ## Current state of the system
