@@ -20,7 +20,13 @@ networks' own pages on 2026-09-02.
 https://bitscon.github.io/sasquatch-index/
 ```
 
-**Site description** (fits the usual "describe your site" box)
+**Site description, short** (for boxes capped at 255 characters — this is 252)
+
+```
+Sasquatch Index is a free reference site for men's shoes in size 13 and up: plain guides to sizing and widths, built to index styles across retailers by size and width, linking buyers straight to whoever stocks them. Nothing is sold on the site itself.
+```
+
+**Site description, full** (fits the usual "describe your site" box)
 
 ```
 Sasquatch Index is a free reference site for men's shoes in size 13 and up.
