@@ -108,6 +108,11 @@ can tell "no feed yet" apart from "feed ran, found nothing".
   Awin or apply to Rakuten now — was answered: apply to Rakuten now.
 
 ## Recommended next session
+- **Before starting, pull the latest and open the live site first.** On
+  2026-09-03 two sessions worked this same phase at the same time and did the
+  same work twice — one shipped, the other was redundant and thrown away. This
+  project moves fast between sittings; confirm what is already done and live
+  before redoing anything. Run one live session per phase.
 - Phase 2 (still open): enter the Cloudflare token once you have it, record which
   networks approved — Awin and now Rakuten are both expected to be in flight —
   and take feed access from the first one that does.
