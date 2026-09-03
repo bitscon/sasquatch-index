@@ -79,6 +79,11 @@ data and configuration states.
 - The problems the reviewers found in older parts of the site were registered
   below rather than fixed in this session, to keep the change to what was asked
   for. They are listed in the order they should be dealt with.
+- Apply to Rakuten now rather than waiting on Awin, so two applications are in
+  flight at once (owner's decision, 2026-09-03). `APPLICATIONS.md` now carries a
+  Rakuten step-by-step, checked against Rakuten's own publisher help centre the
+  same day. The application itself is the owner's to submit — it needs tax
+  details, a mailing address and acceptance of terms in his name.
 
 ## Registered for Phase 3 — found by review, deliberately not fixed here
 None of these can affect the site today. All of them can bite the moment a real
@@ -99,14 +104,13 @@ fixed in this session. Have the feed importer record that it ran, so the pages
 can tell "no feed yet" apart from "feed ran, found nothing".
 
 ## Open questions for the owner
-- Awin has been pending since 2026-09-02. Do you want to give it a few more days,
-  or apply to Rakuten now so two applications are in flight at once? Rakuten is
-  free, takes no deposit, and carries Zappos — the most on-theme merchant on the
-  list.
+- Nothing outstanding. The one question raised this session — whether to wait on
+  Awin or apply to Rakuten now — was answered: apply to Rakuten now.
 
 ## Recommended next session
 - Phase 2 (still open): enter the Cloudflare token once you have it, record which
-  networks approved, and take feed access from the first one that does.
+  networks approved — Awin and now Rakuten are both expected to be in flight —
+  and take feed access from the first one that does.
 - Gate that must be met first: at least one network approved, with feed access.
   `APPLICATIONS.md` is the keyboard packet — apply order, paste-ready answers,
   the width-check gate to run on any feed before committing to it, and the steps
