@@ -1,10 +1,34 @@
 {{ define "main" }}
 {{/* The visitor's question is "where do I get these, in my size, right now."
      So the sizes are the first thing on the page. No preamble (section 2a). */}}
+{{ $sizes := where site.RegularPages "Params.size" "!=" nil }}
+
+{{ with $sizes }}
 <h1>Pick your size</h1>
 <div class="sizes">
-  {{ range (where site.RegularPages "Params.size" "!=" nil).ByTitle }}
+  {{ range .ByTitle }}
     <a href="{{ .RelPermalink }}">{{ .Params.size }}</a>
   {{ end }}
 </div>
+{{ else }}
+{{/* No size page was generated. An empty size grid under "Pick your size" reads
+     as a broken page; state the position plainly and lead with the reference
+     layer, which is finished and useful today (SASQUATCH_OS.md sections 2b
+     and 6). The reason is derived from the data, never hard-coded: no feed at
+     all, or a feed whose products do not yet clear the section 5a threshold. */}}
+<h1>Shoes in size 13 and up</h1>
+{{ if site.Data.products.products }}
+<p>Size listings are generated from retailer product feeds. No size has enough
+listings yet to be worth a page of its own. The guides below are finished and
+free to use.</p>
+{{ else }}
+<p>Size listings are generated from retailer product feeds. No feed is connected
+yet. The guides below are finished and free to use.</p>
+{{ end }}
+<ul>
+  {{ range slice "/shoes/sizing" "/shoes/widths" }}
+    {{ with site.GetPage . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}
+  {{ end }}
+</ul>
+{{ end }}
 {{ end }}

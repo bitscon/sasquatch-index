@@ -2,48 +2,34 @@
 #
 # One record per product. Every field below comes from SASQUATCH_OS.md section 5b.
 #
-# PLACEHOLDER DATA ONLY. These three records exist to prove the site builds.
-# Real curation is Phase 1.
+# EMPTY ON PURPOSE. The three placeholder records that proved the build were
+# removed on 2026-09-03, before the affiliate networks review the site: they
+# linked to example.com, which reads as an unfinished site rather than an honest
+# one. They remain in git history. Until a real feed is connected (Phase 3) the
+# site is a reference site, and the templates say so on every page rather than
+# rendering an empty size grid.
+#
+# Records arrive from an affiliate product feed only — never by hand, never
+# scraped (SASQUATCH_OS.md constraint 2).
 #
 # product_type: always "shoes" today. This field is what lets apparel join
 # later without disturbing any existing URL. Do not remove it.
 #
 # fit_notes: optional, and normally empty. The owner is not a content source
 # (SASQUATCH_OS.md section 2b). Never write invented first-hand experience here.
+#
+# The shape of one record, for whoever wires up the feed:
+#
+#   - product_type: shoes
+#     brand: ""
+#     style_name: ""
+#     category: ""          # sneakers, clogs, boots, dress, sandals, ...
+#     sizes: []             # numbers, e.g. [13, 14, 15]
+#     widths: []            # medium, wide, extra-wide, ...
+#     attributes: []        # waterproof, slip-resistant, ...
+#     retailer: ""
+#     link: ""
+#     image: ""
+#     fit_notes: ""
 
-products:
-  - product_type: shoes
-    brand: Placeholder Brand
-    style_name: Placeholder Trail Runner
-    category: running-shoes
-    sizes: [13, 14, 15, 16]
-    widths: [medium, wide]
-    attributes: [waterproof]
-    retailer: Placeholder Retailer
-    link: https://example.com/placeholder-trail-runner
-    image: ""
-    fit_notes: ""
-
-  - product_type: shoes
-    brand: Placeholder Brand
-    style_name: Placeholder Clog
-    category: clogs
-    sizes: [14, 15, 16, 17]
-    widths: [wide, extra-wide]
-    attributes: [slip-resistant]
-    retailer: Placeholder Retailer
-    link: https://example.com/placeholder-clog
-    image: ""
-    fit_notes: ""
-
-  - product_type: shoes
-    brand: Second Placeholder Brand
-    style_name: Placeholder Work Boot
-    category: boots
-    sizes: [15, 16, 17, 18]
-    widths: [wide]
-    attributes: [waterproof, slip-resistant]
-    retailer: Second Placeholder Retailer
-    link: https://example.com/placeholder-work-boot
-    image: ""
-    fit_notes: ""
+products: []

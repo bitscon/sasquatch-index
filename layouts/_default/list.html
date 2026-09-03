@@ -1,8 +1,40 @@
 {{ define "main" }}
 <h1>{{ .Title }}</h1>
+
+{{/* Two kinds of page live under this section: the size pages generated from
+     the data file, which are chips showing the size, and the written guides,
+     which are ordinary links. Running both through the chip loop rendered the
+     guides with no link text at all, because a guide has no size to print. */}}
+{{ $sizes := where .Pages "Params.size" "!=" nil }}
+{{ $guides := where .Pages "Params.size" "==" nil }}
+
+{{ with $sizes }}
 <div class="sizes">
-  {{ range .Pages.ByTitle }}
+  {{ range .ByTitle }}
     <a href="{{ .RelPermalink }}">{{ .Params.size }}</a>
   {{ end }}
 </div>
+{{ else }}
+{{/* No size page was generated. Say why, plainly, rather than showing an empty
+     size grid (SASQUATCH_OS.md sections 2b and 6 — never imply coverage that is
+     not there). There are two different reasons for it and they must not be
+     confused: no feed at all, or a feed whose products do not yet clear the
+     per-page threshold in section 5a. Deriving the sentence from the data means
+     the page cannot claim the wrong one. */}}
+{{ if site.Data.products.products }}
+<p>Size listings are generated from retailer product feeds. No size has enough
+listings yet to be worth a page of its own.</p>
+{{ else }}
+<p>Size listings are generated from retailer product feeds. No feed is connected
+yet, so there are no size listings.</p>
+{{ end }}
+{{ end }}
+
+{{ with $guides }}
+<ul>
+  {{ range .ByTitle }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+  {{ end }}
+</ul>
+{{ end }}
 {{ end }}
