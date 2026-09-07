@@ -7,6 +7,9 @@
 - **The five feed hazards are now durable in the repo** at `FEED_HAZARDS.md`
   (repo root), to be read alongside `SASQUATCH_OS.md` before any feed is wired.
   Notes only, outside published content — live site and deploy untouched.
+- **Analytics turned on.** The owner supplied the Cloudflare token; set it in
+  hugo.toml, pushed, deploy went green, and the live site now emits the
+  cookieless beacon with the privacy page disclosing it. Verified live.
 - **CORRECTED A FALSE RECORD: Awin approved the application on 2026-09-03.** The
   approval, a welcome message, and an email-validation notice have sat unread in
   chad@bitscon.net since then. Prior sessions reported "no approvals" because
@@ -23,8 +26,8 @@
 
 ## Current state of the system
 - Site up at https://bitscon.github.io/sasquatch-index/ as an honest reference
-  site with no listings; publish job working on every push; analytics wired but
-  dormant; no cookies, no affiliate links, no outbound retailer links; privacy
+  site with no listings; publish job working on every push; cookieless Cloudflare Web Analytics LIVE as of 2026-09-07 (token in
+  hugo.toml, privacy page flipped to disclose it in the same build); no cookies, no affiliate links, no outbound retailer links; privacy
   and disclosure pages accurate. Live behaviour unchanged.
 - **Applications: Awin APPROVED 2026-09-03** (decision in chad@bitscon.net).
   There is also an Awin "email validation" notice in that inbox — the account
