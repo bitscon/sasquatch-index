@@ -28,9 +28,12 @@
   site with no listings; publish job working on every push; analytics wired but
   dormant; no cookies, no affiliate links, no outbound retailer links; privacy
   and disclosure pages accurate. Unchanged live behaviour from 2026-09-04.
-- Applications: Awin submitted 2026-09-02, decision pending — watch the mailbox
-  the application was filed under, not this workspace's connected one. Rakuten
-  not yet submitted (owner directed 2026-09-03 to apply; step-by-step in
+- Applications: Awin submitted 2026-09-02, decision pending. **The application
+  was filed under chad@bitscon.net (owner-confirmed 2026-09-07). That mailbox is
+  not connected to this workspace — the connected mailbox is a different address
+  and will never receive the Awin decision.** The owner watches chad@bitscon.net
+  himself; no session should search the connected mailbox for Awin mail again.
+  Rakuten not yet submitted (owner directed 2026-09-03 to apply; step-by-step in
   APPLICATIONS.md). CJ deliberately deferred.
 - Feed guardrails: the five hazards are now in `FEED_HAZARDS.md` at the repo
   root. They must be honoured before the first feed goes in.
@@ -42,9 +45,8 @@
   the owner's to do at a keyboard.
 
 ## Open questions for the owner
-- Which email address did you file the Awin application under? Say it once and
-  the next session can record where the approval will arrive and stop checking
-  the wrong mailbox.
+- Nothing outstanding. The standing Awin-mailbox question is resolved: it was
+  filed under chad@bitscon.net, which the owner watches himself.
 
 ## Recommended next session
 - **Before starting, pull the latest and open the live site first** — the
