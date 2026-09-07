@@ -1,64 +1,63 @@
-# Handoff — Phase 2 (partial) — 2026-09-06
+# Handoff — Phase 2 (partial) — 2026-09-07
 
 ## What was completed
-- **The start-of-session duplicate check ran clean.** Fetched the repo and
-  opened the live site before touching anything. The repo matches GitHub
-  exactly, the working tree is clean, and the live site still shows the honest
-  no-listings home and shoes pages leading with the sizing and widths guides.
-  Nothing was redone. Only one session worked this phase this time.
-- **The five feed hazards are now durable in the repo.** They previously lived
-  only in git history, one bad pull away from being lost. They now sit in a
-  plain guardrails file at the repo root, `FEED_HAZARDS.md`, to be read
-  alongside `SASQUATCH_OS.md` before any feed is wired. The file is notes only
-  — it is outside the published site content, so the live site and its
-  automatic deploy are untouched.
+- **The start-of-session duplicate check ran clean.** Repo matched GitHub, tree
+  clean, live site unchanged (honest no-listings home and shoes pages leading
+  with the sizing and widths guides). One session on this phase.
+- **The five feed hazards are now durable in the repo** at `FEED_HAZARDS.md`
+  (repo root), to be read alongside `SASQUATCH_OS.md` before any feed is wired.
+  Notes only, outside published content — live site and deploy untouched.
+- **CORRECTED A FALSE RECORD: Awin approved the application on 2026-09-03.** The
+  approval, a welcome message, and an email-validation notice have sat unread in
+  chad@bitscon.net since then. Prior sessions reported "no approvals" because
+  they searched only the phone-app Gmail mailbox (tgfw17@gmail.com); the Awin
+  application was filed under chad@bitscon.net, which is a separate mailbox this
+  workspace reaches by read-only IMAP. Verified 2026-09-07 by reading that
+  mailbox directly.
 
 ## What was NOT completed and why
-- **Phase 2 did not close.** The gate is a network approval plus a usable feed.
-  As of this session there is no Cloudflare token, no approvals, and no feed —
-  the three moves are all the owner's keyboard tasks and nothing in the repo
-  blocks them.
-- **No site change was made.** With no token and no feed there was nothing to
-  wire; the only change this session is the guardrails document.
-- **No Phase 3 kickoff prompt was written.** It would be guessing at a feed
-  that does not exist yet.
+- **Phase 2 did not close.** The gate is two things: a network approved AND a
+  usable feed. The first is now met (Awin). The second is not — no product feed
+  has been pulled or checked yet. No feed means nothing to wire.
+- **No Phase 3 kickoff prompt was written** — still no real feed to describe.
 
 ## Current state of the system
 - Site up at https://bitscon.github.io/sasquatch-index/ as an honest reference
   site with no listings; publish job working on every push; analytics wired but
   dormant; no cookies, no affiliate links, no outbound retailer links; privacy
-  and disclosure pages accurate. Unchanged live behaviour from 2026-09-04.
-- Applications: Awin submitted 2026-09-02, decision pending. **The application
-  was filed under chad@bitscon.net (owner-confirmed 2026-09-07). That mailbox is
-  not connected to this workspace — the connected mailbox is a different address
-  and will never receive the Awin decision.** The owner watches chad@bitscon.net
-  himself; no session should search the connected mailbox for Awin mail again.
-  Rakuten not yet submitted (owner directed 2026-09-03 to apply; step-by-step in
-  APPLICATIONS.md). CJ deliberately deferred.
-- Feed guardrails: the five hazards are now in `FEED_HAZARDS.md` at the repo
-  root. They must be honoured before the first feed goes in.
+  and disclosure pages accurate. Live behaviour unchanged.
+- **Applications: Awin APPROVED 2026-09-03** (decision in chad@bitscon.net).
+  There is also an Awin "email validation" notice in that inbox — the account
+  may need that click before its feed tools are fully usable; the owner should
+  confirm. Rakuten still not submitted (owner directed 2026-09-03 to apply;
+  step-by-step in APPLICATIONS.md). CJ deliberately deferred.
+- **Mailbox access clarified:** this workspace monitors three mailboxes
+  read-only — tgfw17@gmail.com, billybs@billybs.net, chad@bitscon.net. Network
+  decisions land in chad@bitscon.net and are now visible to future sessions.
+- Feed guardrails live in `FEED_HAZARDS.md`; honour them before the first feed.
 
 ## Decisions made this session
-- With all three inputs absent (token, approvals, feed), the session did the one
-  thing that did not need the owner: made the feed hazards durable in the repo
-  rather than leaving them in git history. Everything else that moves Phase 2 is
-  the owner's to do at a keyboard.
+- Made the feed hazards durable rather than leaving them in git history.
+- Corrected the standing "no approvals" conclusion once chad@bitscon.net was
+  read directly. The earlier conclusion was wrong because of which mailbox was
+  searched, not because the approval was late.
 
 ## Open questions for the owner
-- Nothing outstanding. The standing Awin-mailbox question is resolved: it was
-  filed under chad@bitscon.net, which the owner watches himself.
+- Do you want to log into the Awin publisher dashboard and join a size-13-and-up
+  shoe advertiser so a product feed can be generated? That feed is the only
+  thing still holding Phase 2 open.
 
 ## Recommended next session
 - **Before starting, pull the latest and open the live site first** — the
-  duplicate-work check stays standing; it costs seconds and has caught a
-  collision before. One live session per phase.
-- Phase 2 (still open). It moves only on the owner's three keyboard tasks, in
-  any order, all in APPLICATIONS.md: fetch the Cloudflare token (five minutes,
-  starts the traffic clock), submit the Rakuten application, and watch the Awin
-  inbox. The next session enters the token if it exists, records approvals, and
-  runs the size-and-width gate on the first feed offered — checking it against
-  `FEED_HAZARDS.md` before wiring anything.
-- Gate that must be met first: at least one network approved, with feed access
-  that carries structured sizes plus a separate width field.
-- Risk: Medium — unchanged; thin sites get rejected, and the site stays small
-  until a feed arrives.
+  duplicate-work check stays standing.
+- Phase 2 (still open, half the gate met). What moves it now: log into the Awin
+  publisher account, join a shoe merchant carrying size 13 and up, generate a
+  product feed with Awin's Create-a-Feed tool, then run it against the
+  size-and-width check in APPLICATIONS.md and the hazards in FEED_HAZARDS.md. A
+  feed that carries structured sizes plus a separate width field closes Phase 2;
+  the next session then delivers the Phase 3 kickoff. Awin login is the owner's
+  keyboard task unless credentials are stored for the session.
+- Gate that must be met first: one usable feed (structured sizes + separate
+  width field). Network approval is already met.
+- Risk: Medium — unchanged; a real feed still has to pass the size-and-width and
+  hazard checks, and merchants screen small sites.

@@ -8,7 +8,7 @@ networks' own pages on 2026-09-02.
 
 | # | Network | Why this one | Cost to join | Status |
 |---|---|---|---|---|
-| 1 | Awin — https://www.awin.com | Largest feed-driven network; absorbed ShareASale. Product feeds come with approval via its Create-a-Feed tool | Small refundable card deposit (currently $5), a verification step | **Submitted 2026-09-02** — awaiting approval |
+| 1 | Awin — https://www.awin.com | Largest feed-driven network; absorbed ShareASale. Product feeds come with approval via its Create-a-Feed tool | Small refundable card deposit (currently $5), a verification step | **Approved 2026-09-03** (decision landed in chad@bitscon.net) |
 | 2 | Rakuten Advertising — https://rakutenadvertising.com | Carries Zappos, the single most on-theme merchant for big and wide sizes. Open network; no screening at signup, merchants screen individually | Free | **Owner applying — directed 2026-09-03.** Step-by-step below |
 | 3 | CJ — https://www.cj.com | Broad merchant base, a solid second feed source. Note: accounts with no results in the first 6 months can be deactivated, so join it when ready to use it | Free | Not yet applied |
 
