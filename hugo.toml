@@ -17,4 +17,4 @@ disableKinds = ["taxonomy", "term", "rss"]
   # emitted AND the privacy page states that no analytics runs. Setting it
   # turns on the (cookieless) beacon and flips the privacy wording to match —
   # one value, both surfaces, never out of step.
-  cloudflareAnalyticsToken = ""
+  cloudflareAnalyticsToken = "e1d400ad1b2744a8ae7b7bc369558309"
