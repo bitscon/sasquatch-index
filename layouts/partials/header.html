@@ -1,0 +1,24 @@
+{{/* Wordmark: ascending bars (the size range) plus the name in mono uppercase.
+     The nav only appears on desktop; on a phone the header stays out of the way
+     and the page itself is the navigation. */}}
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="{{ site.Home.RelPermalink }}">
+      <svg width="20" height="16" viewBox="0 0 20 16" style="color: var(--accent)" aria-hidden="true" focusable="false">
+        <rect x="0"  y="10" width="4" height="6"  rx="1" fill="currentColor"></rect>
+        <rect x="5.5" y="6"  width="4" height="10" rx="1" fill="currentColor"></rect>
+        <rect x="11" y="3"  width="4" height="13" rx="1" fill="currentColor"></rect>
+        <rect x="16.5" y="0" width="3.5" height="16" rx="1" fill="currentColor"></rect>
+      </svg>
+      <span>Sasquatch Index</span>
+    </a>
+    {{/* Short labels on purpose: the page titles are written for search, which
+         makes them too long to scan in a nav bar. */}}
+    <nav class="site-nav">
+      {{ range slice (dict "p" "/shoes" "label" "By size") (dict "p" "/shoes/sizing" "label" "Sizing") (dict "p" "/shoes/widths" "label" "Widths") }}
+        {{ $label := .label }}
+        {{ with site.GetPage .p }}<a href="{{ .RelPermalink }}">{{ $label }}</a>{{ end }}
+      {{ end }}
+    </nav>
+  </div>
+</header>

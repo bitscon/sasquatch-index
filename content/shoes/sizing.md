@@ -1,6 +1,7 @@
 ---
 title: "Shoe sizing past size 13"
 layout: prose
+description: "US, UK and EU conversions past size 13, and where the common charts disagree."
 ---
 
 Sizes above 13 are where conversion charts start disagreeing with each other. The

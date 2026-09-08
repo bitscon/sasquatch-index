@@ -1,15 +1,40 @@
 {{ define "main" }}
 {{/* The visitor's question is "where do I get these, in my size, right now."
      So the sizes are the first thing on the page. No preamble (section 2a). */}}
+{{ $products := site.Data.products.products }}
 {{ $sizes := where site.RegularPages "Params.size" "!=" nil }}
+{{ $guides := where (where site.RegularPages "Section" "shoes") "Params.size" "==" nil }}
 
 {{ with $sizes }}
 <h1>Pick your size</h1>
-<div class="sizes">
+<div class="size-grid">
   {{ range .ByTitle }}
-    <a href="{{ .RelPermalink }}">{{ .Params.size }}</a>
+    {{ $n := len (where $products "sizes" "intersect" (slice .Params.size)) }}
+    <a class="size-card" href="{{ .RelPermalink }}">
+      <span class="n">{{ .Params.size }}</span>
+      <span class="c">{{ $n }} style{{ if ne $n 1 }}s{{ end }}</span>
+    </a>
   {{ end }}
 </div>
+
+{{/* Widths and features only become chips once a page actually exists behind
+     them. A chip that leads nowhere is worse than no chip (section 2a). */}}
+{{ $chips := slice }}
+{{ range $products }}
+  {{ range .widths }}{{ $chips = $chips | append . }}{{ end }}
+  {{ range .attributes }}{{ $chips = $chips | append . }}{{ end }}
+{{ end }}
+{{ $live := slice }}
+{{ range ($chips | uniq | sort) }}
+  {{ with site.GetPage (printf "/shoes/%s" (urlize .)) }}{{ $live = $live | append . }}{{ end }}
+{{ end }}
+{{ with $live }}
+<p class="section-label">Or start from</p>
+<div class="chips">
+  {{ range . }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
+</div>
+{{ end }}
+
 {{ else }}
 {{/* No size page was generated. An empty size grid under "Pick your size" reads
      as a broken page; state the position plainly and lead with the reference
@@ -17,18 +42,23 @@
      and 6). The reason is derived from the data, never hard-coded: no feed at
      all, or a feed whose products do not yet clear the section 5a threshold. */}}
 <h1>Shoes in size 13 and up</h1>
-{{ if site.Data.products.products }}
-<p>Size listings are generated from retailer product feeds. No size has enough
-listings yet to be worth a page of its own. The guides below are finished and
-free to use.</p>
-{{ else }}
-<p>Size listings are generated from retailer product feeds. No feed is connected
-yet. The guides below are finished and free to use.</p>
+<p class="status">
+  {{ if $products }}No size has enough listings for a page yet{{ else }}No retailer feed connected yet{{ end }}
+</p>
+<p class="lede">Size listings are generated from retailer product feeds. The
+guides below are finished, factual and free to use today.</p>
 {{ end }}
-<ul>
-  {{ range slice "/shoes/sizing" "/shoes/widths" }}
-    {{ with site.GetPage . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}
+
+{{ with $guides }}
+<p class="section-label">The guides</p>
+<div class="cards">
+  {{ range .ByTitle }}
+    <a class="card" href="{{ .RelPermalink }}">
+      <h3>{{ .Title }}</h3>
+      {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+      <span class="go">Read the guide &rarr;</span>
+    </a>
   {{ end }}
-</ul>
+</div>
 {{ end }}
 {{ end }}

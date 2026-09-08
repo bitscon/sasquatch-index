@@ -4,39 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ if .IsHome }}{{ site.Title }} — {{ site.Params.tagline }}{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
-<style>
-  :root { color-scheme: light dark; }
-  body {
-    margin: 0 auto; padding: 1rem; max-width: 44rem;
-    font: 1rem/1.5 system-ui, -apple-system, sans-serif;
-  }
-  header { padding-bottom: .75rem; border-bottom: 1px solid; }
-  header a { font-weight: 700; text-decoration: none; }
-  h1 { font-size: 1.4rem; margin: 1rem 0; }
-  ul { list-style: none; padding: 0; }
-  li { padding: .75rem 0; border-bottom: 1px solid; }
-  .sizes a { display: inline-block; padding: .6rem .9rem; margin: 0 .4rem .4rem 0; border: 1px solid; border-radius: .4rem; text-decoration: none; }
-  .meta { font-size: .9rem; }
-  .summary { font-size: .95rem; padding: .6rem 0; border-bottom: 1px solid; }
-  table { border-collapse: collapse; width: 100%; }
-  th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid; }
-  footer a { margin-right: .9rem; }
-  footer { margin-top: 2rem; padding-top: .75rem; border-top: 1px solid; font-size: .9rem; }
-</style>
+<meta name="description" content="{{ if .IsHome }}{{ site.Params.tagline }}{{ else }}{{ with .Params.description }}{{ . }}{{ else }}{{ .Title }} — {{ site.Params.tagline }}{{ end }}{{ end }}">
+{{/* Type is served from this site, not from a font network. That is what keeps
+     the privacy page true: no third-party request, nothing to disclose. */}}
+{{ $sans := "fonts/ibm-plex-sans-latin-400-normal.woff2" }}
+{{ $mono := "fonts/ibm-plex-mono-latin-600-normal.woff2" }}
+<link rel="preload" href="{{ $sans | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ $mono | relURL }}" as="font" type="font/woff2" crossorigin>
+{{ with resources.Get "css/site.css" }}
+  {{ $css := . | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ end }}
 </head>
 <body>
-<header><a href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a></header>
-<main>{{ block "main" . }}{{ end }}</main>
-<footer>
-  <p>{{ site.Params.tagline }}</p>
-  <p>
-    {{/* Looked up as pages so the address always carries the site's base path
-         and the link text stays in step with the page title. */}}
-    {{ range slice "/shoes/sizing" "/shoes/widths" "/disclosure" "/privacy" }}
-      {{ with site.GetPage . }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
-    {{ end }}
-  </p>
-</footer>
+{{ partial "header.html" . }}
+<main><div class="wrap">{{ block "main" . }}{{ end }}</div></main>
+{{ partial "footer.html" . }}
 {{/* Cloudflare Web Analytics — cookieless, stores nothing in the browser.
      Emitted only when the token is set in hugo.toml. The privacy page reads
      the same value, so the script and the stated policy switch together. */}}

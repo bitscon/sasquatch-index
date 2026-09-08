@@ -1,17 +1,23 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
+{{ $products := site.Data.products.products }}
 
 {{/* Two kinds of page live under this section: the size pages generated from
-     the data file, which are chips showing the size, and the written guides,
-     which are ordinary links. Running both through the chip loop rendered the
-     guides with no link text at all, because a guide has no size to print. */}}
+     the data file, and the written guides. They are rendered differently — a
+     size is a card in the grid, a guide is a card with a sentence. */}}
 {{ $sizes := where .Pages "Params.size" "!=" nil }}
 {{ $guides := where .Pages "Params.size" "==" nil }}
 
+<p class="breadcrumb"><a href="{{ site.Home.RelPermalink }}">Home</a><span>/</span>{{ .Title }}</p>
+<h1>{{ .Title }}</h1>
+
 {{ with $sizes }}
-<div class="sizes">
+<div class="size-grid">
   {{ range .ByTitle }}
-    <a href="{{ .RelPermalink }}">{{ .Params.size }}</a>
+    {{ $n := len (where $products "sizes" "intersect" (slice .Params.size)) }}
+    <a class="size-card" href="{{ .RelPermalink }}">
+      <span class="n">{{ .Params.size }}</span>
+      <span class="c">{{ $n }} style{{ if ne $n 1 }}s{{ end }}</span>
+    </a>
   {{ end }}
 </div>
 {{ else }}
@@ -21,20 +27,23 @@
      confused: no feed at all, or a feed whose products do not yet clear the
      per-page threshold in section 5a. Deriving the sentence from the data means
      the page cannot claim the wrong one. */}}
-{{ if site.Data.products.products }}
-<p>Size listings are generated from retailer product feeds. No size has enough
-listings yet to be worth a page of its own.</p>
-{{ else }}
-<p>Size listings are generated from retailer product feeds. No feed is connected
-yet, so there are no size listings.</p>
-{{ end }}
+<p class="status">
+  {{ if $products }}No size has enough listings for a page yet{{ else }}No retailer feed connected yet{{ end }}
+</p>
+<p class="lede">Size listings are generated from retailer product feeds, so they
+appear here as soon as a feed is connected.</p>
 {{ end }}
 
 {{ with $guides }}
-<ul>
+<p class="section-label">The guides</p>
+<div class="cards">
   {{ range .ByTitle }}
-    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    <a class="card" href="{{ .RelPermalink }}">
+      <h3>{{ .Title }}</h3>
+      {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+      <span class="go">Read the guide &rarr;</span>
+    </a>
   {{ end }}
-</ul>
+</div>
 {{ end }}
 {{ end }}

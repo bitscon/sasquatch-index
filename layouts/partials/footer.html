@@ -1,0 +1,30 @@
+{{/* The counts line is computed at build time from the data file — never typed,
+     never estimated. With no feed connected it says so plainly rather than
+     printing zeros that read as breakage (SASQUATCH_OS.md sections 2b and 6). */}}
+{{ $products := site.Data.products.products }}
+{{ $sizePages := where site.RegularPages "Params.size" "!=" nil }}
+{{ $guides := where (where site.RegularPages "Section" "shoes") "Params.size" "==" nil }}
+{{ $retailers := slice }}
+{{ range $products }}{{ $retailers = $retailers | append .retailer }}{{ end }}
+{{ $retailers = $retailers | uniq }}
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="counts">
+      {{ if $products }}
+        {{ len $products }} style{{ if ne (len $products) 1 }}s{{ end }} ·
+        {{ len $retailers }} retailer{{ if ne (len $retailers) 1 }}s{{ end }} ·
+        {{ len $sizePages }} size page{{ if ne (len $sizePages) 1 }}s{{ end }} ·
+      {{ else }}
+        No feed connected ·
+        {{ len $guides }} reference guide{{ if ne (len $guides) 1 }}s{{ end }} ·
+      {{ end }}
+      built {{ now.Format "2 Jan 2006" }}
+    </p>
+    <p class="tagline">{{ site.Params.tagline }}</p>
+    <nav>
+      {{ range slice "/shoes/sizing" "/shoes/widths" "/disclosure" "/privacy" }}
+        {{ with site.GetPage . }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
+      {{ end }}
+    </nav>
+  </div>
+</footer>

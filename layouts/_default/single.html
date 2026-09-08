@@ -17,31 +17,39 @@
 {{ $widths = $widths | uniq | sort }}
 {{ $cats = $cats | uniq | sort }}
 
+<p class="breadcrumb">
+  <a href="{{ site.Home.RelPermalink }}">Home</a><span>/</span>
+  {{ with site.GetPage "/shoes" }}<a href="{{ .RelPermalink }}">{{ .Title }}</a><span>/</span>{{ end }}
+  {{ .Title }}
+</p>
 <h1>{{ .Title }}</h1>
 
-<p class="summary">
-  {{ len $matches }} style{{ if ne (len $matches) 1 }}s{{ end }} ·
-  {{ len $retailers }} retailer{{ if ne (len $retailers) 1 }}s{{ end }} ·
-  {{ len $brands }} brand{{ if ne (len $brands) 1 }}s{{ end }}<br>
+<p class="facts">
+  <strong>{{ len $matches }}</strong> style{{ if ne (len $matches) 1 }}s{{ end }} ·
+  <strong>{{ len $retailers }}</strong> retailer{{ if ne (len $retailers) 1 }}s{{ end }} ·
+  <strong>{{ len $brands }}</strong> brand{{ if ne (len $brands) 1 }}s{{ end }}<br>
   Widths: {{ delimit $widths ", " }}<br>
   Types: {{ delimit $cats ", " }}
 </p>
 
 {{/* Availability is the product, so it is on the page, not behind a click
      (SASQUATCH_OS.md section 2a). */}}
-<ul>
+<ul class="rows">
   {{ range $matches }}
   <li>
-    <a href="{{ .link }}">{{ .brand }} {{ .style_name }}</a>
+    <div class="name">{{ .brand }} {{ .style_name }}</div>
     <div class="meta">
-      {{ .category }} · widths: {{ delimit .widths ", " }}
+      {{ .category }} · {{ delimit .widths ", " }}
       {{ with .attributes }} · {{ delimit . ", " }}{{ end }}
-      · at {{ .retailer }}
+      · {{ .retailer }}
     </div>
+    {{/* Affiliate links are marked as paid links for search engines, whether or
+         not the current feed pays anything. */}}
+    <a class="out" href="{{ .link }}" rel="sponsored nofollow noopener">View at {{ .retailer }} &rarr;</a>
     {{/* Optional and rarely present. Never prompted for, never flagged
          (SASQUATCH_OS.md section 2b). */}}
     {{ with .fit_notes }}
-      <div class="meta">{{ . }}</div>
+      <div class="note">{{ . }}</div>
     {{ end }}
   </li>
   {{ end }}

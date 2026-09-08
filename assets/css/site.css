@@ -1,0 +1,237 @@
+/* Sasquatch Index — the whole visual system, in one file.
+   Warm ground, ink text, one accent. Type is self-hosted (static/fonts) so the
+   privacy page stays true: the browser makes no third-party request.
+   Whitespace here is load-bearing (SASQUATCH_OS.md section 2a) — it is what
+   lets a visitor scan instead of read. Do not fill it. */
+
+@font-face {
+  font-family: "Plex Sans"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Plex Sans"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("../fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Plex Mono"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Plex Mono"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("../fonts/ibm-plex-mono-latin-600-normal.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: light;
+  --ground: #faf6f0;
+  --card: #fffdfa;
+  --ink: #201b15;
+  --muted: #6d6257;
+  --line: #e6dbcd;
+  --accent: #b2481c;
+  --accent-soft: #f6ebe2;
+  --radius: .7rem;
+  --sans: "Plex Sans", system-ui, -apple-system, sans-serif;
+  --mono: "Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 1.0625rem/1.6 var(--sans);
+  -webkit-text-size-adjust: 100%;
+}
+
+.wrap { width: 100%; max-width: 48rem; margin: 0 auto; padding: 0 1.15rem; }
+
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px;
+}
+
+/* ---- header ---------------------------------------------------------- */
+
+.site-header { border-bottom: 1px solid var(--line); background: var(--card); }
+.site-header .wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; min-height: 3.75rem; flex-wrap: wrap;
+}
+
+.wordmark {
+  display: inline-flex; align-items: center; gap: .55rem;
+  color: var(--ink); text-decoration: none;
+  font: 600 .82rem/1 var(--mono);
+  text-transform: uppercase; letter-spacing: .14em;
+}
+.wordmark svg { display: block; }
+
+.site-nav { display: none; gap: 1.35rem; font: 400 .85rem/1 var(--mono); letter-spacing: .04em; }
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a:hover { color: var(--accent); }
+
+/* ---- page furniture -------------------------------------------------- */
+
+main { display: block; padding: 1.75rem 0 3rem; }
+
+h1 { font-size: 1.75rem; line-height: 1.2; font-weight: 600; margin: 0 0 .6rem; letter-spacing: -.01em; }
+h2 { font-size: 1.2rem; font-weight: 600; margin: 2.25rem 0 .75rem; }
+h3 { font-size: 1.02rem; font-weight: 600; margin: 0 0 .3rem; }
+p { margin: 0 0 1rem; }
+
+.lede { color: var(--muted); font-size: 1.02rem; max-width: 34rem; }
+
+.breadcrumb {
+  font: 400 .75rem/1 var(--mono); letter-spacing: .06em;
+  color: var(--muted); margin: 0 0 1.1rem;
+}
+.breadcrumb a { color: var(--muted); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { padding: 0 .45rem; opacity: .55; }
+
+/* One honest line about what the site can and cannot show today. */
+.status {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font: 400 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .1em;
+  color: var(--muted); background: var(--accent-soft);
+  border-radius: 999px; padding: .45rem .8rem; margin-bottom: 1.35rem;
+}
+.status::before {
+  content: ""; width: .45rem; height: .45rem; border-radius: 50%;
+  background: var(--accent); flex: none;
+}
+
+/* Computed facts, derived at build time. Never written by hand. */
+.facts {
+  font: 400 .78rem/1.7 var(--mono); color: var(--muted);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: .8rem 0; margin: 0 0 1.6rem;
+}
+.facts strong { color: var(--ink); font-weight: 600; }
+
+.section-label {
+  font: 600 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .12em;
+  color: var(--muted); margin: 2rem 0 .85rem;
+}
+
+/* ---- size grid ------------------------------------------------------- */
+
+.size-grid {
+  display: grid; gap: .65rem;
+  grid-template-columns: repeat(auto-fill, minmax(6.25rem, 1fr));
+  margin: 0 0 1.5rem;
+}
+.size-card {
+  display: block; background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: .85rem .9rem; text-decoration: none;
+  color: var(--ink);
+}
+.size-card:hover { border-color: var(--accent); }
+.size-card .n { display: block; font: 600 1.35rem/1.1 var(--mono); }
+.size-card .c { display: block; margin-top: .3rem; font-size: .78rem; color: var(--muted); }
+
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.5rem; }
+.chips a {
+  display: inline-block; border: 1px solid var(--line); background: var(--card);
+  border-radius: 999px; padding: .45rem .85rem; text-decoration: none;
+  color: var(--ink); font: 400 .82rem/1.2 var(--mono);
+}
+.chips a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---- cards ----------------------------------------------------------- */
+
+.cards { display: grid; gap: .9rem; margin: 0 0 1.5rem; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 1.15rem 1.2rem; text-decoration: none; color: var(--ink); display: block;
+}
+.card:hover { border-color: var(--accent); }
+.card p { color: var(--muted); font-size: .92rem; margin: 0 0 .7rem; }
+.card .go { font: 600 .8rem/1 var(--mono); color: var(--accent); letter-spacing: .04em; }
+
+/* ---- listing rows ---------------------------------------------------- */
+
+.rows { list-style: none; margin: 0; padding: 0; }
+.rows li { border-bottom: 1px solid var(--line); padding: 1.05rem 0; }
+.rows .name { font-weight: 600; font-size: 1.02rem; margin: 0 0 .25rem; }
+.rows .meta { color: var(--muted); font: 400 .82rem/1.5 var(--mono); }
+.rows .note { color: var(--muted); font-size: .9rem; margin-top: .35rem; }
+.rows .out {
+  display: inline-block; margin-top: .6rem; text-decoration: none;
+  font: 600 .82rem/1 var(--mono); color: var(--accent); letter-spacing: .03em;
+  border: 1px solid var(--line); border-radius: .55rem; padding: .6rem .8rem;
+  background: var(--card);
+}
+.rows .out:hover { border-color: var(--accent); }
+
+/* ---- prose (the written guides and the legal pages) ------------------ */
+
+.prose { max-width: 36rem; }
+.prose h2 { border-top: 1px solid var(--line); padding-top: 1.6rem; }
+.prose strong { font-weight: 600; }
+
+.prose table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); overflow: hidden; margin: 0 0 1.4rem;
+  font-size: .95rem;
+}
+.prose th {
+  text-align: left; background: var(--accent-soft); color: var(--muted);
+  font: 600 .7rem/1 var(--mono); text-transform: uppercase; letter-spacing: .09em;
+  padding: .7rem .85rem;
+}
+.prose td { padding: .6rem .85rem; border-top: 1px solid var(--line); }
+.prose td:first-child { font-family: var(--mono); font-size: .9rem; }
+
+.prose ul { list-style: none; padding: 0; margin: 0 0 1.2rem; }
+.prose ul li { position: relative; padding-left: 1.4rem; margin-bottom: .5rem; }
+.prose ul li::before {
+  content: "—"; position: absolute; left: 0; top: 0; color: var(--accent);
+}
+
+.button {
+  display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
+  border-radius: .6rem; padding: .8rem 1.15rem; font: 600 .88rem/1 var(--sans);
+  margin-top: .5rem;
+}
+.button:hover { background: #9b3d17; }
+
+/* ---- footer ---------------------------------------------------------- */
+
+.site-footer {
+  border-top: 1px solid var(--line); background: var(--card);
+  padding: 1.6rem 0 2.4rem; color: var(--muted); font-size: .9rem;
+}
+.site-footer .tagline { margin: 0 0 .9rem; max-width: 30rem; }
+.site-footer .counts {
+  font: 400 .74rem/1.6 var(--mono); text-transform: uppercase; letter-spacing: .08em;
+  margin: 0 0 .9rem;
+}
+.site-footer nav { display: flex; flex-wrap: wrap; gap: .35rem 1.25rem; }
+.site-footer nav a { color: var(--muted); text-decoration: none; font-size: .88rem; }
+.site-footer nav a:hover { color: var(--accent); }
+
+/* ---- desktop --------------------------------------------------------- */
+
+@media (min-width: 46rem) {
+  body { font-size: 1.0625rem; }
+  .wrap { max-width: 54rem; padding: 0 2rem; }
+  .site-header .wrap { min-height: 4.25rem; }
+  .site-nav { display: flex; }
+  main { padding: 2.5rem 0 4rem; }
+  h1 { font-size: 2.15rem; }
+  .size-grid { grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); gap: .8rem; }
+  .cards { grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+
+  /* Listing rows spread into columns: what it is, what it comes in, where to get it. */
+  .rows li {
+    display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) auto;
+    align-items: center; gap: 1.5rem;
+  }
+  .rows .meta { font-size: .8rem; }
+  .rows .out { margin-top: 0; justify-self: end; }
+  .rows .note { grid-column: 1 / -1; }
+}

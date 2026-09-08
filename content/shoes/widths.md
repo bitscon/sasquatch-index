@@ -1,6 +1,7 @@
 ---
 title: "What shoe width letters mean"
 layout: prose
+description: "What D, 2E, 4E and 6E mean, and why width is the fit that usually goes wrong."
 ---
 
 Width is the measurement most often ignored and most often responsible for a shoe

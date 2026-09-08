@@ -1,4 +1,16 @@
 {{ define "main" }}
+<p class="breadcrumb">
+  <a href="{{ site.Home.RelPermalink }}">Home</a><span>/</span>
+  {{ if eq .Section "shoes" }}{{ with site.GetPage "/shoes" }}<a href="{{ .RelPermalink }}">{{ .Title }}</a><span>/</span>{{ end }}{{ end }}
+  {{ .Title }}
+</p>
 <h1>{{ .Title }}</h1>
+<div class="prose">
 {{ .Content }}
+{{/* The guides exist to send someone onward to the listings, so every guide
+     ends with the way back to them. */}}
+{{ if eq .Section "shoes" }}
+  {{ with site.GetPage "/shoes" }}<a class="button" href="{{ .RelPermalink }}">Browse by size &rarr;</a>{{ end }}
+{{ end }}
+</div>
 {{ end }}
