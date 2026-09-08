@@ -1,0 +1,43 @@
+# Reads one affiliate feed and reports whether it can honestly power the site.
+# Run by hand from the Actions tab. It changes nothing: no commit, no deploy,
+# no product data. The feed address lives in repository secrets and is never
+# printed — only what the feed contains is reported.
+name: Check a product feed
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Download the feed
+        env:
+          AWIN_FEED_URL: ${{ secrets.AWIN_FEED_URL }}
+        run: |
+          if [ -z "$AWIN_FEED_URL" ]; then
+            echo "No AWIN_FEED_URL secret is set on this repository."
+            exit 1
+          fi
+          # --silent plus --show-error so a failure reports the status code
+          # without echoing the address, which carries the access key.
+          curl --silent --show-error --fail --location --max-time 120 \
+            --output feed.raw "$AWIN_FEED_URL" \
+            || { echo "The feed could not be downloaded."; exit 1; }
+          echo "Downloaded $(wc -c < feed.raw) bytes."
+
+      - name: Report what the feed contains
+        run: python3 scripts/feed_check.py feed.raw
+
+      - name: Keep the feed for the next step
+        uses: actions/upload-artifact@v4
+        with:
+          name: feed-sample
+          path: feed.raw
+          retention-days: 7
