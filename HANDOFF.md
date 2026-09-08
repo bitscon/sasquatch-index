@@ -1,69 +1,64 @@
-# Handoff — Phase 2 — 2026-09-07
+# Handoff — Phase 2 — 2026-09-08
 
 ## What was completed
-- **The approved visual direction is live.** The site now carries the look
-  agreed on 2026-08-30: a warm off-white ground, ink text, one burnt-orange
-  accent, and the Plex typefaces served from the site itself. The wordmark is a
-  bars mark with the name set in mono capitals.
-- **The home page leads with the size grid** — cards showing each size and how
-  many styles it holds — the moment a retailer feed is connected. Until then it
-  says so in one honest line and puts the two reference guides forward as cards.
-- **Size pages were rebuilt for the visitor's question.** A breadcrumb, a facts
-  line computed from the data, and one row per style showing type, widths and
-  retailer with the link out on the row. The rows spread into columns on a
-  laptop and stack on a phone.
-- **The guides read as pages now** — conversion tables set as cards, and a way
-  back to the listings at the foot of each one.
-- **The affiliate disclosure was corrected** to say the site has joined the Awin
-  network with no merchant links live yet. It was still claiming no affiliate
-  programme at all.
-- **The privacy position was protected.** The typefaces are served from this
-  site, not from a font network, so the site still makes no third-party request
-  beyond the analytics beacon the privacy page already discloses.
-- **Published and verified.** The build ran clean with no errors or warnings on
-  the pinned version, the publish job went green, and the live site was loaded
-  and checked afterwards.
+- **Phase 2 is closed.** The gate was a network approval and a usable feed.
+  Both are now met.
+- **NORTIV 8 approved the join request** on 2026-09-08, which unlocked Awin's
+  feed builder for that merchant.
+- **The feed address is held as a repository secret**, added by the owner at the
+  keyboard. It never passed through a session, a chat or a committed file.
+- **A hand-run feed check was built and used.** It pulls the feed inside the
+  publishing system, reports what the feed actually contains, and states plainly
+  whether size and width can both be read from it. It changes nothing and never
+  prints the feed address.
+- **The feed was read and accepted.** It carries structured sizes and readable
+  widths, and yields real inventory in the sizes this site exists for.
+- **The rules for using it are written down** at the bottom of `APPLICATIONS.md`
+  — which field holds what, and the four things that would otherwise be got
+  wrong when the catalogue is built.
+- **The redesign published yesterday is still live and unchanged.**
 
 ## What was NOT completed and why
-- **Phase 2 did not close.** The gate is a network approved and a usable feed.
-  Network approval is met. No feed exists yet: the feed tool stays locked until
-  a merchant approves the join request, and all three are still in review.
-- **The original redesign work could not be recovered.** It was built in a
-  session that had no push access here and was archived before the file it
-  produced reached this machine. The design was rebuilt from the written record
-  rather than chased further, which cost less time than recovery would have.
+- **The catalogue is not built.** That is Phase 3 and a session of its own. The
+  site still shows no listings today.
+- **The check's first verdict was wrong and had to be corrected.** It looked for
+  fields by name, and this merchant keeps the size in a generically named column,
+  so it reported a false failure on a usable feed. It now identifies fields by
+  what they contain. Worth knowing: a name-only check would have caused a good
+  merchant to be dropped.
 
 ## Current state of the system
 - Site live at https://bitscon.github.io/sasquatch-index/ carrying the new
-  design, with no listings: an honest reference site leading with the sizing and
-  widths guides.
-- Analytics live and cookieless since 2026-09-07; the privacy page states it.
-- Awin approved. Three shoe merchants still pending advertiser approval: Zeba,
-  FitVille, NORTIV 8. Rakuten remains available as a second source; CJ deferred.
-- Publishing stays unattended: a change reaching the main branch reaches the
-  live site with nobody involved.
-- Nothing scheduled, nothing sold, no product data in the repository.
+  design, still with no listings.
+- Analytics live and cookieless; the privacy page states it.
+- Awin approved. NORTIV 8 approved and its feed accepted. Zeba and FitVille
+  still pending advertiser approval. Rakuten remains available as a second
+  source; CJ deferred.
+- Feed address stored as a repository secret. Nothing scheduled yet — the feed
+  is pulled only when the check is run by hand.
+- No product data in the repository.
 
 ## Decisions made this session
-- **Rebuilt the design rather than recovering the lost commit.** The approved
-  direction was on record in enough detail to build from, and recovery depended
-  on an archived session and a file that never arrived.
-- **Typefaces are served from this site.** Loading them from a font network
-  would have been quicker and would have put a third party in front of every
-  visitor, which the privacy page would then have had to disclose.
-- **The size grid ships now, dormant.** It renders nothing until a feed exists,
-  so nothing has to be rebuilt on the day one lands.
-- **Nothing invented was published.** Sample products were used only to check
-  the listing layout in preview and were discarded before publishing.
+- **Accepted NORTIV 8 as the first feed.** Width is not a separate field in it;
+  it is a letter on the end of the size value, which is read from the data
+  rather than guessed at. The standing rule against patching around a bad feed
+  is about inventing what the data does not say, and this feed does say it.
+- **The width vocabulary for this merchant is standard and wide only.** The
+  pages must never claim extra-wide, 2E or 4E for these products.
+- **Brand is NORTIV 8, not the feed's brand field**, which holds model codes.
+- **Rows with dual women's/men's sizing are skipped and counted**, not guessed at.
+- **The feed check finds fields by their contents, not their names**, after the
+  name-only version reported a false failure.
 
 ## Open questions for the owner
-- None blocking. When Awin emails that Zeba, FitVille or NORTIV 8 has approved
-  you, hand the next session that approval and the feed it unlocks.
+- None blocking. If Zeba or FitVille approves later, hand the next session that
+  approval and its feed address the same way; a second merchant widens coverage
+  above size 15, which NORTIV 8 does not reach.
 
 ## Recommended next session
-- Phase 2 (still open): connect the first approved merchant's feed, check it
-  carries structured sizes and a separate width field, and let the size pages
-  generate themselves.
-- Gate that must be met first: one usable feed. Network approval is already met.
-- Risk: Medium — a real feed still has to pass the size and width checks, and
-  merchants screen small sites.
+- Phase 3: build the catalogue from the NORTIV 8 feed — pull it in the
+  publishing job, apply the rules at the bottom of `APPLICATIONS.md` and the
+  five checks in `FEED_HAZARDS.md`, and let the size pages generate themselves.
+- Gate that must be met first: a full build runs clean end to end from feed data.
+- Risk: Medium — the first real data through the pages, and every hazard in
+  `FEED_HAZARDS.md` publishes a confident wrong page rather than an error.

@@ -8,7 +8,7 @@ networks' own pages on 2026-09-02.
 
 | # | Network | Why this one | Cost to join | Status |
 |---|---|---|---|---|
-| 1 | Awin — https://www.awin.com | Largest feed-driven network; absorbed ShareASale. Product feeds come with approval via its Create-a-Feed tool | Small refundable card deposit (currently $5), a verification step | **Approved 2026-09-03** (decision landed in chad@bitscon.net) |
+| 1 | Awin — https://www.awin.com | Largest feed-driven network; absorbed ShareASale. Product feeds come with approval via its Create-a-Feed tool | Small refundable card deposit (currently $5), a verification step | **Approved 2026-09-03.** NORTIV 8 approved 2026-09-08, feed accepted — see the bottom of this file |
 | 2 | Rakuten Advertising — https://rakutenadvertising.com | Carries Zappos, the single most on-theme merchant for big and wide sizes. Open network; no screening at signup, merchants screen individually | Free | **Owner applying — directed 2026-09-03.** Step-by-step below |
 | 3 | CJ — https://www.cj.com | Broad merchant base, a solid second feed source. Note: accounts with no results in the first 6 months can be deactivated, so join it when ready to use it | Free | Not yet applied |
 
@@ -114,3 +114,40 @@ is the real gate, and it may say no on this attempt.
 The site is already wired: setting that one token in the site configuration
 turns on cookieless measurement and rewrites the privacy page to match in the
 same build. Until then, nothing runs and the privacy page keeps saying so.
+
+---
+
+## The first feed — NORTIV 8, via Awin (checked and accepted 2026-09-08)
+
+Approved 2026-09-08. The feed was pulled and read by the hand-run check in the
+repository (Actions → "Check a product feed"), which reads the feed address from
+repository secrets and never prints it.
+
+**It passes the gate, with one limit.** Sizes are structured. Width is not its
+own field: it is a letter on the end of the size value, which is deterministic
+to read and so is normalisation, not guesswork. It carries only two states.
+
+| What the site needs | Where it is in this feed |
+|---|---|
+| Size | `custom_2` — the label sits in `custom_1` ("US Size") |
+| Width | the letter ending a size value: `W` is wide, nothing is standard |
+| Style name | `product_name` |
+| Colour | `custom_3` |
+| Category | `merchant_category` — coarse: Activity, Shoes, Boots |
+| Price | `search_price` |
+| Availability | `in_stock`, `is_for_sale` |
+| Link out | `aw_deep_link` |
+| Image | `merchant_image_url`, `aw_image_url` |
+
+**Rules for whoever wires the importer**
+
+- **Brand is NORTIV 8.** The feed's `brand_name` holds model codes (QUEST-1,
+  TROOPER, 170390-M), not brands. Never print it as a brand.
+- **Width vocabulary for this merchant is standard and wide only.** Never write
+  extra-wide, 2E or 4E against these products — the data does not say it.
+- **Skip the dual-sized rows and count the skips.** Values like
+  `13.5WOMEN / 12MEN` do not parse; there are about three hundred of them.
+- **Coverage stops at size 15.** Nothing above it exists in this feed.
+
+**What it yields at size 13 and up:** 420 rows — 89 styles at 13, 49 at 14, 32
+at 15, all flagged in stock. That clears the page threshold for three size pages.
