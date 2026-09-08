@@ -1,68 +1,69 @@
-# Handoff — Phase 2 (partial) — 2026-09-07
+# Handoff — Phase 2 — 2026-09-07
 
 ## What was completed
-- **Start-of-session duplicate check ran clean.** Repo matched GitHub, tree
-  clean, one session on this phase.
-- **The five feed hazards are now durable in the repo** at `FEED_HAZARDS.md`
-  (repo root), to be read alongside `SASQUATCH_OS.md` before any feed is wired.
-- **Corrected a false record: Awin was approved 2026-09-03.** Prior sessions
-  reported "no approvals" because they searched only the phone-app Gmail mailbox;
-  the Awin application was filed under chad@bitscon.net, a separate mailbox this
-  workspace reads read-only. Verified by reading that mailbox directly.
-- **Mailbox responsibility clarified and swept.** This workspace monitors three
-  mailboxes read-only — tgfw17@gmail.com, billybs@billybs.net, chad@bitscon.net.
-  All three checked; nothing missed for this project (the personal boxes held
-  only marketing, automated notices, and the owner's own work mail, which he is
-  handling).
-- **Analytics turned ON and verified live.** The owner supplied the Cloudflare
-  token; it is set in `hugo.toml`, the deploy went green, and the live site now
-  emits the cookieless beacon with the privacy page disclosing it in the same
-  build. The traffic clock is running as of 2026-09-07.
-- **Three shoe merchants applied to on Awin**, all Pending advertiser approval:
-  Zeba Shoes, FitVille Footwear, NORTIV 8 Shoes. Each pitch cites the site's
-  size-13-and-up directory intent and the specific size/width range.
+- **The approved visual direction is live.** The site now carries the look
+  agreed on 2026-08-30: a warm off-white ground, ink text, one burnt-orange
+  accent, and the Plex typefaces served from the site itself. The wordmark is a
+  bars mark with the name set in mono capitals.
+- **The home page leads with the size grid** — cards showing each size and how
+  many styles it holds — the moment a retailer feed is connected. Until then it
+  says so in one honest line and puts the two reference guides forward as cards.
+- **Size pages were rebuilt for the visitor's question.** A breadcrumb, a facts
+  line computed from the data, and one row per style showing type, widths and
+  retailer with the link out on the row. The rows spread into columns on a
+  laptop and stack on a phone.
+- **The guides read as pages now** — conversion tables set as cards, and a way
+  back to the listings at the foot of each one.
+- **The affiliate disclosure was corrected** to say the site has joined the Awin
+  network with no merchant links live yet. It was still claiming no affiliate
+  programme at all.
+- **The privacy position was protected.** The typefaces are served from this
+  site, not from a font network, so the site still makes no third-party request
+  beyond the analytics beacon the privacy page already discloses.
+- **Published and verified.** The build ran clean with no errors or warnings on
+  the pinned version, the publish job went green, and the live site was loaded
+  and checked afterwards.
 
 ## What was NOT completed and why
-- **Phase 2 did not close.** The gate is a network approved AND a usable feed.
-  Network approval is met (Awin). The feed is not: Awin's Create-a-Feed tool is
-  greyed out until a merchant approves the join request, so no feed can be pulled
-  yet. Merchant review typically takes a few days to about two weeks.
-- **No Phase 3 kickoff prompt** — still no real feed to describe.
+- **Phase 2 did not close.** The gate is a network approved and a usable feed.
+  Network approval is met. No feed exists yet: the feed tool stays locked until
+  a merchant approves the join request, and all three are still in review.
+- **The original redesign work could not be recovered.** It was built in a
+  session that had no push access here and was archived before the file it
+  produced reached this machine. The design was rebuilt from the written record
+  rather than chased further, which cost less time than recovery would have.
 
 ## Current state of the system
-- Site up at https://bitscon.github.io/sasquatch-index/ as an honest reference
-  site: no listings, leads with the sizing and widths guides, disclosure and
-  privacy pages accurate. Deliberately left as-is — no fake listings to look
-  fuller (against the no-scraping rule and a rejection trigger for small sites).
-- **Analytics LIVE** (cookieless Cloudflare Web Analytics), turned on 2026-09-07.
-- Awin approved. Three shoe merchants Pending advertiser approval: Zeba Shoes,
-  FitVille Footwear, NORTIV 8 Shoes. Rakuten and CJ: not part of this session's
-  moves; Rakuten remains available as a second feed source (Zappos), CJ deferred.
-- Network decisions land in chad@bitscon.net; future sessions read all three
-  mailboxes by default.
-- Feed guardrails live in `FEED_HAZARDS.md`; honour them before the first feed.
+- Site live at https://bitscon.github.io/sasquatch-index/ carrying the new
+  design, with no listings: an honest reference site leading with the sizing and
+  widths guides.
+- Analytics live and cookieless since 2026-09-07; the privacy page states it.
+- Awin approved. Three shoe merchants still pending advertiser approval: Zeba,
+  FitVille, NORTIV 8. Rakuten remains available as a second source; CJ deferred.
+- Publishing stays unattended: a change reaching the main branch reaches the
+  live site with nobody involved.
+- Nothing scheduled, nothing sold, no product data in the repository.
 
 ## Decisions made this session
-- Turned analytics on using the owner-supplied token (public-by-design value in
-  config, not a secret).
-- Left the homepage unchanged before merchant review — the honest guides are the
-  credibility; faking product would risk rejection and break the no-scraping rule.
-- Corrected the standing "no approvals" conclusion once chad@bitscon.net was read.
+- **Rebuilt the design rather than recovering the lost commit.** The approved
+  direction was on record in enough detail to build from, and recovery depended
+  on an archived session and a file that never arrived.
+- **Typefaces are served from this site.** Loading them from a font network
+  would have been quicker and would have put a third party in front of every
+  visitor, which the privacy page would then have had to disclose.
+- **The size grid ships now, dormant.** It renders nothing until a feed exists,
+  so nothing has to be rebuilt on the day one lands.
+- **Nothing invented was published.** Sample products were used only to check
+  the listing layout in preview and were discarded before publishing.
 
 ## Open questions for the owner
-- None blocking. When Awin emails that one of the three merchants approved, hand
-  the next session the Create-a-Feed URL (or API key).
+- None blocking. When Awin emails that Zeba, FitVille or NORTIV 8 has approved
+  you, hand the next session that approval and the feed it unlocks.
 
 ## Recommended next session
-- **Before starting, pull the latest and open the live site first** — the
-  duplicate-work check stays standing.
-- Phase 2 (still open; network approval met, feed outstanding). When a merchant
-  (Zeba, FitVille, or NORTIV 8) approves, generate the feed with Awin's
-  Create-a-Feed tool, load it as a repository secret, and run it through the
-  size-and-width check in APPLICATIONS.md plus the hazards in FEED_HAZARDS.md. A
-  feed that carries structured sizes plus a separate width field closes Phase 2;
-  the session then delivers the Phase 3 kickoff.
-- Gate that must be met first: one usable feed (structured sizes + separate width
-  field). Network approval is already met.
-- Risk: Medium — a real feed still has to pass the checks, and merchants screen
-  small sites.
+- Phase 2 (still open): connect the first approved merchant's feed, check it
+  carries structured sizes and a separate width field, and let the size pages
+  generate themselves.
+- Gate that must be met first: one usable feed. Network approval is already met.
+- Risk: Medium — a real feed still has to pass the size and width checks, and
+  merchants screen small sites.
