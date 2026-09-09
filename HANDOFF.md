@@ -1,84 +1,66 @@
-# Handoff — Phase 3 — 2026-09-09
+# Handoff — Phase 4 — 2026-09-09
 
 ## What was completed
-- **Phase 3 is closed.** The gate was a full build running clean end to end
-  from feed data. It does, and it is live.
-- **A catalogue importer was built** (`scripts/build_catalogue.py`). It reads
-  the downloaded feed the same way the Phase 2 check does, applies the NORTIV 8
-  field mapping from `APPLICATIONS.md`, and applies the skip-and-count guards
-  from `FEED_HAZARDS.md`. It never receives or prints the feed address.
-- **A manual publishing job was built and run** (`Build catalogue from feed`
-  in Actions). It pulls the feed, writes the catalogue, commits it, and
-  triggers the site rebuild. Two real runs against the live feed both
-  succeeded.
-- **The catalogue is live.** Size 13, 14 and 15 each have a real page: 86, 43
-  and 27 styles respectively, all in stock, all linking straight to NORTIV 8
-  via the Awin affiliate link, widths correctly limited to standard and wide.
-- **A run marker was added** (`data/feed_run.yaml`) so the site can now tell
-  "no feed has ever run" apart from "a feed ran and matched nothing" — those
-  used to read identically to a visitor (`FEED_HAZARDS.md` hazard 5). The
-  homepage and the size-listing page both carry the three-way message now.
-- **The zero-threshold note was added** to `hugo.toml` next to the setting
-  itself, so nobody mistakes an explicit 0 for "generate everything" — it
-  silently stays 3 either way (`FEED_HAZARDS.md` hazard 4).
-- **A real deploy failure was hit and fixed**, twice, before anything wrong
-  reached a visitor:
-  - The publishing job's first commit did not reach production automatically.
-    GitHub does not let the built-in Actions token trigger other workflows —
-    a loop guard, not a bug in this repo — so the job now explicitly asks for
-    the site rebuild once it has pushed a real change.
-  - The first real deploy then failed outright: a handful of NORTIV 8 image
-    filenames carry mangled bytes from a broken transcode at the source, which
-    decode to literal control characters. YAML refuses those outright, even
-    inside a quoted string, so the build stopped rather than publish anything
-    wrong. The importer now strips control characters from every text field
-    it pulls from a row before writing the catalogue.
+- **The publishing job is now scheduled.** `build-catalogue.yml` fires daily
+  at 09:00 UTC on its own, with no one watching it. The manual trigger stays
+  available for an on-demand run.
+- **Affiliate links are now verified every run.** A new step
+  (`scripts/verify_links.py`) checks that every link in the catalogue
+  actually resolves, following the merchant's redirect through to a real
+  page. A broken link is reported, not treated as a failure — a dead link on
+  the merchant's end shouldn't block an otherwise-good catalogue rebuild.
+- **Every run now writes a short report** — feed totals, styles written,
+  anything skipped and why, and the link-check result — to that run's job
+  summary in Actions, so the state of the catalogue is visible without
+  reading logs.
+- **A stale status line was corrected.** `PROJECT_STATUS.md` still showed
+  phase 3 as not started when it had already closed; that's fixed, and
+  phase 4 now shows in progress.
+- **A manual run of the updated job was watched end to end** to catch any
+  problem in the new steps before the schedule ever fires unattended. It
+  passed clean: catalogue rebuilt, all 87 affiliate links checked, zero
+  broken, report written correctly.
 
 ## What was NOT completed and why
-- Nothing planned for this phase was skipped.
-- Cosmetic only, not fixed: a number of NORTIV 8 style names are missing an
-  apostrophe ("Men s" instead of "Men's") in the feed itself. That is the
-  merchant's own data, passed through honestly rather than guessed at — the
-  same broken-transcode issue that produced the control characters likely
-  dropped the character. Worth knowing, not worth inventing a fix for.
+- **The phase gate itself is not yet met.** The gate is two consecutive
+  *unattended* runs succeeding — today's clean run was a supervised manual
+  trigger to prove the new code, not one of the two scheduled firings the
+  gate requires. Nothing more to build; this is a matter of the schedule
+  firing on its own over the next two days and someone confirming both
+  runs came back clean.
 
 ## Current state of the system
-- Site live at https://bitscon.github.io/sasquatch-index/ showing real
-  inventory: three size pages (13, 14, 15), 156 styles total, one retailer,
-  one brand, all sourced from the NORTIV 8 feed.
-- The publishing job is manual only (`workflow_dispatch`). Nothing is
-  scheduled yet — running it again is a deliberate action, not automatic.
+- Site live at https://bitscon.github.io/sasquatch-index/, 156 styles across
+  sizes 13–15, same as last session.
+- The catalogue job now runs daily at 09:00 UTC, unattended, and reports to
+  its own job summary each time. Deploy still triggers automatically off the
+  catalogue job when it makes a real change.
 - Analytics live and cookieless; the privacy page states it.
 - Zeba and FitVille still pending advertiser approval. Rakuten remains
   available as a second source; CJ deferred.
 - Feed address stored as a repository secret, never committed, never printed.
 
 ## Decisions made this session
-- **Grouped by style name, not by row.** The feed is one row per size; the
-  catalogue groups all sizes and widths of the same style into one product
-  record, matching the data model's "sizes available" / "widths available"
-  fields and the "86 styles" language the count is meant to carry.
-- **Filtered to size 13 and up at import time.** The feed carries the full
-  size range down to roughly size 7; only rows at 13 and above are written,
-  since sizes below that are outside this site's purpose by design, not by
-  omission.
-- **Retailer is NORTIV 8.** The feed has no separate retailer field — this
-  program is NORTIV 8's own storefront, so brand and retailer are the same
-  name, which is what the affiliate link actually points at.
-- **No apparel-style categories invented.** Category is passed through
-  exactly as the feed's coarse grouping (Activity, Boots, Shoes) rather than
-  guessed into a finer vocabulary the data doesn't support.
-- **Scheduling was deliberately left out.** Phase 4 owns turning this same job
-  unattended and adding the owner's report; this phase only had to prove the
-  pipeline works when run.
+- **Daily cadence, 09:00 UTC.** The feed changes slowly enough that daily is
+  frequent enough to catch stock and price drift without generating noise,
+  and it costs nothing extra — Actions minutes are free on a public repo.
+- **The report lives in the Actions job summary, not an email.** No new
+  secret, no new mail infrastructure, and it's one click from the Actions
+  tab. If the owner wants it pushed to an inbox instead, that's a small
+  follow-up, not a redesign.
+- **A broken link is reported, never fatal.** Failing the whole job over one
+  dead merchant link would stop good catalogue data from publishing over
+  something outside this site's control.
 
 ## Open questions for the owner
-- None blocking. If Zeba or FitVille approves later, hand the next session
-  that approval and its feed address the same way Awin's was handled.
+- None blocking. If you'd rather the report land in your inbox instead of
+  the Actions summary, say which address and that gets wired in as a small
+  addition.
 
 ## Recommended next session
-- Phase 4: put the publishing job on a schedule, verify the affiliate links
-  it writes actually resolve, and send a short report after each run.
-- Gate that must be met first: two consecutive unattended runs succeed.
-- Risk: Low — the pipeline itself is already proven this session; Phase 4 is
-  wrapping it in a timer and a status message, not building it from scratch.
+- Phase 4 close-out: confirm the schedule has fired twice on its own with
+  both runs clean (check the Actions tab for `Build catalogue from feed` —
+  two green scheduled runs after today), then mark phase 4 complete.
+- Gate that must be met first: two consecutive unattended runs succeed —
+  the mechanism is built and proven; this is just watching it happen.
+- Risk: Low.
