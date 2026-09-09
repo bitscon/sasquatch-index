@@ -1,6 +1,9 @@
 # Pulls the NORTIV 8 feed and turns it into the site's catalogue data.
-# Run by hand from the Actions tab (Phase 3). Scheduling this unattended is
-# Phase 4 — this job proves the pipeline runs clean end to end first.
+#
+# Phase 4 (SASQUATCH_OS.md section 8): scheduled daily, off-peak UTC, with no
+# one watching it. It builds the catalogue, checks that every affiliate link
+# still resolves, and writes a short report to the run's job summary either
+# way. `workflow_dispatch` is kept for a manual run when needed.
 #
 # The feed address lives in repository secrets and is never printed. This job
 # writes data/products.yaml and data/feed_run.yaml, commits them, and then
@@ -11,6 +14,8 @@ name: Build catalogue from feed
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * *"
 
 permissions:
   contents: write
@@ -39,6 +44,9 @@ jobs:
       - name: Build the catalogue
         run: python3 scripts/build_catalogue.py feed.raw data
 
+      - name: Verify affiliate links resolve
+        run: python3 scripts/verify_links.py data/products.yaml
+
       - name: Commit the catalogue if it changed
         id: commit
         run: |
@@ -59,6 +67,29 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run deploy.yml --repo "${{ github.repository }}" --ref main
+
+      - name: Write the run report
+        if: always()
+        run: |
+          {
+            echo "## Sasquatch Index — feed run report"
+            echo
+            echo "**Catalogue changed this run:** ${COMMIT_CHANGED:-unknown}"
+            echo
+            if [ -f data/feed_run.yaml ]; then
+              echo "### Feed run"
+              echo '```'
+              cat data/feed_run.yaml
+              echo '```'
+            fi
+            echo
+            if [ -f link_check_result.txt ]; then
+              echo "### Affiliate link check"
+              cat link_check_result.txt
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+        env:
+          COMMIT_CHANGED: ${{ steps.commit.outputs.changed }}
 
       - name: Remove the downloaded feed
         if: always()

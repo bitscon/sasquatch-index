@@ -8,8 +8,8 @@
 | 0 — Repo, scaffold, hosting, unattended publish loop | Complete |
 | 1 — Reference layer, disclosure, privacy, computed facts, page threshold | Complete |
 | 2 — Analytics + affiliate applications + first feed | In progress |
-| 3 — Catalogue generated from the feed | Not started |
-| 4 — Scheduled unattended rebuild + report | Not started |
+| 3 — Catalogue generated from the feed | Complete |
+| 4 — Scheduled unattended rebuild + report | In progress |
 | 5 — Display advertising (optional, gated on scale) | Not started |
 
 Live at https://bitscon.github.io/sasquatch-index/ — publishes automatically on

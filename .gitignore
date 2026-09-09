@@ -2,3 +2,6 @@
 /public/
 /resources/_gen/
 .hugo_build.lock
+
+# Link-check scratch output (Phase 4) — never committed
+link_check_result.txt
