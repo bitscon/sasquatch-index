@@ -3,8 +3,10 @@
 # Phase 4 — this job proves the pipeline runs clean end to end first.
 #
 # The feed address lives in repository secrets and is never printed. This job
-# writes data/products.yaml and data/feed_run.yaml and commits them straight
-# to main, which the deploy workflow then picks up and publishes.
+# writes data/products.yaml and data/feed_run.yaml, commits them, and then
+# explicitly dispatches the deploy workflow — a commit made with the built-in
+# Actions token does not trigger other on-push workflows on its own (GitHub's
+# loop guard), so the publish step has to be asked for directly.
 name: Build catalogue from feed
 
 on:
@@ -12,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   build:
@@ -37,16 +40,25 @@ jobs:
         run: python3 scripts/build_catalogue.py feed.raw data
 
       - name: Commit the catalogue if it changed
+        id: commit
         run: |
           git config user.name "sasquatch-index bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/products.yaml data/feed_run.yaml
           if git diff --cached --quiet; then
             echo "No change in catalogue data — nothing to commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "data: catalogue rebuilt from the NORTIV 8 feed"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Trigger the site rebuild
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --repo "${{ github.repository }}" --ref main
 
       - name: Remove the downloaded feed
         if: always()
