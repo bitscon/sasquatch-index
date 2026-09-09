@@ -151,3 +151,27 @@ to read and so is normalisation, not guesswork. It carries only two states.
 
 **What it yields at size 13 and up:** 420 rows — 89 styles at 13, 49 at 14, 32
 at 15, all flagged in stock. That clears the page threshold for three size pages.
+
+---
+
+## Merchants checked and dropped
+
+**TideWe, via Awin (checked 2026-09-09) — FAILS the gate.** Only one real feed
+exists for this merchant in Awin's own feed list (id `103245`, 633 products,
+general outdoor gear — backpacks, waders, vests, boots all mixed together, not
+footwear-only). Pulled with the full 36-column set and read by the same check
+NORTIV 8 passed: `custom_1` through `custom_5` are empty on every row, no other
+column is structured as size or width, and size only appears inside free-text
+product titles (e.g. "400Gram & Standard"). That is exactly what the gate
+exists to catch — width would have to be guessed. Dropped per this file's own
+rule; do not re-apply without a materially different feed offer from TideWe.
+
+Note: a second feed (labelled "Google New", id `F1386`, claimed ~2,590
+products) was reported during this merchant's review but does not exist in
+Awin's feed list for this account — the download 400s. Whatever surfaced that
+number was not reading Awin's actual feed data; treat it as unverified if it
+comes up again.
+
+**Piscifun, via Awin — accepted 2026-09-09, out of scope, no feed to build.**
+Fishing tackle, not footwear. Accepting the invite cost nothing, but this
+merchant will never power a page here; noted so it isn't re-evaluated.
