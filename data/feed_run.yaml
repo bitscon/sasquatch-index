@@ -1,0 +1,15 @@
+# Written by scripts/build_catalogue.py every time it runs, whether or
+# not it found anything to publish. FEED_HAZARDS.md hazard 5: this is
+# what lets the site tell 'no feed ever ran' apart from 'the feed ran
+# and matched nothing' — both would otherwise leave products.yaml empty
+# and look identical to a visitor.
+
+ran_at: "2026-09-09T00:26:50Z"
+source: NORTIV 8 via Awin
+rows_in_feed: 4382
+products_written: 87
+sizes_covered: [13, 14, 15]
+skipped:
+  below_size_13: 3605
+  dual_sized_row: 301
+  unrecognized_size_label: 76

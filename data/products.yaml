@@ -1,35 +1,967 @@
 # Sasquatch Index — the data file the whole site is generated from.
 #
-# One record per product. Every field below comes from SASQUATCH_OS.md section 5b.
-#
-# EMPTY ON PURPOSE. The three placeholder records that proved the build were
-# removed on 2026-09-03, before the affiliate networks review the site: they
-# linked to example.com, which reads as an unfinished site rather than an honest
-# one. They remain in git history. Until a real feed is connected (Phase 3) the
-# site is a reference site, and the templates say so on every page rather than
-# rendering an empty size grid.
+# Written by scripts/build_catalogue.py from the NORTIV 8 feed. Do not
+# hand-edit — the next import overwrites this file. See APPLICATIONS.md
+# for the field mapping and FEED_HAZARDS.md for the guards applied.
 #
 # Records arrive from an affiliate product feed only — never by hand, never
 # scraped (SASQUATCH_OS.md constraint 2).
-#
-# product_type: always "shoes" today. This field is what lets apparel join
-# later without disturbing any existing URL. Do not remove it.
-#
-# fit_notes: optional, and normally empty. The owner is not a content source
-# (SASQUATCH_OS.md section 2b). Never write invented first-hand experience here.
-#
-# The shape of one record, for whoever wires up the feed:
-#
-#   - product_type: shoes
-#     brand: ""
-#     style_name: ""
-#     category: ""          # sneakers, clogs, boots, dress, sandals, ...
-#     sizes: []             # numbers, e.g. [13, 14, 15]
-#     widths: []            # medium, wide, extra-wide, ...
-#     attributes: []        # waterproof, slip-resistant, ...
-#     retailer: ""
-#     link: ""
-#     image: ""
-#     fit_notes: ""
 
-products: []
+products:
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: ALLSWIFIT PACE  Men s Lightweight Slip On Mesh Sneakers
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812547&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-04-28/3333/02:48--BLACK (1).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: ActiveBreeze  Men s Lifestyle Walking Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890815564&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-11-18/2112/10:58--7ae63808a0f991fde5431ed0864f14f5.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: ActiveCamper  Men s Mesh Lifestyle Walking Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812008&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-01-30/5993/02:30--All BLACK1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: ActiveCity  Men s Comfortable Lifestyle Sneakers
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812124&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-09/719/10:22--sarr027m3.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: ActiveFloat  Men s Comfortable Lightweight Running Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813081&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-11-18/4494/10:59--0e6ec9e9312ec1f57e776cc361e61af9.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: ActiveMesh  Men s Comfortable Mesh Lifestyle Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812107&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-01-30/7768/02:35--BLUE 1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: ActiveUp  Men s Comfortable Mesh Lifestyle Sneakers
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812086&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-09/4194/10:20--sarr025m3.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: AllSwifit 2.0  Men s Mesh Slip On Travel Sneakers
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812662&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-03/432/03:24--SARR034M-black.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Boys   Girls Lace Up Water Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811343&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-04-26/7009/04:17--black (1).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: DreamLife  Men s Lightweight Mesh Lifestyle Sneakers
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812206&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-03-20/3882/03:40--SARR003M-blue.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: DuraLife  Men s Lightweight Slip On Travel Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812044&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-03-04/8763/03:15--BLUE 1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: FlexLife  Men s Knitted Comfortable Lightweight Running Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813723&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-08-02/2849/09:01--SNRR241M.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: FlyLife  Men s Lightweight Gym Sneakers
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811930&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-03-20/7966/03:42--SARR021M-grey.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Kids Quick Dry Water Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811241&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/7719/08:04--Beige_Light Grey.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Kids Water Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811238&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/4863/07:56--Black_Neon_Green.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Ankle High Tactical Work Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811502&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-10-08/8333/02:54--1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Breathable Tactical Military Work Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812624&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-04-28/7787/07:09--Sand-1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Canvas Flip Flops
+    category: Shoes
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811858&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/5167/08:51--Black.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Cap Toe Lightweight Hiking Boots
+    category: Boots
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812279&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-03-20/7466/03:44--SNHB244M-BROWN.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Cap Toe Waterproof Hiking Boots
+    category: Boots
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812571&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-04-28/2561/03:34--ç»¿è‰² (1).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Cap Toe Waterproof Tactical Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813640&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-19/8685/09:38--ä¸»å›¾.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Closed Toe Outdoor Hiking Sandals
+    category: Shoes
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810953&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/8303/09:03--Grey_Blue.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Comfortable Steel Toe Work Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813624&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-19/7292/09:55--BLACK 1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Cordura Lightweight Military Tactical Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810952&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/SNMT221M/SAND/1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s EVA Thong Flip Flops
+    category: Shoes
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811540&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/2240/07:52--Black.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Fur Lined Thinsulate Waterproof Snow Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813676&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-19/196/06:40--ä¸»å›¾.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Fur Lined Waterproof Snow Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811890&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-29/9800/03:33--BROWN.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s High Top Tactical Research  Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811117&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-11-18/74/11:13--7ba6920722e79b0d3051246f48242ed2.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Insulated Snow Winter Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813187&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-10-08/4078/02:20--1 (1).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Insulated Water Resistant Snow  Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812994&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-10-02/7341/03:30--black 1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Insulated Waterproof Winter Boots    Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811454&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-09-23/5835/03:20--1 (2).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Knitted Non Slip Sneakers
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812519&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-09/8673/10:22--sarr015m3.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Leather Slip On Chelsea Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813552&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-31/8763/06:58--BLACK 1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Lightweight Breathable Hiking Shoes
+    category: Shoes
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812259&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-03-19/8229/06:21--1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Lightweight Military Tactical Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811833&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-03-20/6244/03:45--SNMT241M-sand.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Lightweight Tactical Work Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812637&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-12/4317/10:19--snmt244m-BLACK.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Lightweight Vegan Leather Hiking Boots
+    category: Boots
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812588&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-04-28/915/03:25--BLACK (1).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Lightweight Water Shoes
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890815042&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-29/1312/03:36--Black_Neon_Green.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Low Top Waterproof Hiking Shoes   Wide Fit
+    category: Shoes
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813182&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-09-23/5149/02:46--08_49--Black_Dark_Grey_Orange.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Military Tactical Combat Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810899&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-29/4667/03:38--Dark Grey.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Military Tactical Desert Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810889&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-11-18/5852/11:12--be202d4c3d3985c0d788587c75fe8c42.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Military Tactical Wide Work Boots   Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811236&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/7130/07:55--Sand.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Military Wide Fit Work Boots   Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811224&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/9197/08:15--Sand.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Non Slip Industrial Work Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813240&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-18/7333/07:32--BLACK (1).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Non Slip Steel Toe Leather Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813525&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-23/698/06:32--BLACK (1).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Non Slip Steel Toe Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812721&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-05-03/8850/04:26--ç”»æ¿ 6.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Non Slip Steel Toe Work Boots    Wide Fit
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813880&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-03-20/4793/02:48--ç”»æ¿ 6.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Non Slip Water Resistant Military Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813704&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-31/8470/06:55--COYOTE-1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Non Slip Waterproof Snow Boots
+    category: Activity
+    sizes: [14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813186&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-09-11/5082/09:24--1 (1).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Quality Leather Waterproof Hiking Boots
+    category: Boots
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813438&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-23/9259/07:09--BLACK.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Quick Drying Water Shoes
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810854&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-29/1479/03:37--Dark_Blue.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Slip On Steel Toe Chelsea Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813602&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-19/9585/09:58--BLACK 1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Slip Resistant Waterproof Snow Boots   Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811459&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-09-25/3737/03:15--ç”»æ¿ 6.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Steel Toe Industrial Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811563&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-10-30/4482/01:20--1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Steel Toe Puncture Resistant Work Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813264&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-18/1395/08:13--BLACK-1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Steel Toe Safety Work Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811187&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-29/5475/03:41--BLACK.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Steel Toe Waterproof Work Safety Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813422&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-23/1663/07:14--BLACK-1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Steel Toe Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810879&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/2544/08:52--Brown.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Suede Waterproof Snow Boots   Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811718&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-09-23/6346/03:23--07_51--Black.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Tactical Combat Work Boots   Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811230&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/2396/08:51--Sand.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Tactical Work Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811138&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/3334/08:15--Sand.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Warm Waterproof Snow Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810988&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-11-19/8134/05:36--363aa680ad2e58791a70ebce3ace899d.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Water Resistant  Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890815445&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-10-31/5918/02:57--f3885803aae2ab08dc643ad4c9ab9a65.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Water Resistant Steel Toe Leather Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813584&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-19/5697/10:04--ä¸»å›¾.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Hiking Boots
+    category: Boots
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811210&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-10/2925/03:27--1.png"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Insulated Snow Boots   Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811465&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-09-23/3271/02:48--08_06--Grey_Black.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Insulated Winter Snow Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811020&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/101/07:48--Black_Grey.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Leather Steel Toe Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890813566&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-19/2811/10:16--Black-1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Lightweight Military Work Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810945&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-29/4038/02:46--sand.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Low Cut Hiking Shoes
+    category: Shoes
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811093&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/716/08:48--Black_Brown_Yellow.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Military Tactical Work Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811839&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-11-18/8604/11:03--81eefbceaeffba8cdb9693cdfeeef903.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Slip On Snow Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810871&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/170410/GREY BLACK/1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Steel Toe Cap Work Boots
+    category: Activity
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812673&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-04-28/2106/03:04--BLACK-1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Suede Hiking Boots
+    category: Boots
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811199&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/7345/08:45--Black.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Synthetic Leather Hiking Boots
+    category: Boots
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811213&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/7223/08:20--Grey.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Thinsulate Fur Snow Boots   Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811439&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-09-23/1528/03:25--07_48--Black_Grey.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Winter Snow Boots
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810979&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-28/6249/07:51--Dark_Brown_Black.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Winter Snow Hiking Boots   Wide Fit
+    category: Boots
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811462&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-09-25/7843/03:21--ç”»æ¿ 1.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Waterproof Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890815631&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-11-08/5967/05:39--2dc4fcf98443bc0a89b6c48e857f044d.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Western styled Steel toe Work Boots
+    category: Activity
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890815463&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-10-31/5581/02:31--db6ee015177b6bd91936e7a3adf04570.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Wide Military Tactical Work Boots   Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [standard, wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810865&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-29/5917/03:42--SAND.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Wide Steel Toe Safety Work Boots   Wide Fit
+    category: Activity
+    sizes: [13, 14, 15]
+    widths: [wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890810907&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2023-03-29/9706/03:42--Black.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Men s Wide Suede Waterproof Hiking Boots   Wide Fit
+    category: Boots
+    sizes: [13]
+    widths: [standard, wide]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812465&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-10/5915/03:21--1.png"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: MovePlush  Men s Cushioned Mesh Lifestyle Sneakers
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811950&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-07-12/816/10:17--sarr010m-WHITE.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: MovePropel  Men s Comfortable Running   Jogging Shoes
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890814292&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8/product/product/2024-09-13/1584/03:04--568c26aa5f4b5b7b87fa5af1b45384d9.jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: Non Slip Waterproof Lightweight Hiking Shoes
+    category: Shoes
+    sizes: [13, 14]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890811982&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-02-06/9204/03:25--æ£•è‰² (1).jpg"
+    fit_notes: ""
+  - product_type: shoes
+    brand: NORTIV 8
+    style_name: VitalLife  Men s Comfortable Slip On Lifestyle Sneakers
+    category: Shoes
+    sizes: [13]
+    widths: [standard]
+    attributes: []
+    retailer: NORTIV 8
+    link: "https://www.awin1.com/pclick.php?p=41890812068&a=3071825&m=76026"
+    image: "https://cdnimg.nortiv8.com/nortiv8shoes/product/product/2024-01-30/2952/02:33--BLACK  1.jpg"
+    fit_notes: ""
