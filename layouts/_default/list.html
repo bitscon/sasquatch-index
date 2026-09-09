@@ -1,5 +1,6 @@
 {{ define "main" }}
 {{ $products := site.Data.products.products }}
+{{ $feedRun := site.Data.feed_run }}
 
 {{/* Two kinds of page live under this section: the size pages generated from
      the data file, and the written guides. They are rendered differently — a
@@ -23,12 +24,16 @@
 {{ else }}
 {{/* No size page was generated. Say why, plainly, rather than showing an empty
      size grid (SASQUATCH_OS.md sections 2b and 6 — never imply coverage that is
-     not there). There are two different reasons for it and they must not be
-     confused: no feed at all, or a feed whose products do not yet clear the
-     per-page threshold in section 5a. Deriving the sentence from the data means
+     not there). There are three different reasons for it and they must not be
+     confused (FEED_HAZARDS.md hazard 5): no feed has ever run, a feed ran and
+     matched nothing, or a feed ran and matched something but not enough for a
+     page yet. Deriving the sentence from the data plus the run marker means
      the page cannot claim the wrong one. */}}
 <p class="status">
-  {{ if $products }}No size has enough listings for a page yet{{ else }}No retailer feed connected yet{{ end }}
+  {{ if not $feedRun }}No retailer feed connected yet
+  {{ else if $products }}No size has enough listings for a page yet
+  {{ else }}The feed ran and matched no products
+  {{ end }}
 </p>
 <p class="lede">Size listings are generated from retailer product feeds, so they
 appear here as soon as a feed is connected.</p>

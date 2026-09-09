@@ -12,6 +12,10 @@ disableKinds = ["taxonomy", "term", "rss"]
   tagline = "Shoes in the sizes most retailers stop short of — size 13 and up."
   # A size page is not generated below this many matching products.
   # SASQUATCH_OS.md section 5a: near-empty pages hurt more than they help.
+  # FEED_HAZARDS.md hazard 4: this floor cannot be set to zero. Hugo's template
+  # default treats an explicit 0 the same as unset, so it silently falls back
+  # to 3 either way — that is not a bug to fix, it is the intended floor, but
+  # do not mistake 0 here for "generate everything."
   minProducts = 3
   # Cloudflare Web Analytics site token. Empty means no analytics script is
   # emitted AND the privacy page states that no analytics runs. Setting it

@@ -2,6 +2,7 @@
 {{/* The visitor's question is "where do I get these, in my size, right now."
      So the sizes are the first thing on the page. No preamble (section 2a). */}}
 {{ $products := site.Data.products.products }}
+{{ $feedRun := site.Data.feed_run }}
 {{ $sizes := where site.RegularPages "Params.size" "!=" nil }}
 {{ $guides := where (where site.RegularPages "Section" "shoes") "Params.size" "==" nil }}
 
@@ -39,11 +40,17 @@
 {{/* No size page was generated. An empty size grid under "Pick your size" reads
      as a broken page; state the position plainly and lead with the reference
      layer, which is finished and useful today (SASQUATCH_OS.md sections 2b
-     and 6). The reason is derived from the data, never hard-coded: no feed at
-     all, or a feed whose products do not yet clear the section 5a threshold. */}}
+     and 6). The reason is derived from the data, never hard-coded — and there
+     are three of them, not two (FEED_HAZARDS.md hazard 5): no feed has ever
+     run, a feed ran and matched nothing, or a feed ran and matched something
+     but not enough for a page yet. An empty products.yaml means the first two
+     look identical unless the run marker says a feed ran at all. */}}
 <h1>Shoes in size 13 and up</h1>
 <p class="status">
-  {{ if $products }}No size has enough listings for a page yet{{ else }}No retailer feed connected yet{{ end }}
+  {{ if not $feedRun }}No retailer feed connected yet
+  {{ else if $products }}No size has enough listings for a page yet
+  {{ else }}The feed ran and matched no products
+  {{ end }}
 </p>
 <p class="lede">Size listings are generated from retailer product feeds. The
 guides below are finished, factual and free to use today.</p>

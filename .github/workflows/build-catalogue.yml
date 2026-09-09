@@ -1,0 +1,53 @@
+# Pulls the NORTIV 8 feed and turns it into the site's catalogue data.
+# Run by hand from the Actions tab (Phase 3). Scheduling this unattended is
+# Phase 4 — this job proves the pipeline runs clean end to end first.
+#
+# The feed address lives in repository secrets and is never printed. This job
+# writes data/products.yaml and data/feed_run.yaml and commits them straight
+# to main, which the deploy workflow then picks up and publishes.
+name: Build catalogue from feed
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Download the feed
+        env:
+          AWIN_FEED_URL: ${{ secrets.AWIN_FEED_URL }}
+        run: |
+          if [ -z "$AWIN_FEED_URL" ]; then
+            echo "No AWIN_FEED_URL secret is set on this repository."
+            exit 1
+          fi
+          curl --silent --show-error --fail --location --max-time 120 \
+            --output feed.raw "$AWIN_FEED_URL" \
+            || { echo "The feed could not be downloaded."; exit 1; }
+          echo "Downloaded $(wc -c < feed.raw) bytes."
+
+      - name: Build the catalogue
+        run: python3 scripts/build_catalogue.py feed.raw data
+
+      - name: Commit the catalogue if it changed
+        run: |
+          git config user.name "sasquatch-index bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/products.yaml data/feed_run.yaml
+          if git diff --cached --quiet; then
+            echo "No change in catalogue data — nothing to commit."
+          else
+            git commit -m "data: catalogue rebuilt from the NORTIV 8 feed"
+            git push
+          fi
+
+      - name: Remove the downloaded feed
+        if: always()
+        run: rm -f feed.raw
