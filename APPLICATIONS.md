@@ -12,6 +12,44 @@ networks' own pages on 2026-09-02.
 | 2 | Rakuten Advertising — https://rakutenadvertising.com | Carries Zappos, the single most on-theme merchant for big and wide sizes. Open network; no screening at signup, merchants screen individually | Free | **Owner applying — directed 2026-09-03.** Step-by-step below |
 | 3 | CJ — https://www.cj.com | Broad merchant base, a solid second feed source. Note: accounts with no results in the first 6 months can be deactivated, so join it when ready to use it | Free | Not yet applied |
 
+## Screening a merchant invite (read this before joining or building anything)
+
+This is what a Claude session working inside the Awin dashboard should apply
+on its own, without asking each time — join freely, but never conclude a feed
+is usable from the dashboard alone.
+
+**Skip outright — do not join.** The merchant sells nothing footwear-related
+at all (fishing tackle, unrelated gear categories, etc.). Joining costs
+nothing so an occasional accidental accept is harmless, but don't spend time
+on these.
+
+**Join, then test — never judge by eye.** Any merchant carrying men's
+footwear, even mixed into a broader catalogue (boots alongside backpacks and
+apparel, work boots, hunting/outdoor boots, athletic shoes, etc.) is worth
+joining. Joining is free and reversible. What is NOT reversible-by-eyeballing
+is whether the feed is usable — that is decided by one thing only:
+
+1. Get the feed's exact download URL from Awin's own Feed List (Toolbox →
+   Datafeeds, or the feed-list API) — never hand-build one, and never trust a
+   URL assembled by copying a column list from a different merchant's feed.
+   A hand-built URL missing columns will silently read as no size data even
+   when the merchant's real feed has it — this already produced one false
+   negative here.
+2. Hand the exact URL to the next Claude session working the repo (or run
+   the repo's Check a product feed Action). That is the only source of
+   truth for pass/fail — not the dashboard's product count, not a category
+   name that sounds promising, not a claimed feed the Feed List doesn't
+   actually contain.
+3. Treat any product count, feed name, or column list you didn't get
+   directly from Awin's own Feed List as unverified. If a feed you expected
+   to exist 400s or isn't in the list, it doesn't exist — don't guess a
+   substitute URL for it.
+
+Every merchant that has been through this gate — accepted or dropped, and
+why — is recorded below and at the end of this file. Check there first; don't
+re-run a merchant that's already been dropped without a materially different
+feed offer.
+
 Application answers used for Awin: publisher type content/editorial website,
 sector Retail & Shopping (footwear/fashion sub-sectors only), the 252-character
 site description below.
