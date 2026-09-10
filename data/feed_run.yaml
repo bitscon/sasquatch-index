@@ -4,7 +4,7 @@
 # and matched nothing' — both would otherwise leave products.yaml empty
 # and look identical to a visitor.
 
-ran_at: "2026-09-09T13:11:53Z"
+ran_at: "2026-09-10T13:09:25Z"
 source: NORTIV 8 via Awin
 rows_in_feed: 4382
 products_written: 87
