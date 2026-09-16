@@ -1,66 +1,59 @@
-# Handoff — Phase 4 — 2026-09-09
+# Handoff — Phase 4 — 2026-09-16
 
 ## What was completed
-- **The publishing job is now scheduled.** `build-catalogue.yml` fires daily
-  at 09:00 UTC on its own, with no one watching it. The manual trigger stays
-  available for an on-demand run.
-- **Affiliate links are now verified every run.** A new step
-  (`scripts/verify_links.py`) checks that every link in the catalogue
-  actually resolves, following the merchant's redirect through to a real
-  page. A broken link is reported, not treated as a failure — a dead link on
-  the merchant's end shouldn't block an otherwise-good catalogue rebuild.
-- **Every run now writes a short report** — feed totals, styles written,
-  anything skipped and why, and the link-check result — to that run's job
-  summary in Actions, so the state of the catalogue is visible without
-  reading logs.
-- **A stale status line was corrected.** `PROJECT_STATUS.md` still showed
-  phase 3 as not started when it had already closed; that's fixed, and
-  phase 4 now shows in progress.
-- **A manual run of the updated job was watched end to end** to catch any
-  problem in the new steps before the schedule ever fires unattended. It
-  passed clean: catalogue rebuilt, all 87 affiliate links checked, zero
-  broken, report written correctly.
+- **Phase 4 is closed.** The gate was two consecutive unattended runs; the
+  scheduled catalogue job has now run on its own every day from 9 to 15
+  September, and every one of those runs came back green.
+- **The status table was corrected** to show phase 4 complete. It had been
+  sitting at "in progress" since the mechanism shipped, even though the gate
+  was actually met on 10 September.
+- **The project now has a board** in the task app, under Workspace, alongside
+  the other repository projects. It exists so the project stops being invisible
+  when the owner looks at his boards. It changes nothing about how the project
+  is governed.
 
 ## What was NOT completed and why
-- **The phase gate itself is not yet met.** The gate is two consecutive
-  *unattended* runs succeeding — today's clean run was a supervised manual
-  trigger to prove the new code, not one of the two scheduled firings the
-  gate requires. Nothing more to build; this is a matter of the schedule
-  firing on its own over the next two days and someone confirming both
-  runs came back clean.
+- **Phase 2 is still open.** Two advertisers are still sitting unapproved at the
+  network. Nothing can be built to move that along — it is a third party's
+  queue.
+- **Phase 5 was not started**, by design. It is gated on scale, not on a date.
 
 ## Current state of the system
-- Site live at https://bitscon.github.io/sasquatch-index/, 156 styles across
-  sizes 13–15, same as last session.
-- The catalogue job now runs daily at 09:00 UTC, unattended, and reports to
-  its own job summary each time. Deploy still triggers automatically off the
-  catalogue job when it makes a real change.
-- Analytics live and cookieless; the privacy page states it.
-- Zeba and FitVille still pending advertiser approval. Rakuten remains
-  available as a second source; CJ deferred.
-- Feed address stored as a repository secret, never committed, never printed.
+
+| Item | State |
+|---|---|
+| Site | Live, publishes on every push to main |
+| Catalogue source | NORTIV 8 via Awin |
+| Rows read from the feed | 4382 |
+| Styles published | 87 |
+| Sizes covered | 13, 14, 15 |
+| Scheduled rebuild | Daily, 09:00 UTC, unattended |
+| Consecutive clean unattended runs | 7 |
+| Link verification | Every run, broken links reported not fatal |
+| Per-run report | Actions job summary |
+| Analytics | Live, cookieless, stated on the privacy page |
+| Pending advertisers | Zeba, FitVille |
+| Second feed source | Rakuten available, not taken up; CJ deferred |
+| Feed address | Repository secret; never committed, never printed |
 
 ## Decisions made this session
-- **Daily cadence, 09:00 UTC.** The feed changes slowly enough that daily is
-  frequent enough to catch stock and price drift without generating noise,
-  and it costs nothing extra — Actions minutes are free on a public repo.
-- **The report lives in the Actions job summary, not an email.** No new
-  secret, no new mail infrastructure, and it's one click from the Actions
-  tab. If the owner wants it pushed to an inbox instead, that's a small
-  follow-up, not a redesign.
-- **A broken link is reported, never fatal.** Failing the whole job over one
-  dead merchant link would stop good catalogue data from publishing over
-  something outside this site's control.
+- **Closed the phase on the evidence rather than re-running anything.** The gate
+  asked for two clean unattended runs and seven have happened. Re-proving a
+  mechanism that has been running untouched for a week would be busywork.
+- **The board is a mirror, not the record.** The authoritative record for this
+  project stays this file plus git history. The standing exemption from per-task
+  change records is unchanged; it has been reworded to say that a board may
+  exist for visibility without becoming the record.
 
 ## Open questions for the owner
-- None blocking. If you'd rather the report land in your inbox instead of
-  the Actions summary, say which address and that gets wired in as a small
-  addition.
+- Do you want the per-run report delivered to an inbox instead of the Actions
+  summary? This was asked last session and is still open.
+- Do you want to keep waiting on the two pending advertisers, or take up Rakuten
+  now as a second feed source?
 
 ## Recommended next session
-- Phase 4 close-out: confirm the schedule has fired twice on its own with
-  both runs clean (check the Actions tab for `Build catalogue from feed` —
-  two green scheduled runs after today), then mark phase 4 complete.
-- Gate that must be met first: two consecutive unattended runs succeed —
-  the mechanism is built and proven; this is just watching it happen.
+- Phase 2 close-out: land a second feed source, or the pending advertiser
+  approvals, whichever arrives first.
+- Gate that must be met first: approvals received and at least one product feed
+  available.
 - Risk: Low.

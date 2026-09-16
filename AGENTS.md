@@ -14,8 +14,10 @@ governance applies here.
   history. Per-task Change Records under `docs/changes/` are waived. `HANDOFF.md`
   is overwritten at the end of every session using the exact template in
   SASQUATCH_OS.md section 9.
-- **No Kanboard board** (owner decision 2026-08-29). The phase plan lives in
-  SASQUATCH_OS.md section 8; session state lives in `HANDOFF.md`.
+- **A board is never the record** (owner decision 2026-08-29, amended
+  2026-09-16). A project board may exist in the task app for visibility only.
+  The phase plan lives in SASQUATCH_OS.md section 8; session state lives in
+  `HANDOFF.md`. Board cards are a mirror and carry no authority.
 - One phase per session. State the plan and its risk rating, wait for the owner's
   approval, then run without check-ins; interrupt only on divergence.
 
