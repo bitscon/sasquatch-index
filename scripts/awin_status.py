@@ -49,6 +49,10 @@ RELATIONSHIPS = ("joined", "pending", "suspended", "rejected")
 # same bar, or joining it would change nothing.
 MAX_FEED_AGE_DAYS = 30
 SHORTLIST_LIMIT = 25
+# The site serves US buyers, so a merchant shipping from Switzerland is noise
+# on the shortlist even when its feed is current. Region is ranked, not
+# filtered: a genuinely on-theme brand should still be visible further down.
+HOME_REGIONS = ("US", "CA")
 MERCHANT_PROFILE = "https://ui.awin.com/merchant-profile/{advertiser_id}"
 FOOTWEAR = re.compile(
     r"\b(shoe|shoes|footwear|boot|boots|bootie|booties|sneaker|sneakers|"
@@ -101,6 +105,23 @@ def feed_age_days(last_imported):
 def looks_like_footwear(row):
     haystack = " ".join((row.get("advertiser", ""), row.get("sector", ""), row.get("feed_name", "")))
     return bool(FOOTWEAR.search(haystack))
+
+
+def rank(rows):
+    """One line per merchant, the ones this site could actually sell for first.
+
+    Awin lists a merchant once per feed, so the same advertiser arrives three
+    or four times; only its largest feed is worth a line. Home-region
+    merchants sort above the rest, then by catalogue size."""
+    best = {}
+    for r in rows:
+        key = r["advertiser_id"] or r["advertiser"]
+        if key not in best or to_int(r["products"]) > to_int(best[key]["products"]):
+            best[key] = r
+    return sorted(best.values(),
+                  key=lambda f: (f["region"].upper() not in HOME_REGIONS,
+                                 -to_int(f["products"]),
+                                 f["advertiser"].lower()))
 
 
 def looks_like_apparel(row):
@@ -173,8 +194,8 @@ def feed_freshness(feed_url):
                         apparel.append(row)
             continue
         feeds.append(row)
-    for group in (candidates, apparel):
-        group.sort(key=lambda f: (-to_int(f["products"]), f["advertiser"].lower()))
+    candidates = rank(candidates)
+    apparel = rank(apparel)
     footwear.sort(key=lambda f: f["age_days"])
     dated.sort(key=lambda f: f["age_days"])
     sectors = Counter((f["sector"] or "unstated") for f in fresh)
@@ -183,6 +204,7 @@ def feed_freshness(feed_url):
         "not_joined_seen": not_joined_seen,
         "sector_seen": sector_seen,
         "candidates": len(candidates),
+        "merchants_fresh": len(rank(fresh)),
         "footwear_any_age": len(footwear),
         # When the shortlist is empty these say why: whether the network is
         # moving at all, and how close the nearest footwear merchant is.
@@ -290,10 +312,10 @@ def apparel_report(stats):
         return []
     apparel = stats.get("apparel") or []
     n = len(apparel)
-    out = ["", f"Of the {fresh} unjoined feed{'' if fresh == 1 else 's'} that "
-               f"{'is' if fresh == 1 else 'are'} current, "
+    out = ["", f"Of the {stats.get('merchants_fresh', fresh)} merchants with a current feed, "
                f"{n} {'is an apparel or sports merchant' if n == 1 else 'are apparel or sports merchants'}"
-               f" — a shoe brand may be among them under a name that does not say so:"]
+               f" — a shoe brand may be among them under a name that does not say so. "
+               f"Home region first:"]
     if apparel:
         out.extend(merchant_lines(apparel))
     else:
