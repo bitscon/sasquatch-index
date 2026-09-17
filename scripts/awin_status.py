@@ -34,6 +34,7 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -52,6 +53,12 @@ MERCHANT_PROFILE = "https://ui.awin.com/merchant-profile/{advertiser_id}"
 FOOTWEAR = re.compile(
     r"\b(shoe|shoes|footwear|boot|boots|bootie|booties|sneaker|sneakers|"
     r"trainer|trainers|sandal|sandals|slipper|slippers)\b", re.I)
+# A shoe brand is not obliged to say so in its name: NORTIV 8 itself is filed
+# under Clothing & Accessories. So anything in an apparel sector with a current
+# feed is worth reading by eye, even when nothing in the row says "shoe".
+APPAREL = re.compile(
+    r"(clothing|apparel|fashion|footwear|shoe|accessor|sportswear|sports|"
+    r"outdoor|workwear|lifestyle)", re.I)
 
 
 def now():
@@ -96,6 +103,10 @@ def looks_like_footwear(row):
     return bool(FOOTWEAR.search(haystack))
 
 
+def looks_like_apparel(row):
+    return bool(APPAREL.search(" ".join((row.get("advertiser", ""), row.get("sector", "")))))
+
+
 # --- 1. Feed freshness, from the key already in the feed address -----------
 
 def feed_freshness(feed_url):
@@ -126,7 +137,7 @@ def feed_freshness(feed_url):
                 return (v or "").strip()
         return ""
 
-    feeds, candidates, footwear, dated = [], [], [], []
+    feeds, candidates, footwear, dated, fresh, apparel = [], [], [], [], [], []
     not_joined_seen = sector_seen = 0
     for r in rows:
         row = {
@@ -154,13 +165,19 @@ def feed_freshness(feed_url):
                 dated.append(row)
                 if looks_like_footwear(row):
                     footwear.append(row)
-                    if row["age_days"] <= MAX_FEED_AGE_DAYS:
+                if row["age_days"] <= MAX_FEED_AGE_DAYS:
+                    fresh.append(row)
+                    if looks_like_footwear(row):
                         candidates.append(row)
+                    elif looks_like_apparel(row):
+                        apparel.append(row)
             continue
         feeds.append(row)
-    candidates.sort(key=lambda f: (-to_int(f["products"]), f["advertiser"].lower()))
+    for group in (candidates, apparel):
+        group.sort(key=lambda f: (-to_int(f["products"]), f["advertiser"].lower()))
     footwear.sort(key=lambda f: f["age_days"])
     dated.sort(key=lambda f: f["age_days"])
+    sectors = Counter((f["sector"] or "unstated") for f in fresh)
     stats = {
         "rows": len(rows),
         "not_joined_seen": not_joined_seen,
@@ -171,6 +188,9 @@ def feed_freshness(feed_url):
         # moving at all, and how close the nearest footwear merchant is.
         "nearest_footwear": footwear[:5],
         "freshest_on_network": dated[0] if dated else None,
+        "fresh_seen": len(fresh),
+        "apparel": apparel,
+        "fresh_sectors": sectors.most_common(8),
     }
     ours = None
     if fid:
@@ -241,6 +261,49 @@ def previous_programmes(data_dir):
 
 # --- Output -------------------------------------------------------------------
 
+def profile_link(f):
+    link = MERCHANT_PROFILE.format(advertiser_id=f["advertiser_id"]) if f["advertiser_id"] else ""
+    return f"[{f['advertiser']}]({link})" if link else f["advertiser"]
+
+
+def merchant_lines(rows):
+    out = []
+    for f in rows[:SHORTLIST_LIMIT]:
+        bits = [f"imported {f['last_imported']} ({f['age_days']}d ago)"]
+        if f["products"]:
+            bits.append(f"{f['products']} products")
+        if f["region"]:
+            bits.append(f["region"])
+        out.append("- " + profile_link(f) + " — " + ", ".join(bits))
+    if len(rows) > SHORTLIST_LIMIT:
+        out.append(f"- …and {len(rows) - SHORTLIST_LIMIT} more.")
+    return out
+
+
+def apparel_report(stats):
+    """Second tier, only shown when the footwear shortlist came back empty:
+    apparel merchants with a current feed. Read by eye — a shoe brand will not
+    always say so in its name or its sector."""
+    fresh = stats.get("fresh_seen", 0)
+    if not fresh:
+        # Nothing the key can see is current, so there is no second tier to read.
+        return []
+    apparel = stats.get("apparel") or []
+    n = len(apparel)
+    out = ["", f"Of the {fresh} unjoined feed{'' if fresh == 1 else 's'} that "
+               f"{'is' if fresh == 1 else 'are'} current, "
+               f"{n} {'is an apparel or sports merchant' if n == 1 else 'are apparel or sports merchants'}"
+               f" — a shoe brand may be among them under a name that does not say so:"]
+    if apparel:
+        out.extend(merchant_lines(apparel))
+    else:
+        out.append("")
+        out.append("None. What the key can see with a current feed, by sector: "
+                   + "; ".join(f"{name} ({count})" for name, count in stats.get("fresh_sectors", []))
+                   + ".")
+    return out
+
+
 def shortlist_report(candidates, stats):
     """The apply-to shortlist. Report only — never committed: it is a scan of
     the network, not a fact about this site, and it changes every day."""
@@ -269,21 +332,10 @@ def shortlist_report(candidates, stats):
             out.append("")
             out.append("Nearest footwear merchants, all too stale to use:")
             for f in stats["nearest_footwear"]:
-                link = MERCHANT_PROFILE.format(advertiser_id=f["advertiser_id"]) if f["advertiser_id"] else ""
-                name = f"[{f['advertiser']}]({link})" if link else f["advertiser"]
-                out.append(f"- {name} — imported {f['last_imported']} ({f['age_days']}d ago)")
+                out.append("- " + profile_link(f) + f" — imported {f['last_imported']} ({f['age_days']}d ago)")
+        out.extend(apparel_report(stats))
         return out
-    for f in candidates[:SHORTLIST_LIMIT]:
-        bits = [f"imported {f['last_imported']} ({f['age_days']}d ago)"]
-        if f["products"]:
-            bits.append(f"{f['products']} products")
-        if f["region"]:
-            bits.append(f["region"])
-        link = MERCHANT_PROFILE.format(advertiser_id=f["advertiser_id"]) if f["advertiser_id"] else ""
-        name = f"[{f['advertiser']}]({link})" if link else f["advertiser"]
-        out.append(f"- {name} — " + ", ".join(bits))
-    if len(candidates) > SHORTLIST_LIMIT:
-        out.append(f"- …and {len(candidates) - SHORTLIST_LIMIT} more.")
+    out.extend(merchant_lines(candidates))
     out.append("")
     out.append("Not joined. Applying starts the approval clock; the run re-checks the "
                "import date before anything from it is published.")
