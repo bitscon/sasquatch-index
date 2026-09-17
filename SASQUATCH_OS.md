@@ -173,6 +173,17 @@ own public VPS and can host there if needed — treat that as a fallback, not th
 first choice, since it trades hands-off operation for maintenance he does not
 need to take on.
 
+**2026-09-16 update — custom domain added.** The owner registered
+sasquatchindex.com at Namecheap specifically to fix the branding/legitimacy
+problem of a bare github.io URL. Decision made after comparing it against moving
+hosting to his own VPS: a custom domain pointed at GitHub Pages gives the same
+visible domain and the same SEO/legitimacy benefit as self-hosting, with none of
+the added maintenance (no server, no certificate renewal). The owner considered
+self-hosting for control over email/DNS and chose to keep GitHub Pages once that
+tradeoff was explained. DNS for sasquatchindex.com is managed directly at
+Namecheap (not routed through the VPS). Hosting stays GitHub Pages; this does not
+reopen the VPS-vs-Pages question absent a new reason to.
+
 **Do not confuse hosting with distribution.** Hosting is where the files sit and
 is easily changed. Distribution is how people find the site, and no hosting
 choice solves it. See section 8.
