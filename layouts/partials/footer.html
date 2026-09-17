@@ -15,7 +15,7 @@
         {{ len $retailers }} retailer{{ if ne (len $retailers) 1 }}s{{ end }} ·
         {{ len $listingPages }} listing page{{ if ne (len $listingPages) 1 }}s{{ end }} ·
       {{ else }}
-        No feed connected ·
+        {{ with site.Data.feed_run }}{{ if eq .feed_status "stale" }}No current retailer feed{{ else }}No products from the feed yet{{ end }}{{ else }}No feed connected{{ end }} ·
         {{ len $guides }} reference guide{{ if ne (len $guides) 1 }}s{{ end }} ·
       {{ end }}
       built {{ now.Format "2 Jan 2006" }}
