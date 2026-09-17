@@ -109,6 +109,18 @@ it is produced entirely from the feeds.
 | Computed facts on every page — counts, retailers, widths, price range, brands | Derived at build time |
 | A reference layer — size conversions, width designations, where brands stop | Written once, factual |
 
+**The promise, and what it rests on (owner, 2026-09-17).** The owner's own
+frustration that started this site: finding the one shoe you like, in your
+size, then landing on the shop to find it sold out or wait-listed. So the
+site lists a size only when the retailer's feed carried that size as in stock
+and for sale at the last run; a size absent from the feed is not listed. Every
+listing page states this, with the run time, and every card says "in stock
+at". The wording is always "listed as in stock by the retailer's feed at
+<time>" — never "guaranteed", never "live" — because feeds are checked once a
+day and the site cannot see the shelf. There is no show/hide toggle for stock
+because nothing out of stock is ever on the page. The run marker records what
+changed between runs so the owner can see the feed actually moving.
+
 **The owner is not a content source.** Do not ask him to write fit notes, review
 products, or comment on individual styles. Do not flag pages for lacking his
 commentary. Routine operation requires nothing from him.

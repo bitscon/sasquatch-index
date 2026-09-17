@@ -26,6 +26,7 @@
     </a>
   {{ end }}
 </div>
+<p class="promise">{{ site.Params.promise }}{{ with site.Data.feed_run }}{{ with .ran_at }} Last checked {{ (time .).Format "2 Jan 2006, 15:04 UTC" }}.{{ end }}{{ end }}</p>
 {{ with $brands }}
 <p class="section-label">Or start from a brand</p>
 <div class="chips">

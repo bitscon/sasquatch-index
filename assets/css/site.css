@@ -103,6 +103,13 @@ p { margin: 0 0 1rem; }
   background: var(--accent); flex: none;
 }
 
+/* The in-stock promise: one plain, dated sentence. Quiet, not a banner. */
+.promise {
+  color: var(--muted); font-size: .92rem; line-height: 1.5; max-width: 38rem;
+  border-left: 3px solid var(--accent); padding: .15rem 0 .15rem .8rem; margin: 0 0 1.4rem;
+}
+.promise strong { color: var(--ink); font-weight: 600; }
+
 /* Computed facts, derived at build time. Never written by hand. */
 .facts {
   font: 400 .78rem/1.7 var(--mono); color: var(--muted);

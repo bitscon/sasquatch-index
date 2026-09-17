@@ -38,6 +38,6 @@
   </span>
   <span class="p-name">{{ $p.brand }} {{ $p.style_name }}</span>
   <span class="p-meta">{{ $p.category }} · {{ delimit $p.widths ", " }}{{ with $p.attributes }} · {{ delimit . ", " }}{{ end }}{{ with $p.colours }}{{ if gt . 1 }} · {{ . }} colours{{ end }}{{ end }}</span>
-  <span class="p-go">{{ with $price }}<strong>{{ . }}</strong> {{ end }}<span>at {{ $p.retailer }} &rarr;</span></span>
+  <span class="p-go">{{ with $price }}<strong>{{ . }}</strong> {{ end }}<span>in stock at {{ $p.retailer }} &rarr;</span></span>
 </a>
 </li>

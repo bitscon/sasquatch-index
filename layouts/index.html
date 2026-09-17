@@ -21,6 +21,8 @@
   {{ end }}
 </div>
 
+<p class="promise">{{ site.Params.promise }}{{ with site.Data.feed_run }}{{ with .ran_at }} Last checked {{ (time .).Format "2 Jan 2006, 15:04 UTC" }}.{{ end }}{{ end }}</p>
+
 {{/* Brand hubs only become chips once a page actually exists behind them.
      A chip that leads nowhere is worse than no chip (section 2a). */}}
 {{ with $brands }}

@@ -50,8 +50,19 @@
   Widths: {{ delimit $widths ", " }}<br>
   Types: {{ delimit $cats ", " }}
   {{ with $feats }}<br>Features: {{ delimit . ", " }}{{ end }}
-  {{ with site.Data.feed_run }}{{ with .ran_at }}<br>Prices and stock as of {{ (time .).Format "2 Jan 2006" }}{{ end }}{{ end }}
 </p>
+
+{{/* The reason this site exists over a marketplace (owner, 2026-09-17): a
+     person with big feet finds the one they like, lands on the shop, and it
+     is sold out. Everything below was listed in stock in this size by the
+     retailer's feed at the stated time. Said plainly, dated, never
+     "guaranteed" — the feed is checked once a day. */}}
+{{ with site.Data.feed_run }}{{ with .ran_at }}
+<p class="promise">
+  <strong>{{ with $.Params.size }}Every shoe below was listed in stock in size {{ . }}{{ else }}Every shoe below was listed in stock in its stated sizes{{ end }}</strong>
+  by the retailer&rsquo;s feed at {{ (time .).Format "15:04 UTC on 2 Jan 2006" }}. Feeds are checked once a day, so stock can change between checks.
+</p>
+{{ end }}{{ end }}
 
 {{/* Narrower pages that exist beneath this one. A chip only appears when a
      page is actually behind it (SASQUATCH_OS.md section 2a). */}}

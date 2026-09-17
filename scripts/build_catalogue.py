@@ -236,6 +236,15 @@ def dump_run(run):
         f"rows_in_feed: {run['rows_in_feed']}",
         f"products_written: {run['products_written']}",
         "sizes_covered: [" + ", ".join(str(s) for s in run["sizes_covered"]) + "]",
+        f"stock_basis: {yaml_str(run['stock_basis'])}",
+    ]
+    if run["changes_since_last_run"] is None:
+        lines.append("changes_since_last_run: null")
+    else:
+        lines.append("changes_since_last_run:")
+        for k, v in run["changes_since_last_run"].items():
+            lines.append(f"  {k}: {v}")
+    lines += [
         "skipped:",
     ]
     for k, v in run["skipped"].items():
@@ -243,7 +252,32 @@ def dump_run(run):
     return "\n".join(lines) + "\n"
 
 
+def previous_size_rows(data_dir):
+    """The (style, size, width) set the last run published, read from the
+    committed data file, so the run marker can say what moved. The visible
+    in-stock promise rests on the feed actually changing when stock does;
+    this is how the owner can watch that it does."""
+    path = Path(data_dir, "products.yaml")
+    if not path.exists():
+        return None
+    out = set()
+    style = None
+    sizes = widths = ()
+    for line in path.read_text().splitlines():
+        if line.startswith("    style_name: "):
+            style = line[len("    style_name: "):].strip().strip('"')
+        elif line.startswith("    sizes: ["):
+            sizes = tuple(s.strip() for s in line[len("    sizes: ["):].rstrip("]").split(",") if s.strip())
+        elif line.startswith("    widths: ["):
+            widths = tuple(w.strip() for w in line[len("    widths: ["):].rstrip("]").split(",") if w.strip())
+            for s in sizes:
+                for w in widths:
+                    out.add((style, s, w))
+    return out
+
+
 def main(feed_path, data_dir):
+    before = previous_size_rows(data_dir)
     rows = load(feed_path)
     skipped = Counter()
     groups = {}
@@ -319,6 +353,15 @@ def main(feed_path, data_dir):
         })
 
     all_sizes = sorted({s for p in products for s in p["sizes"]})
+    after = {(p["style_name"], str(s), w) for p in products for s in p["sizes"] for w in p["widths"]}
+    changes = None
+    if before is not None:
+        changes = {
+            "size_rows_added": len(after - before),
+            "size_rows_removed": len(before - after),
+            "styles_added": len({a[0] for a in after} - {b[0] for b in before}),
+            "styles_removed": len({b[0] for b in before} - {a[0] for a in after}),
+        }
 
     Path(data_dir).mkdir(parents=True, exist_ok=True)
     Path(data_dir, "products.yaml").write_text(dump_products(products))
@@ -328,6 +371,8 @@ def main(feed_path, data_dir):
         "rows_in_feed": len(rows),
         "products_written": len(products),
         "sizes_covered": all_sizes,
+        "stock_basis": "rows the retailer feed flagged in stock and for sale at run time; sizes absent from the feed are not listed",
+        "changes_since_last_run": changes,
         "skipped": dict(sorted(skipped.items())),
     }
     Path(data_dir, "feed_run.yaml").write_text(dump_run(run))
@@ -335,6 +380,8 @@ def main(feed_path, data_dir):
     print(f"Rows in feed: {len(rows)}")
     print(f"Styles written: {len(products)}")
     print(f"Sizes covered: {all_sizes}")
+    if changes is not None:
+        print("Changed since last run: " + ", ".join(f"{k} {v}" for k, v in changes.items()))
     print("Categories: " + ", ".join(f"{k} {v}" for k, v in sorted(Counter(p["category"] for p in products).items())))
     print("Skipped:")
     for k, v in sorted(skipped.items()):
