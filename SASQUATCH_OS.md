@@ -163,6 +163,26 @@ that does not run through a search engine.
 
 ---
 
+## 2c. Standing rules for feeds and applications
+
+Confirmed by the owner 2026-09-17. These do not expire with a phase and they are not
+a task anyone can close. Section 2b explains where the freshness rule came from; this
+section is the short list an agent checks against before publishing anything or
+filling in any network application.
+
+| Rule | Why |
+|---|---|
+| **No feed publishes unless its import date is inside the freshness window.** | A stale listing sends a ready-to-buy visitor to a dead page — the one failure this site cannot afford |
+| **Feed status is proven by the run, not by the dashboard.** | Dashboard approval state and actual feed import date are separate facts; only the second one gates a publish |
+| **No invented traffic or performance figures in any network application.** | An unverifiable claim in an application risks a permanent decline |
+| **Nothing publishes from a source that has not been verified.** | No unverified decision crosses a system boundary |
+| **Do not loosen the freshness rule to populate the site.** | **Risk: High.** Loosening it defeats the purpose of the site |
+
+The last one is the one under pressure. The site looking empty is the rule working,
+not a defect, and the fix is a fresh feed rather than a wider window.
+
+---
+
 ## 3. How the owner works — session protocol
 
 **Confirm before acting.** State the plan first. Wait for approval. Then execute.
