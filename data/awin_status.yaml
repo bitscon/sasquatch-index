@@ -3,7 +3,7 @@
 # relationships. Committed so the next run can report what changed.
 # No click or money figures live here: the repository is public.
 
-checked_at: "2026-09-17T17:02:12Z"
+checked_at: "2026-09-17T17:13:49Z"
 feed:
   advertiser: "NORTIV 8 Shoes"
   feed_id: "105652"
@@ -17,4 +17,4 @@ feeds_visible_to_key:
   - "NORTIV 8 Shoes / sftp://datafeeds.shareasale.com/Awin/112430/feed.zip / active / last imported 2026-05-15 18:57:09"
   - "Giftlab / sftp://datafeeds.shareasale.com/Awin/115671/feed.zip / active / last imported 2026-05-15 18:57:44"
 programmes:
-  error: "AWIN_API_TOKEN is not set"
+  error: "publisher id unknown"
