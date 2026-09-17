@@ -1,82 +1,78 @@
-# Handoff — Phase 2 (open) — the freshness rule — 2026-09-17
+# Handoff — Phase 2 (open) — Awin cannot supply this site — 2026-09-17
 
 ## What was completed
-- **The daily run now asks Awin itself how fresh the feed is.** Awin's feed
-  list reports when it last imported each feed. The run reads it with the
-  product-feed key already in the feed address, so no new secret was needed,
-  and records the answer in the run marker, the run report and a committed
-  status file.
-- **The answer was bad.** Awin last imported the NORTIV 8 feed on 15 May
-  2026. Every feed the account has joined (NORTIV 8, TideWe, Piscifun,
-  Giftlab) stopped on that same day; all four come through the old
-  ShareASale path. Merchants the account has not joined update daily. The
-  site's in-stock promise had been resting on four-month-old stock flags,
-  which is why nothing ever changed between runs.
-- **The freshness rule, decided by the owner.** The site lists only feeds
-  the network has imported within the last 30 days. Older feeds are dropped
-  automatically and return on their own when they move. No tickets, no
-  chasing; the site is not going to maintain a merchant's feed for them.
-  Recorded in the rules, section 2b, and in the Phase 2 gate.
-- **The site now says its real state.** Every promise line shows the date
-  the network last imported the feed, not the time the site pulled it. With
-  the feed stale, the home and browse pages say the connected retailer's
-  feed has not been updated since 15 May 2026, that the index is still being
-  built, and lead with the guides. Listing pages and cards are gone until a
-  fresh feed exists.
-- **When the network cannot answer**, the site keeps what the last run
-  published and the run marker says "unknown". It does not change on an
-  answer it did not get.
-- **Ready for the Awin Publisher API.** With a read-only token in the
-  repository secrets, the same run records every advertiser relationship,
-  shouts when one changes (Zeba, FitVille), and reports click-through and
-  transaction counts. Counts only, never money, never in a committed file:
-  the repository and its run logs are public.
-- **Verified:** stale, fresh and unknown paths each built locally with the
-  deploy's Hugo version; the live run after landing is the final check and
-  is recorded in the run's job summary.
+- **The daily run now scans the whole network for a merchant worth applying
+  to.** The feed list it already downloads carries every feed Awin will show
+  this key, not just the joined ones, with the date Awin last imported each.
+  Those rows used to be discarded. The run now reads them and names, in the
+  run report, the footwear merchants whose feed the network has imported
+  within the same 30-day limit the site applies to its own feed.
+- **Two tiers, because a shoe brand is not obliged to say so in its name.**
+  NORTIV 8 itself is filed under Clothing & Accessories, so matching shoe
+  words alone found one merchant in 562 and that was not credible. Tier one
+  is the shoe-word match. Tier two appears only when tier one is empty and
+  lists the apparel and sports merchants with current feeds, to be read by
+  eye. One line per merchant from its largest feed; home region sorts first.
+- **The answer is that Awin has nothing for this site.** Of 562 feeds the key
+  can see, 220 merchants have a current feed, so the network is importing
+  normally — the freshest was imported the same day. Exactly one footwear
+  merchant appears on the entire visible network, CHIKO (US), and its feed is
+  frozen on 15 May 2026 like every joined feed. The 18 apparel merchants with
+  current feeds are jewellery, socks, watches and perfume, almost all European;
+  the only recognisable shoe brand among them is Converse PL, Poland only.
+- **So the open question is answered.** Waiting on Awin is not a strategy. A
+  second network is the only path to a first feed, which makes the Rakuten
+  registration the critical item rather than an optional one.
+- **Report only, never committed.** The scan is a fact about the network, not
+  about this site, and it changes daily. The committed status file is
+  unchanged in shape. The feed key stays masked.
+- **The scan says why it is empty, not just that it is.** It reports how many
+  merchants were scanned, how many footwear merchants exist at any age, the
+  freshest feed of any kind with a plain reading of what that implies, and the
+  nearest footwear merchants with their import dates. An empty shortlist can
+  now be told apart from a shortlist that could not be read.
+- **Verified:** six report paths covered by an offline test against a
+  synthetic feed list — a live footwear merchant, the apparel fallback, the
+  sector breakdown, nothing current, no unjoined rows, and the deduplication
+  and region ranking. Four live runs, each clean, the last at 17:44 UTC.
 
 ## What was NOT completed and why
-- Nothing on the tracking side: the Awin API token is in the repository
-  secrets and the run reads advertiser relationships and click-throughs
-  with it (verified: FitVille and Zeba pending, four joined, zero clicks in
-  the last seven days, which matches an empty catalogue).
-- **No fresh feed exists.** The site is empty of products until one does.
-  Zeba and FitVille are still pending on Awin; if they come through the
-  same ShareASale path they may be frozen too. Rakuten is not registered.
+- **No fresh feed exists, and none is coming from Awin.** This is now measured
+  rather than assumed. Zeba and FitVille are still pending; both came through
+  the ShareASale path, so approval may hand over a frozen feed.
+- Rakuten: not registered. It is the only remaining route to a first feed.
 - Project mailbox, social channel: unchanged.
 
 ## Current state of the system
 - Site: live at https://sasquatchindex.com, HTTPS enforced. Products: none
-  published (feed stale). Guides, disclosure, privacy: live.
+  published (feed stale, 125 days). Guides, disclosure, privacy: live.
 - Hosting: GitHub Pages. DNS: Namecheap. Unchanged.
-- Scheduled rebuild: daily 09:00 UTC, unattended. Order: download feed,
-  ask Awin about freshness and account, build with the freshness rule,
-  verify links, commit, deploy, report.
-- Analytics: live, cookieless. Search Console and Bing: verified. The 55
-  listing pages previously indexed now return not-found until a fresh feed
-  brings them back; accepted, the site is not ready for visitors.
-- Pending advertisers: Zeba, FitVille. Second feed source: Rakuten, not registered.
+- Scheduled rebuild: daily 09:00 UTC, unattended. Order: download feed, ask
+  Awin about freshness, the account and the network, build with the freshness
+  rule, verify links, commit, deploy, report.
+- Analytics: live, cookieless. Search Console and Bing: verified.
+- Awin: 4 joined (NORTIV 8, TideWe, Piscifun, Giftlab), all frozen 15 May 2026.
+  2 pending (Zeba, FitVille). 0 clicks in the last seven days, consistent with
+  an empty catalogue.
 
 ## Decisions made this session
-- **Drop by rule, not by hand.** A 30-day freshness limit, automatic both
-  ways. Reason: the owner will not maintain or steer a network's data.
-- **Date the promise by the feed's import time, never the pull time.** The
-  pull time implied freshness the data did not have.
-- **Keep the previous catalogue when the network does not answer.** An
-  outage at Awin is not evidence the feed is stale.
-- **Counts, not money, in anything public.** Repo and run logs are public.
-- **The site is not ready for visitors** and says so; feeds are pursued in
-  parallel.
+- **Rank the home region, do not filter it.** A US site does not want a Swiss
+  merchant at the top of its shortlist, but a genuinely on-theme brand abroad
+  should still be visible further down.
+- **One line per merchant, from its largest feed.** Awin lists a merchant once
+  per feed; the raw list gave the same advertiser four lines.
+- **The network scan stays out of the committed files.** It is a daily-changing
+  scan of someone else's data, not a fact about this site.
 
 ## Open questions for the owner
-- Do you want to register with Rakuten this week, now that Awin's joined
-  feeds are all frozen?
-- Is the project mailbox at Namecheap set up yet?
+- Rakuten registration is now the critical path, not an option. Is the project
+  mailbox needed first, or register with a personal address and change it later?
 
 ## Recommended next session
-- Phase 2 close-out: wire the first feed whose import date is current, from
-  whichever network delivers one. The run report now shows every feed's
-  import date before it is wired.
-- Gate that must be met first: a feed the network has imported within 30
-  days.
+- Nothing on the feed side can move until a network delivers a current feed,
+  and Awin will not. Register with Rakuten and apply to Zappos; the run checks
+  any new feed's import date before anything is published.
+- Worth considering if Rakuten also stalls: the scan can be pointed at a
+  second network's feed list the same way, so the same question gets answered
+  before a signup rather than after.
 - Risk: Low.

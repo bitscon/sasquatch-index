@@ -14,3 +14,10 @@
 
 Live at https://sasquatchindex.com/ — publishes automatically on
 every push to `main`.
+
+Phase 2 is gated on one thing: a feed the network has imported within 30 days
+(SASQUATCH_OS.md section 2b). As of 2026-09-17 no such feed exists and Awin
+cannot supply one — the daily run scans every feed Awin will show this key and
+finds a single footwear merchant on the whole network, frozen since 15 May.
+A second network is the only route to a first feed. Nothing is published until
+one arrives.
