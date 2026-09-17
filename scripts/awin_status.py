@@ -86,6 +86,10 @@ def feed_freshness(feed_url):
 
     feeds = []
     for r in rows:
+        # The list carries every feed on the network; only advertisers we have
+        # a relationship with are worth recording.
+        if col(r, "membership status").lower() in ("not joined", "notjoined"):
+            continue
         feeds.append({
             "advertiser": col(r, "advertiser name"),
             "advertiser_id": col(r, "advertiser id"),
