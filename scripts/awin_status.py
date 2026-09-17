@@ -126,7 +126,7 @@ def feed_freshness(feed_url):
                 return (v or "").strip()
         return ""
 
-    feeds, candidates = [], []
+    feeds, candidates, footwear, dated = [], [], [], []
     not_joined_seen = sector_seen = 0
     for r in rows:
         row = {
@@ -149,18 +149,28 @@ def feed_freshness(feed_url):
         # that is the only thing that lifts the site out of its empty state.
         if row["membership"].lower() in ("not joined", "notjoined"):
             not_joined_seen += 1
-            age = feed_age_days(row["last_imported"])
-            if age is not None and age <= MAX_FEED_AGE_DAYS and looks_like_footwear(row):
-                row["age_days"] = age
-                candidates.append(row)
+            row["age_days"] = feed_age_days(row["last_imported"])
+            if row["age_days"] is not None:
+                dated.append(row)
+                if looks_like_footwear(row):
+                    footwear.append(row)
+                    if row["age_days"] <= MAX_FEED_AGE_DAYS:
+                        candidates.append(row)
             continue
         feeds.append(row)
     candidates.sort(key=lambda f: (-to_int(f["products"]), f["advertiser"].lower()))
+    footwear.sort(key=lambda f: f["age_days"])
+    dated.sort(key=lambda f: f["age_days"])
     stats = {
         "rows": len(rows),
         "not_joined_seen": not_joined_seen,
         "sector_seen": sector_seen,
         "candidates": len(candidates),
+        "footwear_any_age": len(footwear),
+        # When the shortlist is empty these say why: whether the network is
+        # moving at all, and how close the nearest footwear merchant is.
+        "nearest_footwear": footwear[:5],
+        "freshest_on_network": dated[0] if dated else None,
     }
     ours = None
     if fid:
@@ -243,7 +253,25 @@ def shortlist_report(candidates, stats):
     out = ["", f"**Footwear merchants with a feed Awin imported in the last {MAX_FEED_AGE_DAYS} days:** "
                f"{len(candidates)} of {scanned}.", ""]
     if not candidates:
-        out.append("None. Nothing on the network matches footwear with a current feed today.")
+        n = stats.get("footwear_any_age", 0)
+        out.append(f"None. {n} footwear merchant{'' if n == 1 else 's'} "
+                   f"{'was' if n == 1 else 'were'} found at any age.")
+        freshest = stats.get("freshest_on_network")
+        if freshest:
+            out.append(f"The freshest unjoined feed of any kind is {freshest['advertiser']}, "
+                       f"imported {freshest['last_imported']} ({freshest['age_days']}d ago) — "
+                       + ("so the network is importing normally and the frozen feeds are the "
+                          "ShareASale path, not Awin."
+                          if freshest["age_days"] <= MAX_FEED_AGE_DAYS else
+                          "so nothing this key can see is current, which points at the key's "
+                          "own feed access rather than at any one merchant."))
+        if stats.get("nearest_footwear"):
+            out.append("")
+            out.append("Nearest footwear merchants, all too stale to use:")
+            for f in stats["nearest_footwear"]:
+                link = MERCHANT_PROFILE.format(advertiser_id=f["advertiser_id"]) if f["advertiser_id"] else ""
+                name = f"[{f['advertiser']}]({link})" if link else f["advertiser"]
+                out.append(f"- {name} — imported {f['last_imported']} ({f['age_days']}d ago)")
         return out
     for f in candidates[:SHORTLIST_LIMIT]:
         bits = [f"imported {f['last_imported']} ({f['age_days']}d ago)"]
