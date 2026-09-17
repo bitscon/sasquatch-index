@@ -41,20 +41,22 @@ jobs:
             || { echo "The feed could not be downloaded."; exit 1; }
           echo "Downloaded $(wc -c < feed.raw) bytes."
 
-      - name: Build the catalogue
-        run: python3 scripts/build_catalogue.py feed.raw data
-
-      - name: Verify affiliate links resolve
-        run: python3 scripts/verify_links.py data/products.yaml
-
       # Asks Awin how fresh the feed is (key already in the feed address) and,
       # once AWIN_API_TOKEN exists, which advertisers have approved us and
-      # whether anyone clicked through. Never fails the run.
+      # whether anyone clicked through. Runs before the
+      # build because the build's freshness rule reads its answer. Never fails
+      # the run.
       - name: Record Awin feed freshness and account status
         env:
           AWIN_FEED_URL: ${{ secrets.AWIN_FEED_URL }}
           AWIN_API_TOKEN: ${{ secrets.AWIN_API_TOKEN }}
         run: python3 scripts/awin_status.py data
+
+      - name: Build the catalogue
+        run: python3 scripts/build_catalogue.py feed.raw data
+
+      - name: Verify affiliate links resolve
+        run: python3 scripts/verify_links.py data/products.yaml
 
       - name: Commit the catalogue if it changed
         id: commit

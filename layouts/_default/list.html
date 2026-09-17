@@ -26,7 +26,7 @@
     </a>
   {{ end }}
 </div>
-<p class="promise">{{ site.Params.promise }}{{ with site.Data.feed_run }}{{ with .ran_at }} Last checked {{ (time .).Format "2 Jan 2006, 15:04 UTC" }}.{{ end }}{{ end }}</p>
+<p class="promise">{{ site.Params.promise }}{{ with site.Data.feed_run }}{{ with .feed_last_imported }} Retailer feed last updated {{ (time .).Format "2 Jan 2006" }}; checked daily.{{ end }}{{ end }}</p>
 {{ with $brands }}
 <p class="section-label">Or start from a brand</p>
 <div class="chips">
@@ -36,19 +36,21 @@
 {{ else }}
 {{/* No size page was generated. Say why, plainly, rather than showing an empty
      size grid (SASQUATCH_OS.md sections 2b and 6 — never imply coverage that is
-     not there). There are three different reasons for it and they must not be
+     not there). There are four different reasons for it and they must not be
      confused (FEED_HAZARDS.md hazard 5): no feed has ever run, a feed ran and
-     matched nothing, or a feed ran and matched something but not enough for a
-     page yet. Deriving the sentence from the data plus the run marker means
+     matched nothing, a feed ran and matched something but not enough for a
+     page yet, or the feed is older than the limit and was dropped. Deriving the sentence from the data plus the run marker means
      the page cannot claim the wrong one. */}}
 <p class="status">
   {{ if not $feedRun }}No retailer feed connected yet
+  {{ else if eq $feedRun.feed_status "stale" }}The connected retailer&rsquo;s feed has not been updated since {{ with $feedRun.feed_last_imported }}{{ (time .).Format "2 January 2006" }}{{ end }}, so its shoes are not listed
   {{ else if $products }}No size has enough listings for a page yet
   {{ else }}The feed ran and matched no products
   {{ end }}
 </p>
-<p class="lede">Size listings are generated from retailer product feeds, so they
-appear here as soon as a feed is connected.</p>
+<p class="lede">Size listings are generated from retailer product feeds and
+appear here as each retailer&rsquo;s feed comes online; a feed that stops
+updating is dropped until it moves again.</p>
 {{ end }}
 
 {{ with $guides }}

@@ -55,12 +55,14 @@
 {{/* The reason this site exists over a marketplace (owner, 2026-09-17): a
      person with big feet finds the one they like, lands on the shop, and it
      is sold out. Everything below was listed in stock in this size by the
-     retailer's feed at the stated time. Said plainly, dated, never
-     "guaranteed" — the feed is checked once a day. */}}
-{{ with site.Data.feed_run }}{{ with .ran_at }}
+     retailer's feed as of the date the network last imported that feed —
+     the data's real age, not the time this site pulled it. A feed older
+     than the limit is never on the page at all (build_catalogue.py,
+     MAX_FEED_AGE_DAYS). Said plainly, dated, never "guaranteed". */}}
+{{ with site.Data.feed_run }}{{ with .feed_last_imported }}
 <p class="promise">
   <strong>{{ with $.Params.size }}Every shoe below was listed in stock in size {{ . }}{{ else }}Every shoe below was listed in stock in its stated sizes{{ end }}</strong>
-  by the retailer&rsquo;s feed at {{ (time .).Format "15:04 UTC on 2 Jan 2006" }}. Feeds are checked once a day, so stock can change between checks.
+  by the retailer&rsquo;s feed, last updated {{ (time .).Format "2 January 2006" }}. Feeds are checked once a day and a feed that stops updating for {{ site.Data.feed_run.max_feed_age_days }} days is dropped, so stock can still change between updates.
 </p>
 {{ end }}{{ end }}
 

@@ -21,7 +21,7 @@
   {{ end }}
 </div>
 
-<p class="promise">{{ site.Params.promise }}{{ with site.Data.feed_run }}{{ with .ran_at }} Last checked {{ (time .).Format "2 Jan 2006, 15:04 UTC" }}.{{ end }}{{ end }}</p>
+<p class="promise">{{ site.Params.promise }}{{ with site.Data.feed_run }}{{ with .feed_last_imported }} Retailer feed last updated {{ (time .).Format "2 Jan 2006" }}; checked daily.{{ end }}{{ end }}</p>
 
 {{/* Brand hubs only become chips once a page actually exists behind them.
      A chip that leads nowhere is worse than no chip (section 2a). */}}
@@ -37,18 +37,22 @@
      as a broken page; state the position plainly and lead with the reference
      layer, which is finished and useful today (SASQUATCH_OS.md sections 2b
      and 6). The reason is derived from the data, never hard-coded — and there
-     are three of them, not two (FEED_HAZARDS.md hazard 5): no feed has ever
+     are four of them (FEED_HAZARDS.md hazard 5, plus the freshness rule): no feed has ever
      run, a feed ran and matched nothing, or a feed ran and matched something
-     but not enough for a page yet. An empty products.yaml means the first two
+     but not enough for a page yet, or the feed is older than the limit. An
+     empty products.yaml means the first two
      look identical unless the run marker says a feed ran at all. */}}
 <h1>Shoes in size 13 and up</h1>
 <p class="status">
   {{ if not $feedRun }}No retailer feed connected yet
+  {{ else if eq $feedRun.feed_status "stale" }}The connected retailer&rsquo;s feed has not been updated since {{ with $feedRun.feed_last_imported }}{{ (time .).Format "2 January 2006" }}{{ end }}, so its shoes are not listed
   {{ else if $products }}No size has enough listings for a page yet
   {{ else }}The feed ran and matched no products
   {{ end }}
 </p>
-<p class="lede">Size listings are generated from retailer product feeds. The
+<p class="lede">This index is still being built. Size listings are generated
+from retailer product feeds and appear as each retailer&rsquo;s feed comes
+online; a feed that stops updating is dropped until it moves again. The
 guides below are finished, factual and free to use today.</p>
 {{ end }}
 

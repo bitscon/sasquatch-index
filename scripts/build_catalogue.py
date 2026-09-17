@@ -30,6 +30,12 @@ BRAND = "NORTIV 8"
 RETAILER = "NORTIV 8"
 SOURCE = "NORTIV 8 via Awin"
 SIZE_FLOOR = 13  # SASQUATCH_OS.md section 1: this site is size 13 and up, full stop.
+
+# Owner decision 2026-09-17 (SASQUATCH_OS.md section 2b): the site lists only
+# feeds the network has imported within this many days. A feed older than
+# that is dropped automatically and comes back on its own when it moves. No
+# one chases a merchant or a network over a stale feed; the rule does it.
+MAX_FEED_AGE_DAYS = 30
 SIZE_RE = re.compile(r"^(\d{1,2}(?:\.5)?)\s*([A-Za-z]*)$")
 TRUE_WORDS = {"1", "true", "yes", "y"}
 
@@ -237,6 +243,15 @@ def dump_run(run):
         f"products_written: {run['products_written']}",
         "sizes_covered: [" + ", ".join(str(s) for s in run["sizes_covered"]) + "]",
         f"stock_basis: {yaml_str(run['stock_basis'])}",
+        "# fresh: the network imported the feed within max_feed_age_days and its",
+        "# products are published. stale: older than that, nothing published from",
+        "# it. unknown: the network did not answer, the previous run's products",
+        "# were kept.",
+        f"feed_status: {yaml_str(run['feed_status'])}",
+        "feed_last_imported: " + (yaml_str(run["feed_last_imported"]) if run["feed_last_imported"] else "null"),
+        "feed_age_days: " + (str(run["feed_age_days"]) if run["feed_age_days"] is not None else "null"),
+        f"max_feed_age_days: {run['max_feed_age_days']}",
+        f"styles_matched_in_feed: {run['styles_matched_in_feed']}",
     ]
     if run["changes_since_last_run"] is None:
         lines.append("changes_since_last_run: null")
@@ -250,6 +265,31 @@ def dump_run(run):
     for k, v in run["skipped"].items():
         lines.append(f"  {k}: {v}")
     return "\n".join(lines) + "\n"
+
+
+def feed_freshness(data_dir):
+    """When the network last imported the feed the site pulls, read from the
+    status file scripts/awin_status.py writes just before this runs. Returns
+    (last_imported_iso, age_days) or (None, None) when the answer is not
+    known — an outage at the network is not the same as a stale feed."""
+    path = Path(data_dir, "awin_status.yaml")
+    if not path.exists():
+        return None, None
+    in_feed = False
+    for line in path.read_text().splitlines():
+        if line.startswith("feed:"):
+            in_feed = True
+        elif in_feed and not line.startswith("  "):
+            in_feed = False
+        elif in_feed and line.startswith("  last_imported: "):
+            raw = line[len("  last_imported: "):].strip().strip('"')
+            try:
+                when = datetime.strptime(raw, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
+            except ValueError:
+                return None, None
+            age = (datetime.now(timezone.utc) - when).days
+            return when.strftime("%Y-%m-%dT%H:%M:%SZ"), age
+    return None, None
 
 
 def previous_size_rows(data_dir):
@@ -352,6 +392,18 @@ def main(feed_path, data_dir):
             "image": g["image"],
         })
 
+    # The freshness rule. Decided before anything is written, on what the
+    # network itself reports about the feed.
+    last_imported, age = feed_freshness(data_dir)
+    matched = len(products)
+    if age is None:
+        feed_status = "unknown"
+    elif age > MAX_FEED_AGE_DAYS:
+        feed_status = "stale"
+        products = []
+    else:
+        feed_status = "fresh"
+
     all_sizes = sorted({s for p in products for s in p["sizes"]})
     after = {(p["style_name"], str(s), w) for p in products for s in p["sizes"] for w in p["widths"]}
     changes = None
@@ -364,21 +416,35 @@ def main(feed_path, data_dir):
         }
 
     Path(data_dir).mkdir(parents=True, exist_ok=True)
-    Path(data_dir, "products.yaml").write_text(dump_products(products))
+    if feed_status == "unknown" and before is not None:
+        # The network did not say how old the feed is. The site does not
+        # change on an answer it did not get: keep what the last run
+        # published and say so in the marker.
+        changes = None
+        all_sizes = sorted({int(b[1]) if b[1].isdigit() else float(b[1]) for b in before})
+    else:
+        Path(data_dir, "products.yaml").write_text(dump_products(products))
     run = {
         "ran_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "source": SOURCE,
         "rows_in_feed": len(rows),
-        "products_written": len(products),
+        "products_written": len(products) if feed_status != "unknown" else len({b[0] for b in before or ()}),
         "sizes_covered": all_sizes,
         "stock_basis": "rows the retailer feed flagged in stock and for sale at run time; sizes absent from the feed are not listed",
+        "feed_status": feed_status,
+        "feed_last_imported": last_imported,
+        "feed_age_days": age,
+        "max_feed_age_days": MAX_FEED_AGE_DAYS,
+        "styles_matched_in_feed": matched,
         "changes_since_last_run": changes,
         "skipped": dict(sorted(skipped.items())),
     }
     Path(data_dir, "feed_run.yaml").write_text(dump_run(run))
 
     print(f"Rows in feed: {len(rows)}")
-    print(f"Styles written: {len(products)}")
+    print(f"Feed status: {feed_status}" + (f" (last imported {last_imported}, {age} days old, limit {MAX_FEED_AGE_DAYS})" if last_imported else ""))
+    print(f"Styles matched in feed: {matched}")
+    print(f"Styles written: {run['products_written']}")
     print(f"Sizes covered: {all_sizes}")
     if changes is not None:
         print("Changed since last run: " + ", ".join(f"{k} {v}" for k, v in changes.items()))

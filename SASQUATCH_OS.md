@@ -132,6 +132,23 @@ transaction counts for yesterday and the last seven days. Counts only, never
 money, and never in a committed file: the repository and its run logs are
 public. The step can never fail the catalogue build.
 
+**The freshness rule (owner decision, 2026-09-17).** The first time the run
+asked, Awin reported the NORTIV 8 feed last imported on 15 May 2026, four
+months before, and every feed the account had joined stopped on the same
+day. The owner's ruling: the site does not chase merchants or networks over
+stale data, and it does not raise tickets to steer them. Instead the rule
+does it. The site lists only feeds the network has imported within the last
+30 days (build_catalogue.py, MAX_FEED_AGE_DAYS). A feed older than that is
+dropped automatically and its products vanish from the site; it comes back
+on its own the day the feed moves. When the network cannot say how old the
+feed is, the site keeps what the last run published and says so in the run
+marker; it does not change on an answer it did not get. The promise line on
+every page now shows the date the network last imported the feed, which is
+the data's real age, never the time this site pulled it. Until a fresh feed
+exists the site is not ready for visitors; it says so on the home page and
+leads with the guides. Feeds are pursued in parallel and each one's import
+date is visible in the run report before it is wired.
+
 **The owner is not a content source.** Do not ask him to write fit notes, review
 products, or comment on individual styles. Do not flag pages for lacking his
 commentary. Routine operation requires nothing from him.
@@ -330,7 +347,7 @@ Work one phase per session. Do not advance until the gate is met.
 |---|---|---|---|
 | 0 | Repo created in BitsCon, structure scaffolded, hosting connected, empty site deploys | A public URL loads | Low |
 | 1 | The reference layer, the disclosure and privacy pages, facts computed onto every page, and the page threshold. **No product data required** | Site reads as legitimate to a human reviewer | Low |
-| 2 | Analytics installed; apply to affiliate programs using the live site, and take feed access from whoever approves | Approvals received and at least one product feed available | **Medium** — thin sites get rejected |
+| 2 | Analytics installed; apply to affiliate programs using the live site, and take feed access from whoever approves | Approvals received and at least one product feed available **that the network has imported within 30 days** (section 2b, the freshness rule) | **Medium** — thin sites get rejected |
 | 3 | Generate the catalogue from the feed | A full build runs clean end to end from feed data | Medium |
 | 4 | Scheduled job: pull feed, rebuild, verify links, send owner a short report | Two consecutive unattended runs succeed | Low |
 | 5 | **Optional.** Apply for display advertising once the site has the scale and traffic history to pass screening | Approved and serving | Medium — gated on scale, not on a date |
