@@ -1,87 +1,81 @@
-# Handoff — Phase 2 (open) — search grid — 2026-09-17
+# Handoff — Phase 2 (open) — conversion pass — 2026-09-17
 
 ## What was completed
-- **The search grid is built and live.** The site's rules call the URL grid
-  its search engine, and until today only the three size pages existed. The
-  site now generates a page for every size, size + width, size + type,
-  size + width + type, size + feature, brand, and brand + size combination
-  that has enough products behind it. Each page carries its own computed
-  facts, a "narrow it down" row of chips to the pages beneath it, and a
-  breadcrumb back up. Nothing changed for the existing pages.
-- **Types and features now come from the merchant's own product names.**
-  The feed's category is too coarse to search on ("Activity"). The importer
-  reads words the merchant wrote in the name — work boots, snow boots,
-  sneakers, waterproof, steel toe — and records them. It repeats, it never
-  adds. This means the daily rebuild now writes two new fields (family,
-  attributes) and the category is more specific than before.
-- **Children's shoes no longer appear on the size 13 page.** Three kids'
-  water shoes were being listed as men's size 13 because the feed labels
-  both scales "US Size". The importer now skips rows on the children's scale
-  and counts them in the run report. Recorded as hazard 6 in FEED_HAZARDS.md.
-- **Search-engine basics added:** a robots file pointing at the sitemap, a
-  canonical address on every page, and link-preview tags. The default site
-  address in config and the two project files that still named the old
-  github.io address now say sasquatchindex.com.
-- **Verified end to end on the live site** after a real feed run: every
-  sitemap page loads, every page's stated count equals the rows it shows,
-  all affiliate links resolved.
-- **Search engines told about the new domain.** sasquatchindex.com is
-  verified in Google Search Console (HTML file) and Bing Webmaster Tools
-  (XML file); the sitemap is submitted to both. Google reported all 55 pages
-  discovered at submission; Bing shows the sitemap as processing, which it
-  says can take up to two days. Both verification files live in the site's
-  static folder and publish with every build, so the verifications hold.
+- **Owner's design mandate recorded in the rules.** His words: he does not
+  dictate look or function; the only goal is a person tapping through to a
+  retailer, in as few taps as possible. Pictures were the reason he hesitated
+  to tap. Written into SASQUATCH_OS.md section 2a as an owner amendment; the
+  text-only mockup of 7 September is superseded on the point of images.
+- **Pictures on every listing.** The build fetches each style's picture from
+  the merchant, resizes it, and serves it from the site itself, so the
+  visitor's browser never contacts a third party and the privacy page stays
+  true. Fetched originals are kept between builds so a redeploy is fast and a
+  short merchant outage does not blank the site. A picture that cannot be
+  fetched becomes a blank tile and a build warning, never a failed publish.
+- **Every card is one tap.** Picture, name, type, width, features, colour
+  count, price and "at NORTIV 8" are all inside a single link to the retailer.
+  Two cards across on a phone, three on a desktop.
+- **Price on every card**, from the feed, shown as a single figure or a range
+  across the style's rows, with "prices and stock as of" the run date on each
+  page. Currency is spelled out for anything other than US dollars.
+- **Every picture address now resolves.** The feed's image addresses carried
+  raw spaces and, for nine styles, Chinese filenames mangled by a double
+  encoding at the merchant's end. Both are corrected at import. Tested
+  against a real copy of the feed before shipping: all 84 resolve.
+- **Names tidied.** The feed loses apostrophes ("Men s"); restored at import.
+- **Disclosure page corrected.** It still said no affiliate links were live.
+  They have been live since the first feed. It now says so plainly.
+- **Filter chips scroll in one row on a phone** so pictures stay near the top.
+- **Verified live** after a real feed run: 84 pictures processed, every card
+  has a picture and a price, every sitemap page loads.
 
 | Item | Before | After |
 |---|---|---|
-| Pages in the sitemap | 9 | 55 |
-| Listing pages | 3 | 49 |
-| Styles published | 87 | 84 (3 children's rows removed) |
-| Types recognised | 3 (feed labels) | 13 (from product names) |
-| Features recognised | 0 | 5 |
+| Pictures on listings | none | every card |
+| Price on listings | none | every card |
+| Taps from a listing to the retailer | 1, on a small link | 1, anywhere on the card |
+| Picture addresses that resolve | 61 of 84 | 84 of 84 |
+| Typical picture size served | — | about 20 to 40 KB |
 
 ## What was NOT completed and why
-- **Rakuten** — decided yes last session, still needs the owner's tax and
-  business details to register.
-- **Project mailbox** — not confirmed; the daily report still goes to the
-  Actions job summary.
-- **The social auto-post channel** proposed last session — deliberately held.
-  With one brand in the catalogue a daily "new in stock" feed would read as
-  that brand's own advertising. Revisit once a second merchant lands.
+- **Conversion rate is not yet in the daily report.** The measure is Awin
+  clicks divided by analytics visits; both live in dashboards the owner can
+  read. Folding it into the report waits on the project mailbox.
+- **Rakuten** — owner's registration still pending.
+- **Project mailbox** — not confirmed.
+- **Social auto-post channel** — still held until a second merchant lands.
 - **Zeba and FitVille** — still in the network's queue.
 
 ## Current state of the system
 - Site: live at https://sasquatchindex.com, HTTPS enforced.
 - Hosting: GitHub Pages. DNS: Namecheap. Unchanged.
-- Catalogue: NORTIV 8 via Awin, 84 styles, sizes 13 to 15, standard and wide.
-- Scheduled rebuild: daily 09:00 UTC, unattended, unchanged. The first run
-  with the new rules was dispatched by hand this session and came back green.
+- Catalogue: NORTIV 8 via Awin, 84 styles, sizes 13 to 15, now with price,
+  colour count and a working picture for each.
+- Scheduled rebuild: daily 09:00 UTC, unattended, unchanged. The deploy now
+  also fetches and resizes pictures; the first run took under a minute.
 - Link verification: every run, 84 checked, 0 broken this run.
-- Analytics: live, cookieless. Search Console and Bing: verified, sitemap submitted 2026-09-17.
+- Analytics: live, cookieless. Search Console and Bing: verified, sitemap
+  submitted 2026-09-17.
 - Pending advertisers: Zeba, FitVille. Second feed source: Rakuten, not registered.
 
 ## Decisions made this session
-- **Types come from product names, not the feed category.** The feed's own
-  label is not something a person would ever search for; the merchant's
-  product name is. Reading it is repetition, not invention.
-- **No "shoes" type page.** The size page already is the "size N shoes"
-  page; a second page with the same title would compete with it.
-- **A feature page names the family only when every match shares one.**
-  "Size 14 waterproof shoes and boots" when mixed, "size 14 insulated boots"
-  when they are all boots. The title never claims more than the page holds.
-- **Held the social auto-post.** Reason above.
-- **Kids' rows are skipped, not relabelled.** The site has no children's
-  scale and should not pretend to.
+- **Pictures are served from the site, not linked from the merchant.** Keeps
+  the privacy page true and the pages fast; costs nothing but build time.
+- **The whole card is the link.** A bigger target and one fewer decision.
+- **No sort control, no image gallery, no scripts.** Each would add a tap or
+  a delay for no gain against the mandate.
+- **Prices carry a date, never "live".** The feed runs once a day.
+- **A failed picture never fails the publish.** Blank tile plus warning.
 
 ## Open questions for the owner
+- Open https://sasquatchindex.com/shoes/size-14/ on your phone. Does the card
+  make you want to tap?
 - Is the Namecheap mailbox set up yet?
 - Do you want to do the Rakuten registration this week?
 
 ## Recommended next session
 - Phase 2 close-out: wire Rakuten or an approved advertiser as the second
-  feed source, whichever arrives first. The grid grows on its own as
-  merchants are added.
-- Gate that must be met first: a second feed available. Search Console and
-  Bing are done; first indexing data should appear within a few days and is
-  worth a look in Search Console before the next session.
+  feed source, whichever arrives first. The grid and the cards grow on
+  their own as merchants are added.
+- Gate that must be met first: a second feed available.
 - Risk: Low.
