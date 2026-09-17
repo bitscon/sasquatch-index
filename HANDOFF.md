@@ -36,10 +36,10 @@
   is recorded in the run's job summary.
 
 ## What was NOT completed and why
-- **The Awin API token is not in the repository yet.** The owner has it;
-  adding it is a browser step in the repo's secrets. Awin's docs say the
-  token's user needs Admin on the publisher account; a viewer-only token may
-  be refused, and the run report will say so if it is.
+- Nothing on the tracking side: the Awin API token is in the repository
+  secrets and the run reads advertiser relationships and click-throughs
+  with it (verified: FitVille and Zeba pending, four joined, zero clicks in
+  the last seven days, which matches an empty catalogue).
 - **No fresh feed exists.** The site is empty of products until one does.
   Zeba and FitVille are still pending on Awin; if they come through the
   same ShareASale path they may be frozen too. Rakuten is not registered.
@@ -69,7 +69,6 @@
   parallel.
 
 ## Open questions for the owner
-- Has the Awin API token been added to the repository secrets?
 - Do you want to register with Rakuten this week, now that Awin's joined
   feeds are all frozen?
 - Is the project mailbox at Namecheap set up yet?
