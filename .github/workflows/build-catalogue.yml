@@ -50,6 +50,10 @@ jobs:
         env:
           AWIN_FEED_URL: ${{ secrets.AWIN_FEED_URL }}
           AWIN_API_TOKEN: ${{ secrets.AWIN_API_TOKEN }}
+          # The publisher id is on every affiliate link, so it is a variable,
+          # not a secret. Needed because an empty catalogue has no links to
+          # read it from.
+          AWIN_PUBLISHER_ID: ${{ vars.AWIN_PUBLISHER_ID }}
         run: python3 scripts/awin_status.py data
 
       - name: Build the catalogue
