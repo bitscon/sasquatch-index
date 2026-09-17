@@ -121,6 +121,17 @@ day and the site cannot see the shelf. There is no show/hide toggle for stock
 because nothing out of stock is ever on the page. The run marker records what
 changed between runs so the owner can see the feed actually moving.
 
+**What Awin itself is asked, every run (2026-09-17).** The daily run also reads
+Awin's own feed list, using the product-feed key already in the feed address,
+and records when Awin last imported the retailer's feed; that is the real
+freshness behind the promise, and it goes in the run marker and the run report.
+With a read-only Publisher API token in the repository secrets, the same step
+records every advertiser relationship (joined, pending, suspended, rejected)
+and shouts in the run report when one changes, and reports click-throughs and
+transaction counts for yesterday and the last seven days. Counts only, never
+money, and never in a committed file: the repository and its run logs are
+public. The step can never fail the catalogue build.
+
 **The owner is not a content source.** Do not ask him to write fit notes, review
 products, or comment on individual styles. Do not flag pages for lacking his
 commentary. Routine operation requires nothing from him.

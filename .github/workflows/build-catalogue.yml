@@ -47,12 +47,21 @@ jobs:
       - name: Verify affiliate links resolve
         run: python3 scripts/verify_links.py data/products.yaml
 
+      # Asks Awin how fresh the feed is (key already in the feed address) and,
+      # once AWIN_API_TOKEN exists, which advertisers have approved us and
+      # whether anyone clicked through. Never fails the run.
+      - name: Record Awin feed freshness and account status
+        env:
+          AWIN_FEED_URL: ${{ secrets.AWIN_FEED_URL }}
+          AWIN_API_TOKEN: ${{ secrets.AWIN_API_TOKEN }}
+        run: python3 scripts/awin_status.py data
+
       - name: Commit the catalogue if it changed
         id: commit
         run: |
           git config user.name "sasquatch-index bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/products.yaml data/feed_run.yaml
+          git add data/products.yaml data/feed_run.yaml data/awin_status.yaml
           if git diff --cached --quiet; then
             echo "No change in catalogue data — nothing to commit."
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -87,10 +96,14 @@ jobs:
               echo "### Affiliate link check"
               cat link_check_result.txt
             fi
+            echo
+            if [ -f awin_status_report.md ]; then
+              cat awin_status_report.md
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
         env:
           COMMIT_CHANGED: ${{ steps.commit.outputs.changed }}
 
       - name: Remove the downloaded feed
         if: always()
-        run: rm -f feed.raw
+        run: rm -f feed.raw awin_status_report.md
