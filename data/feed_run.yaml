@@ -4,12 +4,13 @@
 # and matched nothing' — both would otherwise leave products.yaml empty
 # and look identical to a visitor.
 
-ran_at: "2026-09-16T13:47:28Z"
+ran_at: "2026-09-17T04:51:38Z"
 source: NORTIV 8 via Awin
 rows_in_feed: 4382
-products_written: 87
+products_written: 84
 sizes_covered: [13, 14, 15]
 skipped:
-  below_size_13: 3605
+  below_size_13: 3472
   dual_sized_row: 301
+  kids_size_scale: 149
   unrecognized_size_label: 76
