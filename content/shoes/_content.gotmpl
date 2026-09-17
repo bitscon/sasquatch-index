@@ -1,36 +1,160 @@
 {{/*
-  Generates one page per shoe size found in data/products.yaml.
+  Generates the listing pages from data/products.yaml — the URL grid from
+  SASQUATCH_OS.md section 5a, which is the site's search engine.
 
-  This is the mechanism that turns one data file into many pages. Phase 0 proves
-  it works for the size pages; the full grid from SASQUATCH_OS.md section 5a
-  (width, category, attribute, brand) is Phase 1 and plugs in here.
+  One data file, many narrow pages, each aimed at one phrase a person would
+  say into a phone: size, size + width, size + type, size + width + type,
+  size + feature, brand, brand + size. Nothing here is written by hand: the
+  vocabulary (sizes, widths, types, features, brands) is read from the
+  products themselves, so a value that no product carries never gets a page.
 
-  Sizes with no matching product never get a page, because the list of sizes is
-  derived from the products themselves (SASQUATCH_OS.md section 5a: suppress
-  empty pages).
+  Every page must clear the threshold (site.Params.minProducts, floor of 3 —
+  FEED_HAZARDS.md hazard 4). Thin pages hurt more than they help.
+
+  Each page records its own key and its parent's key, so templates can build
+  breadcrumbs and "narrow it down" chips without knowing the grid's shape.
 */}}
 
 {{ $products := site.Data.products.products }}
-
-{{ $sizes := slice }}
-{{ range $products }}
-  {{ range .sizes }}
-    {{ $sizes = $sizes | append . }}
-  {{ end }}
-{{ end }}
-{{ $sizes = $sizes | uniq | sort }}
-
 {{ $min := site.Params.minProducts | default 3 }}
 
+{{/* ---- vocabulary, read from the data ---------------------------------- */}}
+{{ $sizes := slice }}{{ $widths := slice }}{{ $families := slice }}{{ $categories := slice }}{{ $attrs := slice }}{{ $brands := slice }}
+{{ range $products }}
+  {{ range .sizes }}{{ $sizes = $sizes | append . }}{{ end }}
+  {{ range .widths }}{{ if ne . "standard" }}{{ $widths = $widths | append . }}{{ end }}{{ end }}
+  {{ with .family }}{{ $families = $families | append . }}{{ end }}
+  {{ with .category }}{{ $categories = $categories | append . }}{{ end }}
+  {{ range .attributes }}{{ $attrs = $attrs | append . }}{{ end }}
+  {{ with .brand }}{{ $brands = $brands | append . }}{{ end }}
+{{ end }}
+{{ $sizes = $sizes | uniq | sort }}
+{{ $widths = $widths | uniq | sort }}
+{{ $families = $families | uniq | sort }}
+{{ $categories = $categories | uniq | sort }}
+{{ $attrs = $attrs | uniq | sort }}
+{{ $brands = $brands | uniq | sort }}
+
+{{/* "Types" are the families (boots, sandals) plus the specific categories
+     (work boots, sneakers). A category that shares its name with a family is
+     covered by the family page. The generic "shoes" gets no type page of its
+     own — the size page already is the "size N shoes" page, and two pages
+     with one title would compete with each other. */}}
+{{ $kinds := slice }}
+{{ range $families }}{{ if ne . "shoes" }}{{ $kinds = $kinds | append (dict "v" . "f" "family") }}{{ end }}{{ end }}
+{{ range $categories }}
+  {{ if and (ne . "shoes") (not (in $families .)) }}{{ $kinds = $kinds | append (dict "v" . "f" "category") }}{{ end }}
+{{ end }}
+
+{{/* ---- the grid ------------------------------------------------------- */}}
 {{ range $sizes }}
   {{ $size := . }}
-  {{ $matches := where $products "sizes" "intersect" (slice $size) }}
-  {{ if ge (len $matches) $min }}
+  {{ $sizeKey := printf "size-%v" $size }}
+  {{ $bySize := where $products "sizes" "intersect" (slice $size) }}
+  {{ if lt (len $bySize) $min }}{{ continue }}{{ end }}
+
+  {{ $.AddPage (dict
+    "path"   $sizeKey
+    "title"  (printf "Size %v shoes" $size)
+    "kind"   "page"
+    "params" (dict "generated" true "facet" "size" "key" $sizeKey "parent" "" "label" (printf "size %v" $size)
+                   "size" $size
+                   "description" (printf "%d styles in men's size %v, in stock at the retailers listed. Rebuilt from retailer product feeds every day." (len $bySize) $size))
+  ) }}
+
+  {{/* size + width, then size + width + type */}}
+  {{ range $widths }}
+    {{ $width := . }}
+    {{ $widthKey := printf "%s/%s" $sizeKey (urlize $width) }}
+    {{ $byWidth := where $bySize "widths" "intersect" (slice $width) }}
+    {{ if lt (len $byWidth) $min }}{{ continue }}{{ end }}
     {{ $.AddPage (dict
-      "path"   (printf "size-%v" $size)
-      "title"  (printf "Size %v shoes" $size)
+      "path"   $widthKey
+      "title"  (printf "Size %v %s shoes" $size $width)
       "kind"   "page"
-      "params" (dict "size" $size)
+      "params" (dict "generated" true "facet" "width" "key" $widthKey "parent" $sizeKey "label" $width
+                     "size" $size "width" $width
+                     "description" (printf "%d styles in men's size %v %s, in stock at the retailers listed. Rebuilt from retailer product feeds every day." (len $byWidth) $size $width))
+    ) }}
+    {{ range $kinds }}
+      {{ $byKind := where $byWidth .f .v }}
+      {{ if lt (len $byKind) $min }}{{ continue }}{{ end }}
+      {{ $key := printf "%s/%s" $widthKey (urlize .v) }}
+      {{ $.AddPage (dict
+        "path"   $key
+        "title"  (printf "Size %v %s %s" $size $width .v)
+        "kind"   "page"
+        "params" (dict "generated" true "facet" "type" "key" $key "parent" $widthKey "label" .v
+                       "size" $size "width" $width "kind" .v "kindField" .f
+                       "description" (printf "%d %s in men's size %v %s, in stock at the retailers listed. Rebuilt from retailer product feeds every day." (len $byKind) .v $size $width))
+      ) }}
+    {{ end }}
+  {{ end }}
+
+  {{/* size + type */}}
+  {{ range $kinds }}
+    {{ $byKind := where $bySize .f .v }}
+    {{ if lt (len $byKind) $min }}{{ continue }}{{ end }}
+    {{ $key := printf "%s/%s" $sizeKey (urlize .v) }}
+    {{ $.AddPage (dict
+      "path"   $key
+      "title"  (printf "Size %v %s" $size .v)
+      "kind"   "page"
+      "params" (dict "generated" true "facet" "type" "key" $key "parent" $sizeKey "label" .v
+                     "size" $size "kind" .v "kindField" .f
+                     "description" (printf "%d %s in men's size %v, in stock at the retailers listed. Rebuilt from retailer product feeds every day." (len $byKind) .v $size))
+    ) }}
+  {{ end }}
+
+  {{/* size + feature. The title names the family when every match shares
+       one ("size 14 steel-toe boots"), and says so plainly when they don't. */}}
+  {{ range $attrs }}
+    {{ $attr := . }}
+    {{ $byAttr := where $bySize "attributes" "intersect" (slice $attr) }}
+    {{ if lt (len $byAttr) $min }}{{ continue }}{{ end }}
+    {{ $fams := slice }}{{ range $byAttr }}{{ $fams = $fams | append .family }}{{ end }}
+    {{ $fams = $fams | uniq }}
+    {{ $what := "shoes and boots" }}{{ if eq (len $fams) 1 }}{{ $what = index $fams 0 }}{{ end }}
+    {{ $key := printf "%s/%s" $sizeKey (urlize $attr) }}
+    {{ $.AddPage (dict
+      "path"   $key
+      "title"  (printf "Size %v %s %s" $size $attr $what)
+      "kind"   "page"
+      "params" (dict "generated" true "facet" "feature" "key" $key "parent" $sizeKey "label" $attr
+                     "size" $size "attribute" $attr
+                     "description" (printf "%d %s %s in men's size %v, in stock at the retailers listed. Rebuilt from retailer product feeds every day." (len $byAttr) $attr $what $size))
+    ) }}
+  {{ end }}
+{{ end }}
+
+{{/* ---- brands: a hub per brand, then brand + size ---------------------- */}}
+{{ range $brands }}
+  {{ $brand := . }}
+  {{ $brandKey := urlize $brand }}
+  {{ $byBrand := where $products "brand" $brand }}
+  {{ if lt (len $byBrand) $min }}{{ continue }}{{ end }}
+  {{ $bsizes := slice }}{{ range $byBrand }}{{ range .sizes }}{{ $bsizes = $bsizes | append . }}{{ end }}{{ end }}
+  {{ $bsizes = $bsizes | uniq | sort }}
+  {{ $.AddPage (dict
+    "path"   $brandKey
+    "title"  (printf "%s shoes in sizes %v to %v" $brand (index $bsizes 0) (index $bsizes (sub (len $bsizes) 1)))
+    "kind"   "page"
+    "params" (dict "generated" true "facet" "brand" "key" $brandKey "parent" "" "label" $brand
+                   "brand" $brand
+                   "description" (printf "%d %s styles in men's sizes %v to %v, in stock at the retailers listed. Rebuilt from retailer product feeds every day." (len $byBrand) $brand (index $bsizes 0) (index $bsizes (sub (len $bsizes) 1))))
+  ) }}
+  {{ range $bsizes }}
+    {{ $size := . }}
+    {{ $bs := where $byBrand "sizes" "intersect" (slice $size) }}
+    {{ if lt (len $bs) $min }}{{ continue }}{{ end }}
+    {{ $key := printf "%s/size-%v" $brandKey $size }}
+    {{ $.AddPage (dict
+      "path"   $key
+      "title"  (printf "%s size %v shoes" $brand $size)
+      "kind"   "page"
+      "params" (dict "generated" true "facet" "size" "key" $key "parent" $brandKey "label" (printf "size %v" $size)
+                     "brand" $brand "size" $size
+                     "description" (printf "%d %s styles in men's size %v, in stock at the retailers listed. Rebuilt from retailer product feeds every day." (len $bs) $brand $size))
     ) }}
   {{ end }}
 {{ end }}

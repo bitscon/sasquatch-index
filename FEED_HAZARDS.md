@@ -11,7 +11,7 @@ not patched over.
 
 ---
 
-## The five hazards
+## The six hazards
 
 ### 1. Mixed size formats hide products while the page still counts them
 Some feeds write a size as a number on one product and as text on another. When
@@ -67,3 +67,16 @@ trades on coverage and accuracy, and a page that states a false count or sits at
 a broken address undoes that trust while looking fine. The loud failure (2) is
 merely inconvenient by comparison. Wire the feed so the silent ones cannot
 happen.
+
+### 6. A kids' size 13 is not a men's size 13
+Children's shoes run on their own scale, and it tops out right where the men's
+scale this site covers begins. A feed that labels both "US Size" puts a
+child's water shoe on the size 13 page next to men's work boots. The page
+publishes, the count is right, and the listing is still wrong — a visitor with
+size 13 feet cannot wear it.
+
+**Required:** the importer identifies rows on the children's scale (the only
+signal in this feed is the product name) and skips them, counting the skips
+so the gap is visible in the run report. If a feed ever carries a proper
+age-group or gender field, prefer it over the name.
+

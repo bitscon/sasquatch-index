@@ -1,25 +1,43 @@
 {{ define "main" }}
-{{ $size := .Params.size }}
-{{ $matches := where site.Data.products.products "sizes" "intersect" (slice $size) }}
+{{/* One template for every generated listing page. The page's own params say
+     which filters apply; the products are narrowed by each one present. The
+     grid's shape lives in content/shoes/_content.gotmpl, not here. */}}
+{{ $m := site.Data.products.products }}
+{{ with .Params.size }}{{ $m = where $m "sizes" "intersect" (slice .) }}{{ end }}
+{{ with .Params.width }}{{ $m = where $m "widths" "intersect" (slice .) }}{{ end }}
+{{ with .Params.kind }}{{ $m = where $m $.Params.kindField . }}{{ end }}
+{{ with .Params.attribute }}{{ $m = where $m "attributes" "intersect" (slice .) }}{{ end }}
+{{ with .Params.brand }}{{ $m = where $m "brand" . }}{{ end }}
+{{ $matches := $m }}
 
 {{/* Facts computed from the data, different on every page. This is where the
      page earns its depth (SASQUATCH_OS.md section 6) — no opinion, nothing
      written by hand, nothing claiming first-hand experience. */}}
-{{ $retailers := slice }}{{ $brands := slice }}{{ $widths := slice }}{{ $cats := slice }}
+{{ $retailers := slice }}{{ $brands := slice }}{{ $widths := slice }}{{ $cats := slice }}{{ $feats := slice }}{{ $sizes := slice }}
 {{ range $matches }}
   {{ $retailers = $retailers | append .retailer }}
   {{ $brands = $brands | append .brand }}
   {{ $cats = $cats | append .category }}
   {{ range .widths }}{{ $widths = $widths | append . }}{{ end }}
+  {{ range .attributes }}{{ $feats = $feats | append . }}{{ end }}
+  {{ range .sizes }}{{ $sizes = $sizes | append . }}{{ end }}
 {{ end }}
 {{ $retailers = $retailers | uniq | sort }}
 {{ $brands = $brands | uniq | sort }}
 {{ $widths = $widths | uniq | sort }}
 {{ $cats = $cats | uniq | sort }}
+{{ $feats = $feats | uniq | sort }}
+{{ $sizes = $sizes | uniq | sort }}
 
+{{/* Breadcrumb walks the parent chain recorded on the page. */}}
+{{ $parent := "" }}{{ $grand := "" }}
+{{ with .Params.parent }}{{ $parent = site.GetPage (printf "/shoes/%s" .) }}{{ end }}
+{{ with $parent }}{{ with .Params.parent }}{{ $grand = site.GetPage (printf "/shoes/%s" .) }}{{ end }}{{ end }}
 <p class="breadcrumb">
   <a href="{{ site.Home.RelPermalink }}">Home</a><span>/</span>
   {{ with site.GetPage "/shoes" }}<a href="{{ .RelPermalink }}">{{ .Title }}</a><span>/</span>{{ end }}
+  {{ with $grand }}<a href="{{ .RelPermalink }}">{{ .Params.label }}</a><span>/</span>{{ end }}
+  {{ with $parent }}<a href="{{ .RelPermalink }}">{{ .Params.label }}</a><span>/</span>{{ end }}
   {{ .Title }}
 </p>
 <h1>{{ .Title }}</h1>
@@ -28,9 +46,21 @@
   <strong>{{ len $matches }}</strong> style{{ if ne (len $matches) 1 }}s{{ end }} ·
   <strong>{{ len $retailers }}</strong> retailer{{ if ne (len $retailers) 1 }}s{{ end }} ·
   <strong>{{ len $brands }}</strong> brand{{ if ne (len $brands) 1 }}s{{ end }}<br>
+  {{ if not .Params.size }}Sizes: {{ delimit $sizes ", " }}<br>{{ end }}
   Widths: {{ delimit $widths ", " }}<br>
   Types: {{ delimit $cats ", " }}
+  {{ with $feats }}<br>Features: {{ delimit . ", " }}{{ end }}
 </p>
+
+{{/* Narrower pages that exist beneath this one. A chip only appears when a
+     page is actually behind it (SASQUATCH_OS.md section 2a). */}}
+{{ $children := where site.RegularPages "Params.parent" .Params.key }}
+{{ with $children }}
+<p class="section-label">Narrow it down</p>
+<div class="chips">
+  {{ range .ByTitle }}<a href="{{ .RelPermalink }}">{{ .Params.label }}</a>{{ end }}
+</div>
+{{ end }}
 
 {{/* Availability is the product, so it is on the page, not behind a click
      (SASQUATCH_OS.md section 2a). */}}
@@ -41,6 +71,7 @@
     <div class="meta">
       {{ .category }} · {{ delimit .widths ", " }}
       {{ with .attributes }} · {{ delimit . ", " }}{{ end }}
+      {{ if not $.Params.size }} · sizes {{ delimit .sizes ", " }}{{ end }}
       · {{ .retailer }}
     </div>
     {{/* Affiliate links are marked as paid links for search engines, whether or

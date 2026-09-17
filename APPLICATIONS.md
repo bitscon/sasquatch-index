@@ -186,6 +186,16 @@ to read and so is normalisation, not guesswork. It carries only two states.
 - **Skip the dual-sized rows and count the skips.** Values like
   `13.5WOMEN / 12MEN` do not parse; there are about three hundred of them.
 - **Coverage stops at size 15.** Nothing above it exists in this feed.
+- **Skip the children's rows and count them.** A handful of kids' water shoes
+  carry "US Size 13" on the children's scale. The feed labels both scales the
+  same way, so the importer reads the product name (kids, boys, girls, toddler,
+  youth) and skips the row — FEED_HAZARDS.md hazard 6.
+- **Type and features come from the product name, not the feed's category.**
+  The feed's category is too coarse to search on ("Activity"). The importer
+  reads the merchant's own words in the name — work boots, snow boots,
+  sneakers, waterproof, steel toe, and so on — and records them as the
+  product's category, family (boots / shoes / sandals) and attributes. It
+  repeats what the merchant wrote; it never adds a claim the name does not make.
 
 **What it yields at size 13 and up:** 420 rows — 89 styles at 13, 49 at 14, 32
 at 15, all flagged in stock. That clears the page threshold for three size pages.

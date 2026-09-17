@@ -3,8 +3,11 @@
      So the sizes are the first thing on the page. No preamble (section 2a). */}}
 {{ $products := site.Data.products.products }}
 {{ $feedRun := site.Data.feed_run }}
-{{ $sizes := where site.RegularPages "Params.size" "!=" nil }}
-{{ $guides := where (where site.RegularPages "Section" "shoes") "Params.size" "==" nil }}
+{{ $generated := where site.RegularPages "Params.generated" true }}
+{{ $top := where $generated "Params.parent" "" }}
+{{ $sizes := where $top "Params.facet" "size" }}
+{{ $brands := where $top "Params.facet" "brand" }}
+{{ $guides := where (where site.RegularPages "Section" "shoes") "Params.generated" "!=" true }}
 
 {{ with $sizes }}
 <h1>Pick your size</h1>
@@ -18,21 +21,12 @@
   {{ end }}
 </div>
 
-{{/* Widths and features only become chips once a page actually exists behind
-     them. A chip that leads nowhere is worse than no chip (section 2a). */}}
-{{ $chips := slice }}
-{{ range $products }}
-  {{ range .widths }}{{ $chips = $chips | append . }}{{ end }}
-  {{ range .attributes }}{{ $chips = $chips | append . }}{{ end }}
-{{ end }}
-{{ $live := slice }}
-{{ range ($chips | uniq | sort) }}
-  {{ with site.GetPage (printf "/shoes/%s" (urlize .)) }}{{ $live = $live | append . }}{{ end }}
-{{ end }}
-{{ with $live }}
-<p class="section-label">Or start from</p>
+{{/* Brand hubs only become chips once a page actually exists behind them.
+     A chip that leads nowhere is worse than no chip (section 2a). */}}
+{{ with $brands }}
+<p class="section-label">Or start from a brand</p>
 <div class="chips">
-  {{ range . }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
+  {{ range .ByTitle }}<a href="{{ .RelPermalink }}">{{ .Params.label }}</a>{{ end }}
 </div>
 {{ end }}
 

@@ -32,6 +32,67 @@ SIZE_FLOOR = 13  # SASQUATCH_OS.md section 1: this site is size 13 and up, full 
 SIZE_RE = re.compile(r"^(\d{1,2}(?:\.5)?)\s*([A-Za-z]*)$")
 TRUE_WORDS = {"1", "true", "yes", "y"}
 
+# FEED_HAZARDS.md hazard 6: a kids' 13 is not a men's 13. The feed labels both
+# "US Size", so the only way to tell them apart is the product name. A row on
+# the children's scale is skipped and counted, never listed as size 13.
+KIDS_RE = re.compile(r"\b(kids?|boys?|girls?|toddlers?|youth|children)\b", re.I)
+
+# The feed's own category is coarse (Activity, Shoes, Boots — see
+# APPLICATIONS.md) and "Activity" is not a word anyone searches for. The
+# category the site uses is read from the merchant's own product name, first
+# match wins, most specific first. Nothing here is a judgement about the
+# product: each is a phrase the merchant put in the name.
+CATEGORY_RULES = [
+    (r"\b(snow|winter)\b.*\bboots?\b", "snow boots"),
+    (r"\bhiking\b.*\bboots?\b", "hiking boots"),
+    (r"\b(work|safety|industrial)\b.*\bboots?\b", "work boots"),
+    (r"\b(tactical|military|combat)\b.*\bboots?\b", "tactical boots"),
+    (r"\bboots?\b", "boots"),
+    (r"\bflip[ -]?flops?\b", "flip flops"),
+    (r"\bsandals?\b", "sandals"),
+    (r"\bwater shoes?\b", "water shoes"),
+    (r"\b(running|jogging)\b", "running shoes"),
+    (r"\bwalking shoes?\b", "walking shoes"),
+    (r"\bhiking\b", "hiking shoes"),
+    (r"\bwork shoes?\b", "work shoes"),
+    (r"\bsneakers?\b", "sneakers"),
+]
+# A broad grouping over the categories, so "size 14 boots" has a page as well
+# as "size 14 work boots". Only three families exist and every category maps
+# to exactly one.
+FAMILIES = {
+    "snow boots": "boots", "hiking boots": "boots", "work boots": "boots",
+    "tactical boots": "boots", "boots": "boots",
+    "flip flops": "sandals", "sandals": "sandals",
+}
+# Attributes (SASQUATCH_OS.md section 5b), also read from the product name.
+# Each is a factual claim the merchant makes about the product; the site
+# repeats it, it does not add to it. "Slip on" must not read as slip-resistant.
+ATTRIBUTE_RULES = [
+    (r"\bwaterproof\b", "waterproof"),
+    (r"\bwater[ -]?resistant\b", "water-resistant"),
+    (r"\b(non[ -]?slip|slip[ -]?resistant)\b", "slip-resistant"),
+    (r"\bsteel[ -]?toe\b", "steel-toe"),
+    (r"\b(insulated|thinsulate)\b", "insulated"),
+]
+
+
+def derive_category(style, feed_category):
+    """Returns (category, family). Falls back to the feed's own coarse label
+    when the name carries no recognisable type, so a product is never
+    dropped for having a plain name — it just lands on a broader page."""
+    for pattern, category in CATEGORY_RULES:
+        if re.search(pattern, style, re.I):
+            return category, FAMILIES.get(category, "shoes")
+    fallback = feed_category.strip().lower()
+    if fallback == "boots":
+        return "boots", "boots"
+    return "shoes", "shoes"
+
+
+def derive_attributes(style):
+    return [a for pattern, a in ATTRIBUTE_RULES if re.search(pattern, style, re.I)]
+
 
 def parse_size(raw):
     """Returns (size, width) on success. On failure returns a reason string
@@ -86,7 +147,9 @@ def dump_products(products):
         "# for the field mapping and FEED_HAZARDS.md for the guards applied.",
         "#",
         "# Records arrive from an affiliate product feed only — never by hand, never",
-        "# scraped (SASQUATCH_OS.md constraint 2).",
+        "# scraped (SASQUATCH_OS.md constraint 2). category, family and attributes",
+        "# are read from the merchant's own product name (see CATEGORY_RULES and",
+        "# ATTRIBUTE_RULES in the script) — repeated, not invented.",
         "",
     ]
     if not products:
@@ -98,9 +161,10 @@ def dump_products(products):
         lines.append(f"    brand: {yaml_str(p['brand'])}")
         lines.append(f"    style_name: {yaml_str(p['style_name'])}")
         lines.append(f"    category: {yaml_str(p['category'])}")
+        lines.append(f"    family: {yaml_str(p['family'])}")
         lines.append("    sizes: [" + ", ".join(str(s) for s in p["sizes"]) + "]")
         lines.append("    widths: [" + ", ".join(yaml_str(w) for w in p["widths"]) + "]")
-        lines.append("    attributes: []")
+        lines.append("    attributes: [" + ", ".join(yaml_str(a) for a in p["attributes"]) + "]")
         lines.append(f"    retailer: {yaml_str(p['retailer'])}")
         lines.append(f"    link: {yaml_str(p['link'])}")
         lines.append(f"    image: {yaml_str(p['image'])}")
@@ -152,6 +216,9 @@ def main(feed_path, data_dir):
         if in_stock not in TRUE_WORDS or for_sale not in TRUE_WORDS:
             skipped["out_of_stock_or_not_for_sale"] += 1
             continue
+        if KIDS_RE.search(style):
+            skipped["kids_size_scale"] += 1
+            continue
 
         parsed = parse_size(size_raw)
         if isinstance(parsed, str):
@@ -173,13 +240,16 @@ def main(feed_path, data_dir):
     products = []
     for style in sorted(groups):
         g = groups[style]
+        category, family = derive_category(style, g["category"])
         products.append({
             "product_type": "shoes",
             "brand": BRAND,
             "style_name": style,
-            "category": g["category"],
+            "category": category,
+            "family": family,
             "sizes": sorted(g["sizes"]),
             "widths": sorted(g["widths"]),
+            "attributes": derive_attributes(style),
             "retailer": RETAILER,
             "link": g["link"],
             "image": g["image"],
@@ -202,6 +272,7 @@ def main(feed_path, data_dir):
     print(f"Rows in feed: {len(rows)}")
     print(f"Styles written: {len(products)}")
     print(f"Sizes covered: {all_sizes}")
+    print("Categories: " + ", ".join(f"{k} {v}" for k, v in sorted(Counter(p["category"] for p in products).items())))
     print("Skipped:")
     for k, v in sorted(skipped.items()):
         print(f"  {k}: {v}")

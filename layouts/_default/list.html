@@ -2,11 +2,16 @@
 {{ $products := site.Data.products.products }}
 {{ $feedRun := site.Data.feed_run }}
 
-{{/* Two kinds of page live under this section: the size pages generated from
-     the data file, and the written guides. They are rendered differently — a
-     size is a card in the grid, a guide is a card with a sentence. */}}
-{{ $sizes := where .Pages "Params.size" "!=" nil }}
-{{ $guides := where .Pages "Params.size" "==" nil }}
+{{/* Two kinds of page live under this section: the listing pages generated
+     from the data file, and the written guides. They are rendered differently
+     — a size is a card in the grid, a guide is a card with a sentence. Only
+     the top of the grid is shown here; the narrower pages hang off their
+     parents. */}}
+{{ $generated := where site.RegularPages "Params.generated" true }}
+{{ $top := where $generated "Params.parent" "" }}
+{{ $sizes := where $top "Params.facet" "size" }}
+{{ $brands := where $top "Params.facet" "brand" }}
+{{ $guides := where (where site.RegularPages "Section" "shoes") "Params.generated" "!=" true }}
 
 <p class="breadcrumb"><a href="{{ site.Home.RelPermalink }}">Home</a><span>/</span>{{ .Title }}</p>
 <h1>{{ .Title }}</h1>
@@ -21,6 +26,12 @@
     </a>
   {{ end }}
 </div>
+{{ with $brands }}
+<p class="section-label">Or start from a brand</p>
+<div class="chips">
+  {{ range .ByTitle }}<a href="{{ .RelPermalink }}">{{ .Params.label }}</a>{{ end }}
+</div>
+{{ end }}
 {{ else }}
 {{/* No size page was generated. Say why, plainly, rather than showing an empty
      size grid (SASQUATCH_OS.md sections 2b and 6 — never imply coverage that is

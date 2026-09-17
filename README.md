@@ -4,7 +4,7 @@ A free, public, static website that lets people browse shoe styles filtered by
 size, focused on the sizes most retailers stop short of — size 13 and up. It
 links out to whoever actually stocks each style. It is not a store.
 
-- **Live site:** https://bitscon.github.io/sasquatch-index/
+- **Live site:** https://sasquatchindex.com/
 - **How it works:** Hugo (pinned version) builds the site from `data/products.yaml`;
   a GitHub Actions job publishes to GitHub Pages on every push to `main`.
 - **Operating contract:** [`SASQUATCH_OS.md`](SASQUATCH_OS.md) — read it before

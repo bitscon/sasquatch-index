@@ -12,5 +12,5 @@
 | 4 — Scheduled unattended rebuild + report | Complete |
 | 5 — Display advertising (optional, gated on scale) | Not started |
 
-Live at https://bitscon.github.io/sasquatch-index/ — publishes automatically on
+Live at https://sasquatchindex.com/ — publishes automatically on
 every push to `main`.
