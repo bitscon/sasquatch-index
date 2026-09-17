@@ -25,6 +25,12 @@
 - **Verified end to end on the live site** after a real feed run: every
   sitemap page loads, every page's stated count equals the rows it shows,
   all affiliate links resolved.
+- **Search engines told about the new domain.** sasquatchindex.com is
+  verified in Google Search Console (HTML file) and Bing Webmaster Tools
+  (XML file); the sitemap is submitted to both. Google reported all 55 pages
+  discovered at submission; Bing shows the sitemap as processing, which it
+  says can take up to two days. Both verification files live in the site's
+  static folder and publish with every build, so the verifications hold.
 
 | Item | Before | After |
 |---|---|---|
@@ -35,9 +41,6 @@
 | Features recognised | 0 | 5 |
 
 ## What was NOT completed and why
-- **Search engines have not been told about the new domain.** Google Search
-  Console and Bing Webmaster Tools need the owner's own account to verify
-  sasquatchindex.com and submit the sitemap. Keyboard task, his to do.
 - **Rakuten** — decided yes last session, still needs the owner's tax and
   business details to register.
 - **Project mailbox** — not confirmed; the daily report still goes to the
@@ -54,7 +57,7 @@
 - Scheduled rebuild: daily 09:00 UTC, unattended, unchanged. The first run
   with the new rules was dispatched by hand this session and came back green.
 - Link verification: every run, 84 checked, 0 broken this run.
-- Analytics: live, cookieless.
+- Analytics: live, cookieless. Search Console and Bing: verified, sitemap submitted 2026-09-17.
 - Pending advertisers: Zeba, FitVille. Second feed source: Rakuten, not registered.
 
 ## Decisions made this session
@@ -71,9 +74,6 @@
   scale and should not pretend to.
 
 ## Open questions for the owner
-- Have you verified sasquatchindex.com in Google Search Console yet? If you
-  pick the "HTML file" method and read me the file name, I can commit it and
-  you just press verify.
 - Is the Namecheap mailbox set up yet?
 - Do you want to do the Rakuten registration this week?
 
@@ -81,6 +81,7 @@
 - Phase 2 close-out: wire Rakuten or an approved advertiser as the second
   feed source, whichever arrives first. The grid grows on its own as
   merchants are added.
-- Gate that must be met first: a second feed available, or Search Console
-  verified so the new pages start getting indexed.
+- Gate that must be met first: a second feed available. Search Console and
+  Bing are done; first indexing data should appear within a few days and is
+  worth a look in Search Console before the next session.
 - Risk: Low.
