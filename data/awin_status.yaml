@@ -3,7 +3,7 @@
 # relationships. Committed so the next run can report what changed.
 # No click or money figures live here: the repository is public.
 
-checked_at: "2026-09-17T17:13:49Z"
+checked_at: "2026-09-17T17:14:42Z"
 feed:
   advertiser: "NORTIV 8 Shoes"
   feed_id: "105652"
@@ -17,4 +17,21 @@ feeds_visible_to_key:
   - "NORTIV 8 Shoes / sftp://datafeeds.shareasale.com/Awin/112430/feed.zip / active / last imported 2026-05-15 18:57:09"
   - "Giftlab / sftp://datafeeds.shareasale.com/Awin/115671/feed.zip / active / last imported 2026-05-15 18:57:44"
 programmes:
-  error: "publisher id unknown"
+  92521:
+    name: "FitVille Footwear"
+    relationship: "pending"
+  95201:
+    name: "Giftlab"
+    relationship: "joined"
+  76026:
+    name: "NORTIV 8 Shoes"
+    relationship: "joined"
+  89509:
+    name: "Piscifun"
+    relationship: "joined"
+  78182:
+    name: "TideWe"
+    relationship: "joined"
+  91455:
+    name: "Zeba Shoes"
+    relationship: "pending"
