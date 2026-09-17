@@ -8,6 +8,14 @@ title = "Sasquatch Index"
 disableKinds = ["taxonomy", "term", "rss"]
 # robots.txt (layouts/robots.txt) points crawlers at the sitemap.
 enableRobotsTXT = true
+# Product pictures are fetched from the merchant at build time and resized
+# (layouts/partials/product-card.html). Give a page long enough to fetch them,
+# and keep fetched originals for a week so redeploys do not refetch.
+timeout = "180s"
+
+[caches]
+  [caches.getresource]
+    maxAge = "168h"
 
 [params]
   # Shown in the footer. Kept in config so it is not buried in a template.

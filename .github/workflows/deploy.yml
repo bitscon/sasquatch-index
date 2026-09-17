@@ -43,7 +43,19 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      # Product pictures are fetched from the merchant during the build. Keep
+      # the fetched originals between runs so a redeploy is fast and a brief
+      # merchant outage does not blank every picture.
+      - name: Keep fetched product images between builds
+        uses: actions/cache@v4
+        with:
+          path: /tmp/hugo_cache
+          key: hugo-cache-${{ hashFiles('data/products.yaml') }}
+          restore-keys: hugo-cache-
+
       - name: Build the site
+        env:
+          HUGO_CACHEDIR: /tmp/hugo_cache
         run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
       - name: Upload the built site

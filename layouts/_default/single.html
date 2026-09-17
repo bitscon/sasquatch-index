@@ -50,6 +50,7 @@
   Widths: {{ delimit $widths ", " }}<br>
   Types: {{ delimit $cats ", " }}
   {{ with $feats }}<br>Features: {{ delimit . ", " }}{{ end }}
+  {{ with site.Data.feed_run }}{{ with .ran_at }}<br>Prices and stock as of {{ (time .).Format "2 Jan 2006" }}{{ end }}{{ end }}
 </p>
 
 {{/* Narrower pages that exist beneath this one. A chip only appears when a
@@ -63,26 +64,8 @@
 {{ end }}
 
 {{/* Availability is the product, so it is on the page, not behind a click
-     (SASQUATCH_OS.md section 2a). */}}
-<ul class="rows">
-  {{ range $matches }}
-  <li>
-    <div class="name">{{ .brand }} {{ .style_name }}</div>
-    <div class="meta">
-      {{ .category }} · {{ delimit .widths ", " }}
-      {{ with .attributes }} · {{ delimit . ", " }}{{ end }}
-      {{ if not $.Params.size }} · sizes {{ delimit .sizes ", " }}{{ end }}
-      · {{ .retailer }}
-    </div>
-    {{/* Affiliate links are marked as paid links for search engines, whether or
-         not the current feed pays anything. */}}
-    <a class="out" href="{{ .link }}" rel="sponsored nofollow noopener">View at {{ .retailer }} &rarr;</a>
-    {{/* Optional and rarely present. Never prompted for, never flagged
-         (SASQUATCH_OS.md section 2b). */}}
-    {{ with .fit_notes }}
-      <div class="note">{{ . }}</div>
-    {{ end }}
-  </li>
-  {{ end }}
+     (SASQUATCH_OS.md section 2a). Every card is one tap to the retailer. */}}
+<ul class="products">
+  {{ range $matches }}{{ partial "product-card.html" . }}{{ end }}
 </ul>
 {{ end }}

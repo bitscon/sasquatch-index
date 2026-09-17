@@ -10,9 +10,10 @@ no account and no mailing list.
 link may be an affiliate link — meaning the retailer pays a small commission if you
 buy something, at no extra cost to you. The price you pay is the same either way.
 
-**Current status.** The site has joined the Awin affiliate network. No merchant
-links are live yet, so every link on the site today is a plain link and earns
-nothing. This page will stay accurate as that changes.
+**Current status.** The site is a member of the Awin affiliate network, and the
+retailer links on the listing pages are affiliate links. If you buy after
+following one, the site earns a commission from the retailer. The price you pay
+is the same either way. This page will stay accurate as that changes.
 
 **What commission does not buy.** Ordering, inclusion and what the pages say about
 fit are not for sale. A retailer paying a commission does not get placed higher,

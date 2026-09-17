@@ -18,6 +18,7 @@ file already downloaded to disk by the workflow.
 import re
 import sys
 import unicodedata
+import urllib.parse
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -68,6 +69,11 @@ FAMILIES = {
 # Attributes (SASQUATCH_OS.md section 5b), also read from the product name.
 # Each is a factual claim the merchant makes about the product; the site
 # repeats it, it does not add to it. "Slip on" must not read as slip-resistant.
+# The feed loses apostrophes ("Men s Work Boots") and doubles spaces. Names are
+# the one thing a visitor reads on every card, so they are tidied — nothing is
+# added, only the merchant's own punctuation restored.
+POSSESSIVE_RE = re.compile(r"\b(Men|Women|Kid|Boy|Girl|Child|Children)s?\s+s\b")
+
 ATTRIBUTE_RULES = [
     (r"\bwaterproof\b", "waterproof"),
     (r"\bwater[ -]?resistant\b", "water-resistant"),
@@ -92,6 +98,44 @@ def derive_category(style, feed_category):
 
 def derive_attributes(style):
     return [a for pattern, a in ATTRIBUTE_RULES if re.search(pattern, style, re.I)]
+
+
+def tidy_name(style):
+    style = " ".join(style.split())
+    return POSSESSIVE_RE.sub(lambda m: m.group(1) + ("'s" if not m.group(0).startswith(("Kid", "Boy", "Girl", "Child")) else "s'"), style)
+
+
+def unmojibake(s):
+    """Some image filenames in this feed were UTF-8 text read once as Windows
+    text before the feed was written, so a Chinese word arrives as six Latin
+    letters ("ç»¿è‰²"). Reversing that gives the address the merchant actually
+    serves. Applied only when the reversal decodes cleanly; plain text is
+    unchanged."""
+    if s.isascii():
+        return s
+    try:
+        raw = bytearray()
+        for ch in s:
+            try:
+                raw += ch.encode("cp1252")
+            except UnicodeEncodeError:
+                raw += ch.encode("latin-1")
+        return raw.decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return s
+
+
+def safe_url(url):
+    """Image addresses in this feed carry raw spaces and brackets, which a
+    browser or a build fetch rejects. Percent-encode the path once here so
+    every consumer gets an address that actually resolves."""
+    return urllib.parse.quote(url, safe=":/?&=%~-._")
+
+
+def parse_price(raw):
+    raw = raw.strip().replace(",", "")
+    m = re.search(r"\d+(?:\.\d+)?", raw)
+    return float(m.group(0)) if m else None
 
 
 def parse_size(raw):
@@ -149,7 +193,9 @@ def dump_products(products):
         "# Records arrive from an affiliate product feed only — never by hand, never",
         "# scraped (SASQUATCH_OS.md constraint 2). category, family and attributes",
         "# are read from the merchant's own product name (see CATEGORY_RULES and",
-        "# ATTRIBUTE_RULES in the script) — repeated, not invented.",
+        "# ATTRIBUTE_RULES in the script) — repeated, not invented. price_min and",
+        "# price_max span the style's in-stock rows at the time of the run;",
+        "# colours counts the distinct colour values the feed listed for it.",
         "",
     ]
     if not products:
@@ -165,6 +211,11 @@ def dump_products(products):
         lines.append("    sizes: [" + ", ".join(str(s) for s in p["sizes"]) + "]")
         lines.append("    widths: [" + ", ".join(yaml_str(w) for w in p["widths"]) + "]")
         lines.append("    attributes: [" + ", ".join(yaml_str(a) for a in p["attributes"]) + "]")
+        if p.get("price_min") is not None:
+            lines.append(f"    price_min: {p['price_min']:.2f}")
+            lines.append(f"    price_max: {p['price_max']:.2f}")
+            lines.append(f"    currency: {yaml_str(p['currency'])}")
+        lines.append(f"    colours: {p['colours']}")
         lines.append(f"    retailer: {yaml_str(p['retailer'])}")
         lines.append(f"    link: {yaml_str(p['link'])}")
         lines.append(f"    image: {yaml_str(p['image'])}")
@@ -198,9 +249,12 @@ def main(feed_path, data_dir):
     groups = {}
 
     for row in rows:
-        style = clean((row.get("product_name") or "").strip())
+        style = tidy_name(clean((row.get("product_name") or "").strip()))
         link = clean((row.get("aw_deep_link") or "").strip())
-        image = clean((row.get("merchant_image_url") or "").strip() or (row.get("aw_image_url") or "").strip())
+        image = safe_url(clean(unmojibake((row.get("merchant_image_url") or "").strip() or (row.get("aw_image_url") or "").strip())))
+        price = parse_price(row.get("search_price") or "")
+        currency = (row.get("currency") or "USD").strip().upper() or "USD"
+        colour = clean((row.get("custom_3") or "").strip().lower())
         category = clean((row.get("merchant_category") or "").strip())
         label = (row.get("custom_1") or "").strip()
         size_raw = (row.get("custom_2") or "").strip()
@@ -232,10 +286,15 @@ def main(feed_path, data_dir):
 
         g = groups.setdefault(style, {
             "sizes": set(), "widths": set(), "category": category,
-            "link": link, "image": image,
+            "link": link, "image": image, "prices": [], "currency": currency,
+            "colours": set(),
         })
         g["sizes"].add(size)
         g["widths"].add(width)
+        if price is not None:
+            g["prices"].append(price)
+        if colour:
+            g["colours"].add(colour)
 
     products = []
     for style in sorted(groups):
@@ -250,6 +309,10 @@ def main(feed_path, data_dir):
             "sizes": sorted(g["sizes"]),
             "widths": sorted(g["widths"]),
             "attributes": derive_attributes(style),
+            "price_min": min(g["prices"]) if g["prices"] else None,
+            "price_max": max(g["prices"]) if g["prices"] else None,
+            "currency": g["currency"],
+            "colours": len(g["colours"]),
             "retailer": RETAILER,
             "link": g["link"],
             "image": g["image"],

@@ -132,9 +132,13 @@ p { margin: 0 0 1rem; }
 .size-card .n { display: block; font: 600 1.35rem/1.1 var(--mono); }
 .size-card .c { display: block; margin-top: .3rem; font-size: .78rem; color: var(--muted); }
 
-.chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.5rem; }
+.chips {
+  display: flex; flex-wrap: nowrap; gap: .5rem; margin: 0 0 1.25rem;
+  overflow-x: auto; padding-bottom: .3rem; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.chips::-webkit-scrollbar { display: none; }
 .chips a {
-  display: inline-block; border: 1px solid var(--line); background: var(--card);
+  display: inline-block; flex: none; border: 1px solid var(--line); background: var(--card);
   border-radius: 999px; padding: .45rem .85rem; text-decoration: none;
   color: var(--ink); font: 400 .82rem/1.2 var(--mono);
 }
@@ -151,20 +155,32 @@ p { margin: 0 0 1rem; }
 .card p { color: var(--muted); font-size: .92rem; margin: 0 0 .7rem; }
 .card .go { font: 600 .8rem/1 var(--mono); color: var(--accent); letter-spacing: .04em; }
 
-/* ---- listing rows ---------------------------------------------------- */
+/* ---- product cards --------------------------------------------------- */
+/* The whole card is the tap (SASQUATCH_OS.md 2a, owner amendment 2026-09-17).
+   Picture first, then name, then price and the way out. Two across on a
+   phone, three on a desktop. */
 
-.rows { list-style: none; margin: 0; padding: 0; }
-.rows li { border-bottom: 1px solid var(--line); padding: 1.05rem 0; }
-.rows .name { font-weight: 600; font-size: 1.02rem; margin: 0 0 .25rem; }
-.rows .meta { color: var(--muted); font: 400 .82rem/1.5 var(--mono); }
-.rows .note { color: var(--muted); font-size: .9rem; margin-top: .35rem; }
-.rows .out {
-  display: inline-block; margin-top: .6rem; text-decoration: none;
-  font: 600 .82rem/1 var(--mono); color: var(--accent); letter-spacing: .03em;
-  border: 1px solid var(--line); border-radius: .55rem; padding: .6rem .8rem;
-  background: var(--card);
+.products {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem;
 }
-.rows .out:hover { border-color: var(--accent); }
+.product {
+  display: flex; flex-direction: column; height: 100%;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; text-decoration: none; color: var(--ink);
+}
+.product:hover { border-color: var(--accent); }
+.p-pic { display: block; aspect-ratio: 1 / 1; background: #fff; border-bottom: 1px solid var(--line); }
+.p-pic img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.p-nopic { display: block; width: 100%; height: 100%; background: var(--accent-soft); }
+.p-name { display: block; font-weight: 600; font-size: .9rem; line-height: 1.3; padding: .65rem .7rem 0; }
+.p-meta { display: block; color: var(--muted); font: 400 .7rem/1.45 var(--mono); padding: .3rem .7rem 0; }
+.p-go {
+  display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap;
+  margin-top: auto; padding: .6rem .7rem .75rem;
+  font: 600 .8rem/1 var(--mono); color: var(--accent); letter-spacing: .02em;
+}
+.p-go strong { font: 600 1.05rem/1 var(--sans); color: var(--ink); }
 
 /* ---- prose (the written guides and the legal pages) ------------------ */
 
@@ -226,12 +242,7 @@ p { margin: 0 0 1rem; }
   .size-grid { grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); gap: .8rem; }
   .cards { grid-template-columns: 1fr 1fr; gap: 1.1rem; }
 
-  /* Listing rows spread into columns: what it is, what it comes in, where to get it. */
-  .rows li {
-    display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) auto;
-    align-items: center; gap: 1.5rem;
-  }
-  .rows .meta { font-size: .8rem; }
-  .rows .out { margin-top: 0; justify-self: end; }
-  .rows .note { grid-column: 1 / -1; }
+  .products { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .p-name { font-size: .95rem; }
+  .chips { flex-wrap: wrap; overflow: visible; }
 }

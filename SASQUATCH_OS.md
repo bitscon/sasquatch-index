@@ -70,6 +70,15 @@ of that speed, reject it and tell the owner why.
 The owner is explicit that the common playbook — ship a thin site fast, pile on
 ads, chase volume — is not what this is. Do not propose it.
 
+> **Owner amendment 2026-09-17 — the measure is the tap.** The owner does not
+> dictate layout or interaction. His one goal is a person tapping through to a
+> retailer, in as few taps as possible, from an experience good enough that
+> they want to. Product pictures and prices are in: their absence was what
+> stopped him tapping. Anything that adds a tap, a scroll, a script or an
+> opinion is out. The text-only mockup approved on 2026-09-07 is superseded on
+> the point of images. Conversion is measured as affiliate-network clicks
+> divided by analytics visits; nothing extra is built to measure it.
+
 **Whitespace on these pages is load-bearing.** It is what lets a visitor scan
 rather than read. It is not spare room, and it is not inventory.
 
@@ -249,7 +258,9 @@ One record per product. Fields required now:
 | Attributes | Waterproof, slip-resistant, and similar |
 | Retailer | |
 | Link | |
-| Image | |
+| Image | Fetched and resized at build time; the visitor's browser never contacts the merchant |
+| Price | Lowest and highest across the style's in-stock rows at the last run, with currency. Shown with the run date, never claimed as live |
+| Colours | Count of distinct colour values the feed listed. A count, never a swatch invented from a name |
 | Owner's fit notes | **Optional.** May stay empty forever. Never prompt the owner for it and never flag its absence |
 
 Do not add apparel-specific fields yet. The product type field is sufficient to

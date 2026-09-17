@@ -1,0 +1,43 @@
+{{/* One product, one tap. The whole card is the link to the retailer
+     (owner amendment 2026-09-17, SASQUATCH_OS.md section 2a): picture, name,
+     price and the way out, nothing between the visitor and the retailer.
+
+     The picture is fetched from the merchant's own address at build time and
+     resized, so the visitor's browser only ever talks to this site — the
+     privacy page stays true. A picture that cannot be fetched becomes a blank
+     tile and a build warning, never a failed publish. */}}
+{{ $p := . }}
+{{ $img := "" }}
+{{ with $p.image }}
+  {{ with resources.GetRemote . }}
+    {{ with .Err }}
+      {{ warnf "product image not fetched for %q: %s" $p.style_name . }}
+    {{ else }}
+      {{ if eq .MediaType.MainType "image" }}
+        {{/* Named by a hash of the source address so the file name is stable,
+             short and safe, whatever the merchant called it. */}}
+        {{ $img = resources.Copy (printf "img/%s.jpg" (md5 $p.image)) (.Fit "560x560 q78") }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{/* Prices are what the feed said at the last run — a span when the style's
+     rows differ, one figure when they agree. Currency symbol only for USD;
+     anything else is spelled out rather than guessed. */}}
+{{ $price := "" }}
+{{ with $p.price_min }}
+  {{ $sym := cond (eq $p.currency "USD") "$" (printf "%s " $p.currency) }}
+  {{ if eq $p.price_min $p.price_max }}{{ $price = printf "%s%.2f" $sym $p.price_min }}
+  {{ else }}{{ $price = printf "%s%.2f–%s%.2f" $sym $p.price_min $sym $p.price_max }}{{ end }}
+{{ end }}
+<li>
+<a class="product" href="{{ $p.link }}" rel="sponsored nofollow noopener">
+  <span class="p-pic">
+    {{ with $img }}<img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="" loading="lazy" decoding="async">
+    {{ else }}<span class="p-nopic" aria-hidden="true"></span>{{ end }}
+  </span>
+  <span class="p-name">{{ $p.brand }} {{ $p.style_name }}</span>
+  <span class="p-meta">{{ $p.category }} · {{ delimit $p.widths ", " }}{{ with $p.attributes }} · {{ delimit . ", " }}{{ end }}{{ with $p.colours }}{{ if gt . 1 }} · {{ . }} colours{{ end }}{{ end }}</span>
+  <span class="p-go">{{ with $price }}<strong>{{ . }}</strong> {{ end }}<span>at {{ $p.retailer }} &rarr;</span></span>
+</a>
+</li>
