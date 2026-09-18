@@ -20,3 +20,7 @@ fit are not for sale. A retailer paying a commission does not get placed higher,
 described more kindly, or shown when it does not stock your size. The listings are
 generated from availability data, and a product that does not come in your size
 does not appear on your size's page regardless of who pays what.
+
+**Questions about this page.** Write to
+[contact@sasquatchindex.com](mailto:contact@sasquatchindex.com). Mail is read; there
+is no support queue, because there is nothing here to buy or to support.

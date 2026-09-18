@@ -16,3 +16,5 @@ processing, not something this site controls or has access to.
 **Links out.** When you follow a link to a retailer, you are on their site under
 their privacy policy, not this one. If a link is an affiliate link, the retailer
 may record that the visit came from here. See the [affiliate disclosure]({{< relref "/disclosure" >}}).
+
+**Getting in touch.** There is no contact form, because a form would mean collecting and storing what you type into it. Write to [contact@sasquatchindex.com](mailto:contact@sasquatchindex.com) instead, and the message reaches a person.
