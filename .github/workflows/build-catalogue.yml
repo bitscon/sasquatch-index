@@ -10,6 +10,20 @@
 # explicitly dispatches the deploy workflow — a commit made with the built-in
 # Actions token does not trigger other on-push workflows on its own (GitHub's
 # loop guard), so the publish step has to be asked for directly.
+#
+# Run-report email (decision record, 20 September): the job summary below
+# stays the full record of every run — nothing here removes it. On top of
+# that, this workflow sends one email, only when something is actually
+# wrong: the build failed, an affiliate link broke, an advertiser
+# relationship changed, or the feed's import date moved. A clean run sends
+# nothing, so the mailbox stays worth reading. It goes to the project's own
+# address, contact@sasquatchindex.com, which forwards to the owner.
+#
+# The mail step needs an SMTP-capable account and its login as repository
+# secrets — SASQ_SMTP_HOST, SASQ_SMTP_PORT, SASQ_SMTP_USERNAME,
+# SASQ_SMTP_PASSWORD. Until those secrets exist the step fails visibly
+# whenever an exception fires; nothing else in the job depends on it.
+
 name: Build catalogue from feed
 
 on:
@@ -62,6 +76,55 @@ jobs:
       - name: Verify affiliate links resolve
         run: python3 scripts/verify_links.py data/products.yaml
 
+      # Reads the files the steps above already wrote — link_check_result.txt,
+      # awin_status_report.md, data/feed_run.yaml — plus the job's own status,
+      # rather than adding new instrumentation. Runs before the commit step so
+      # "the feed's import date moved" can compare against what is still on
+      # HEAD. always() so a failed build still reaches this and the mail step.
+      - name: Determine exceptions
+        id: exceptions
+        if: always()
+        run: |
+          reasons=()
+
+          if [ "${{ job.status }}" = "failure" ]; then
+            reasons+=("the build failed")
+          fi
+
+          if [ -f link_check_result.txt ]; then
+            broken=$(head -n1 link_check_result.txt | grep -oE '[0-9]+ broken' | grep -oE '^[0-9]+' || true)
+            if [ "${broken:-0}" -gt 0 ] 2>/dev/null; then
+              reasons+=("$broken affiliate link(s) are broken")
+            fi
+          fi
+
+          if [ -f awin_status_report.md ] && grep -q '🔔' awin_status_report.md; then
+            reasons+=("an advertiser relationship changed")
+          fi
+
+          if [ -f data/feed_run.yaml ]; then
+            prev_imported=$(git show HEAD:data/feed_run.yaml 2>/dev/null | grep '^feed_last_imported:' || true)
+            new_imported=$(grep '^feed_last_imported:' data/feed_run.yaml || true)
+            if [ -n "$prev_imported" ] && [ "$prev_imported" != "$new_imported" ]; then
+              reasons+=("the feed's import date moved")
+            fi
+          fi
+
+          reason=""
+          for r in "${reasons[@]}"; do
+            if [ -n "$reason" ]; then reason="$reason; $r"; else reason="$r"; fi
+          done
+          {
+            echo "reason<<EXCEPTIONS_EOF"
+            echo "$reason"
+            echo "EXCEPTIONS_EOF"
+          } >> "$GITHUB_OUTPUT"
+          if [ -n "$reason" ]; then
+            echo "Exception(s) this run: $reason"
+          else
+            echo "No exceptions this run — no mail sent."
+          fi
+
       - name: Commit the catalogue if it changed
         id: commit
         run: |
@@ -109,6 +172,26 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
         env:
           COMMIT_CHANGED: ${{ steps.commit.outputs.changed }}
+
+      # Only step that emails anyone. Fires on an exception only — see the
+      # decision record at the top of this file. Needs SASQ_SMTP_HOST,
+      # SASQ_SMTP_PORT, SASQ_SMTP_USERNAME, SASQ_SMTP_PASSWORD as repository
+      # secrets; tracked on SASQ-13 until they exist.
+      - name: Email on exception
+        if: always() && steps.exceptions.outputs.reason != ''
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SASQ_SMTP_HOST }}
+          server_port: ${{ secrets.SASQ_SMTP_PORT }}
+          username: ${{ secrets.SASQ_SMTP_USERNAME }}
+          password: ${{ secrets.SASQ_SMTP_PASSWORD }}
+          subject: "Sasquatch Index build exception: ${{ steps.exceptions.outputs.reason }}"
+          to: contact@sasquatchindex.com
+          from: "Sasquatch Index build <${{ secrets.SASQ_SMTP_USERNAME }}>"
+          body: |
+            ${{ steps.exceptions.outputs.reason }}
+
+            Full run summary: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Remove the downloaded feed
         if: always()
