@@ -4,7 +4,7 @@
 # and matched nothing' — both would otherwise leave products.yaml empty
 # and look identical to a visitor.
 
-ran_at: "2026-09-20T13:14:45Z"
+ran_at: "2026-09-21T15:22:31Z"
 source: NORTIV 8 via Awin
 rows_in_feed: 4382
 products_written: 0
@@ -16,7 +16,7 @@ stock_basis: rows the retailer feed flagged in stock and for sale at run time; s
 # were kept.
 feed_status: stale
 feed_last_imported: "2026-05-15T18:57:09Z"
-feed_age_days: 127
+feed_age_days: 128
 max_feed_age_days: 30
 styles_matched_in_feed: 84
 changes_since_last_run:
