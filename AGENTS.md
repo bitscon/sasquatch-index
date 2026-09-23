@@ -1,3 +1,5 @@
+> **Read `ESTATE.md` first** - it says where this repository lives and which law applies here.
+
 # AGENTS.md — Sasquatch Index
 
 **The project contract is [`SASQUATCH_OS.md`](SASQUATCH_OS.md). Read it end to end
