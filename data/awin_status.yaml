@@ -3,7 +3,7 @@
 # relationships. Committed so the next run can report what changed.
 # No click or money figures live here: the repository is public.
 
-checked_at: "2026-09-30T15:24:54Z"
+checked_at: "2026-10-01T15:45:27Z"
 feed:
   advertiser: "NORTIV 8 Shoes"
   feed_id: "105652"
@@ -12,9 +12,9 @@ feed:
   last_checked: "2025-10-07 19:09:46"
   products: "4382"
 feeds_visible_to_key:
+  - "NORTIV 8 Shoes / sftp://datafeeds.shareasale.com/Awin/112430/feed.zip / active / last imported 2026-05-15 18:57:09"
   - "TideWe / sftp://datafeeds.shareasale.com/Awin/92895/feed.zip / active / last imported 2026-05-15 17:56:47"
   - "Piscifun / sftp://datafeeds.shareasale.com/Awin/68150/feed.zip / active / last imported 2026-05-15 18:00:43"
-  - "NORTIV 8 Shoes / sftp://datafeeds.shareasale.com/Awin/112430/feed.zip / active / last imported 2026-05-15 18:57:09"
   - "Giftlab / sftp://datafeeds.shareasale.com/Awin/115671/feed.zip / active / last imported 2026-05-15 18:57:44"
 programmes:
   92521:
