@@ -70,6 +70,20 @@ jobs:
       - name: Build the catalogue
         run: python3 scripts/build_catalogue.py feed.raw data
 
+      # Dark Impact.com importer (owner-approved 19 October 2026). Reads every
+      # Impact catalog the account can see, applies the same freshness rule
+      # and size guards as the build above, and writes
+      # data/impact_products.yaml and data/impact_run.yaml. The site does not
+      # read either file yet, so nothing here changes a page. With no Impact
+      # secrets set it prints "Impact not configured" and writes nothing.
+      # Never fails the run.
+      - name: Read Impact catalogs (not published yet)
+        continue-on-error: true
+        env:
+          IMPACT_ACCOUNT_SID: ${{ secrets.IMPACT_ACCOUNT_SID }}
+          IMPACT_AUTH_TOKEN: ${{ secrets.IMPACT_AUTH_TOKEN }}
+        run: python3 scripts/impact_catalogue.py data
+
       - name: Verify affiliate links resolve
         run: python3 scripts/verify_links.py data/products.yaml
 
@@ -128,6 +142,11 @@ jobs:
           git config user.name "sasquatch-index bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/products.yaml data/feed_run.yaml data/awin_status.yaml
+          # The Impact files exist only once Impact secrets are set; git add
+          # fails on a path that is not there, so each is added only if present.
+          for f in data/impact_products.yaml data/impact_run.yaml; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo "No change in catalogue data — nothing to commit."
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -159,6 +178,13 @@ jobs:
               echo "### Feed run"
               echo '```'
               cat data/feed_run.yaml
+              echo '```'
+            fi
+            echo
+            if [ -f data/impact_run.yaml ]; then
+              echo "### Impact catalogs (not published yet)"
+              echo '```'
+              cat data/impact_run.yaml
               echo '```'
             fi
             echo
