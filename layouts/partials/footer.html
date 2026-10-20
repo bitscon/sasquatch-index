@@ -22,7 +22,7 @@
     </p>
     <p class="tagline">{{ site.Params.tagline }}</p>
     <nav>
-      {{ range slice "/shoes/sizing" "/shoes/widths" "/disclosure" "/privacy" }}
+      {{ range slice "/about" "/shoes/sizing" "/shoes/widths" "/disclosure" "/privacy" }}
         {{ with site.GetPage . }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
       {{ end }}
     </nav>
