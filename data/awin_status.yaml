@@ -3,7 +3,7 @@
 # relationships. Committed so the next run can report what changed.
 # No click or money figures live here: the repository is public.
 
-checked_at: "2026-10-19T15:54:55Z"
+checked_at: "2026-10-20T01:59:58Z"
 feed:
   advertiser: "NORTIV 8 Shoes"
   feed_id: "105652"
@@ -37,7 +37,7 @@ programmes:
     relationship: "joined"
   121938:
     name: "Yoto (US)"
-    relationship: "rejected"
+    relationship: "pending"
   91455:
     name: "Zeba Shoes"
     relationship: "pending"
