@@ -20,6 +20,16 @@
   returns stock status, size, picture, price and the tracking link for each
   item. Impact reviews identity and site ownership, not traffic. The
   comparison is published for the owner as a review page.
+- **The owner approved Impact.** His sign-up card is filed, with the steps and a
+  one-line paste that saves the API login on the control host.
+- **An About page is live.** It says what the site is, where the listings come
+  from and the rules it keeps, so a store's reviewer finds more than an empty
+  catalogue. It is factual only and linked from the footer.
+- **The Impact importer is built and dark.** It reads every Impact catalog,
+  drops catalogs older than 30 days, keeps in-stock men's sizes 13 and up, and
+  sorts widths into standard, wide and extra-wide. It writes its own two data
+  files, which the pages do not read yet. Without the Impact login it skips and
+  writes nothing. 16 offline tests pass and the daily build is green with it.
 
 ## What was NOT completed and why
 - **No fresh feed exists.** Awin's feeds are still frozen on 15 May 2026, now
@@ -50,13 +60,14 @@
   change that. It has since cost another site an approval.
 
 ## Open questions for the owner
-- Do we go with Impact.com: you sign up, and I build the importer and an About
-  page while the stores review us?
+- None. The Impact sign-up is on his card.
 
 ## Recommended next session
-- Phase 2 (continued): Impact sign-up, apply to DXL and KingSize, build the
-  Impact importer next to the Awin one.
-- Gate that must be met first: the owner approves the Impact route and creates
-  the account.
+- Phase 3 for the Impact source: check the importer against the first real
+  catalog, then wire its listings into the pages. That includes a per-retailer
+  "feed last updated" line, since the pages assume one source today, and the
+  disclosure page naming Impact.
+- Gate that must be met first: the owner's Impact login is saved and at least
+  one store has approved the site.
 - Risk: Medium. It adds a new data source to the live site; the freshness and
   in-stock rules still gate everything.
