@@ -3,6 +3,8 @@
 baseURL = "https://sasquatchindex.com/"
 languageCode = "en-us"
 title = "Sasquatch Index"
+# No generator tag: the Impact.com ownership tag must be the first meta tag in the head.
+disableHugoGeneratorInject = true
 
 # Nothing here needs taxonomies or a feed yet.
 disableKinds = ["taxonomy", "term", "rss"]
