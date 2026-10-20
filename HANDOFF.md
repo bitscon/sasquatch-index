@@ -1,78 +1,62 @@
-# Handoff — Phase 2 (open) — Awin cannot supply this site — 2026-09-17
+# Handoff — Phase 2 (open) — Rakuten gone, Impact.com recommended — 2026-10-19
 
 ## What was completed
-- **The daily run now scans the whole network for a merchant worth applying
-  to.** The feed list it already downloads carries every feed Awin will show
-  this key, not just the joined ones, with the date Awin last imported each.
-  Those rows used to be discarded. The run now reads them and names, in the
-  run report, the footwear merchants whose feed the network has imported
-  within the same 30-day limit the site applies to its own feed.
-- **Two tiers, because a shoe brand is not obliged to say so in its name.**
-  NORTIV 8 itself is filed under Clothing & Accessories, so matching shoe
-  words alone found one merchant in 562 and that was not credible. Tier one
-  is the shoe-word match. Tier two appears only when tier one is empty and
-  lists the apparel and sports merchants with current feeds, to be read by
-  eye. One line per merchant from its largest feed; home region sorts first.
-- **The answer is that Awin has nothing for this site.** Of 562 feeds the key
-  can see, 220 merchants have a current feed, so the network is importing
-  normally — the freshest was imported the same day. Exactly one footwear
-  merchant appears on the entire visible network, CHIKO (US), and its feed is
-  frozen on 15 May 2026 like every joined feed. The 18 apparel merchants with
-  current feeds are jewellery, socks, watches and perfume, almost all European;
-  the only recognisable shoe brand among them is Converse PL, Poland only.
-- **So the open question is answered.** Waiting on Awin is not a strategy. A
-  second network is the only path to a first feed, which makes the Rakuten
-  registration the critical item rather than an optional one.
-- **Report only, never committed.** The scan is a fact about the network, not
-  about this site, and it changes daily. The committed status file is
-  unchanged in shape. The feed key stays masked.
-- **The scan says why it is empty, not just that it is.** It reports how many
-  merchants were scanned, how many footwear merchants exist at any age, the
-  freshest feed of any kind with a plain reading of what that implies, and the
-  nearest footwear merchants with their import dates. An empty shortlist can
-  now be told apart from a shortlist that could not be read.
-- **Verified:** six report paths covered by an offline test against a
-  synthetic feed list — a live footwear merchant, the apparel fallback, the
-  sector breakdown, nothing current, no unjoined rows, and the deduplication
-  and region ranking. Four live runs, each clean, the last at 17:44 UTC.
+- **The red daily build is fixed.** On 19 October the run went red even though
+  the catalogue built fine. An advertiser on the shared Awin account changed
+  (another site's application was rejected), the run treated that as an
+  exception, and the alert-email step failed because no sending mailbox has
+  ever existed. On the owner's choice the custom email is removed. A real
+  failure turns the run red and GitHub's own failed-run notice reaches the
+  owner. Softer signals are listed at the top of the run report under
+  "Worth a look" and never fail the run. A manual run afterwards was green.
+- **The board is reconciled.** Three cards are closed: the Rakuten importer
+  (Rakuten ended the account), the Awin pending-advertiser watch (the daily
+  run still flags any change) and the alert email (dropped). The feed parent
+  card is rewritten around the new route. The display-advertising card stays
+  parked on its scale condition.
+- **The replacement network is researched.** Impact.com is recommended. It is
+  the only network found that carries both big-and-tall stores (DXL Big & Tall,
+  KingSize) plus DSW, New Balance, Brooks and Skechers, and its partner API
+  returns stock status, size, picture, price and the tracking link for each
+  item. Impact reviews identity and site ownership, not traffic. The
+  comparison is published for the owner as a review page.
 
 ## What was NOT completed and why
-- **No fresh feed exists, and none is coming from Awin.** This is now measured
-  rather than assumed. Zeba and FitVille are still pending; both came through
-  the ShareASale path, so approval may hand over a frozen feed.
-- Rakuten: not registered. It is the only remaining route to a first feed.
-- Project mailbox, social channel: unchanged.
+- **No fresh feed exists.** Awin's feeds are still frozen on 15 May 2026, now
+  157 days old. Nothing from Impact can be built or tested until the owner
+  signs up and a store approves.
+- **eBay is held by the owner.** eBay's terms require listing data no more
+  than 6 hours old, so it would need four builds a day.
+- **Amazon cannot be used yet.** Its product API needs 10 sales in the last
+  30 days on the account.
 
 ## Current state of the system
 - Site: live at https://sasquatchindex.com, HTTPS enforced. Products: none
-  published (feed stale, 125 days). Guides, disclosure, privacy: live.
-- Hosting: GitHub Pages. DNS: Namecheap. Unchanged.
-- Scheduled rebuild: daily 09:00 UTC, unattended. Order: download feed, ask
-  Awin about freshness, the account and the network, build with the freshness
-  rule, verify links, commit, deploy, report.
-- Analytics: live, cookieless. Search Console and Bing: verified.
-- Awin: 4 joined (NORTIV 8, TideWe, Piscifun, Giftlab), all frozen 15 May 2026.
-  2 pending (Zeba, FitVille). 0 clicks in the last seven days, consistent with
-  an empty catalogue.
+  published (feed stale). Guides, disclosure, privacy: live.
+- Hosting: GitHub Pages. DNS: Namecheap, which also forwards mail for the
+  site's address.
+- Scheduled rebuild: daily, unattended, green again. It has no email step.
+- Awin: 4 joined, all frozen 15 May 2026. Zeba and FitVille still pending.
+  Rakuten: terminated, ruled out permanently.
 
 ## Decisions made this session
-- **Rank the home region, do not filter it.** A US site does not want a Swiss
-  merchant at the top of its shortlist, but a genuinely on-theme brand abroad
-  should still be visible further down.
-- **One line per merchant, from its largest feed.** Awin lists a merchant once
-  per feed; the raw list gave the same advertiser four lines.
-- **The network scan stays out of the committed files.** It is a daily-changing
-  scan of someone else's data, not a fact about this site.
+- **No custom alert email.** The owner's choice: there is no mailbox, password
+  or cost to maintain, and GitHub already reports a failed run.
+- **Changes on the shared Awin account never fail this site's run.** That
+  account also serves another site, so its changes are not this site's
+  problem.
+- **Network sign-ups use the content / editorial type, never comparison.** The
+  Awin account was locked at "comparison engine", and only Awin support can
+  change that. It has since cost another site an approval.
 
 ## Open questions for the owner
-- Rakuten registration is now the critical path, not an option. Is the project
-  mailbox needed first, or register with a personal address and change it later?
+- Do we go with Impact.com: you sign up, and I build the importer and an About
+  page while the stores review us?
 
 ## Recommended next session
-- Nothing on the feed side can move until a network delivers a current feed,
-  and Awin will not. Register with Rakuten and apply to Zappos; the run checks
-  any new feed's import date before anything is published.
-- Worth considering if Rakuten also stalls: the scan can be pointed at a
-  second network's feed list the same way, so the same question gets answered
-  before a signup rather than after.
-- Risk: Low.
+- Phase 2 (continued): Impact sign-up, apply to DXL and KingSize, build the
+  Impact importer next to the Awin one.
+- Gate that must be met first: the owner approves the Impact route and creates
+  the account.
+- Risk: Medium. It adds a new data source to the live site; the freshness and
+  in-stock rules still gate everything.
