@@ -36,3 +36,8 @@ timeout = "180s"
   # turns on the (cookieless) beacon and flips the privacy wording to match —
   # one value, both surfaces, never out of step.
   cloudflareAnalyticsToken = "e1d400ad1b2744a8ae7b7bc369558309"
+
+# Keep attribute quotes when minifying: the Impact.com ownership check may
+# match its meta tag as written, quotes included.
+[minify.tdewolff.html]
+  keepQuotes = true
