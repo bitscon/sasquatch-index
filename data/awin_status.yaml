@@ -3,7 +3,7 @@
 # relationships. Committed so the next run can report what changed.
 # No click or money figures live here: the repository is public.
 
-checked_at: "2026-11-02T18:53:14Z"
+checked_at: "2026-11-03T16:39:16Z"
 feed:
   advertiser: "NORTIV 8 Shoes"
   feed_id: "105652"
@@ -17,27 +17,4 @@ feeds_visible_to_key:
   - "Piscifun / sftp://datafeeds.shareasale.com/Awin/68150/feed.zip / active / last imported 2026-05-15 18:00:43"
   - "Giftlab / sftp://datafeeds.shareasale.com/Awin/115671/feed.zip / active / last imported 2026-05-15 18:57:44"
 programmes:
-  92521:
-    name: "FitVille Footwear"
-    relationship: "pending"
-  95201:
-    name: "Giftlab"
-    relationship: "joined"
-  76026:
-    name: "NORTIV 8 Shoes"
-    relationship: "joined"
-  76700:
-    name: "Omlet US"
-    relationship: "pending"
-  89509:
-    name: "Piscifun"
-    relationship: "joined"
-  78182:
-    name: "TideWe"
-    relationship: "joined"
-  121938:
-    name: "Yoto (US)"
-    relationship: "pending"
-  91455:
-    name: "Zeba Shoes"
-    relationship: "pending"
+  error: "joined: 401; pending: 401; suspended: 401; rejected: 401"
