@@ -4,9 +4,9 @@
 # and matched nothing' — both would otherwise leave products.yaml empty
 # and look identical to a visitor.
 
-ran_at: "2026-11-25T18:52:20Z"
+ran_at: "2026-11-26T18:41:00Z"
 source: NORTIV 8 via Awin
-rows_in_feed: 5185
+rows_in_feed: 5169
 products_written: 0
 sizes_covered: []
 stock_basis: rows the retailer feed flagged in stock and for sale at run time; sizes absent from the feed are not listed
@@ -15,7 +15,7 @@ stock_basis: rows the retailer feed flagged in stock and for sale at run time; s
 # it. unknown: the network did not answer, the previous run's products
 # were kept.
 feed_status: fresh
-feed_last_imported: "2026-11-25T06:02:55Z"
+feed_last_imported: "2026-11-26T06:03:07Z"
 feed_age_days: 0
 max_feed_age_days: 30
 styles_matched_in_feed: 0
@@ -25,4 +25,4 @@ changes_since_last_run:
   styles_added: 0
   styles_removed: 0
 skipped:
-  unrecognized_size_label: 5185
+  unrecognized_size_label: 5169
